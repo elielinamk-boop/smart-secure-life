@@ -26,6 +26,9 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import meetAsset from "@/assets/meet-talesso.png.asset.json";
+import collageAsset from "@/assets/solutions-collage.png.asset.json";
+import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -140,9 +143,6 @@ function Hero() {
           <Link to="/solutions" className="text-sm font-medium hover:opacity-70">
             Our Solutions →
           </Link>
-          <Link to="/video" className="text-sm font-medium hover:opacity-70">
-            Watch the film →
-          </Link>
         </div>
       </div>
     </section>
@@ -156,7 +156,7 @@ function VideoShowcase() {
         <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-[0_40px_120px_-40px_rgba(0,40,120,0.4)]">
           <iframe
             className="absolute inset-0 h-full w-full"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
+            src="https://www.youtube.com/embed/_S-U8Ts5OTU?rel=0&modestbranding=1"
             title="Talesso — The Future of Smart Buildings"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -170,186 +170,52 @@ function VideoShowcase() {
   );
 }
 
-type PhotoTile = {
-  title: string;
-  caption: string;
-  bg: string;
-  icons: { Icon: typeof ScanFace; label: string }[];
-};
-
-const PHOTO_TILES: PhotoTile[] = [
-  {
-    title: "Face Recognition",
-    caption: "Sub-second biometric ID with liveness detection.",
-    bg: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1600&q=80",
-    icons: [{ Icon: ScanFace, label: "Face" }],
-  },
-  {
-    title: "QR / PIN / BLE Access",
-    caption: "Keyless entry via mobile, Apple Wallet, or PIN.",
-    bg: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1600&q=80",
-    icons: [
-      { Icon: QrCode, label: "QR" },
-      { Icon: Bluetooth, label: "BLE" },
-    ],
-  },
-  {
-    title: "ALPR · Parking",
-    caption: "Auto-open barriers via license plate recognition.",
-    bg: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1600&q=80",
-    icons: [{ Icon: Car, label: "ALPR" }],
-  },
-  {
-    title: "Video Intercom",
-    caption: "HD two-way intercom on every device.",
-    bg: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1600&q=80",
-    icons: [{ Icon: VideoIcon, label: "Video" }],
-  },
-];
-
 function PhotoShowcase() {
   return (
-    <section className="relative pb-24">
+    <section className="relative pb-24 pt-10">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-10 max-w-2xl">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">In action</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Meet the platform</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            Smart access, every entry point.
+            The all-in-one smart building platform.
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {PHOTO_TILES.map((t) => (
-            <article key={t.title} className="group relative aspect-[4/3] overflow-hidden rounded-3xl border border-border/70">
-              <img
-                src={t.bg}
-                alt={t.title}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-white/10" />
-
-              <div className="absolute top-4 left-5 font-serif tracking-wide text-foreground text-lg">
-                TAL<span className="text-[#1e6bff]">E</span>SSO
-              </div>
-
-              <div className="absolute top-4 right-4 flex flex-col gap-2">
-                {t.icons.map(({ Icon, label }) => (
-                  <div
-                    key={label}
-                    title={label}
-                    className="glass flex h-10 w-10 items-center justify-center rounded-2xl text-foreground"
-                  >
-                    <Icon className="h-4.5 w-4.5" strokeWidth={1.7} />
-                  </div>
-                ))}
-              </div>
-
-              <div className="absolute inset-x-6 bottom-6">
-                <h3 className="font-display text-xl md:text-2xl font-semibold">{t.title}</h3>
-                <div className="mt-1 h-[2px] w-10 rounded-full bg-[#e85d3a]" />
-                <p className="mt-2 max-w-sm text-sm text-foreground/85">{t.caption}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <img
+          src={meetAsset.url}
+          alt="Meet Talesso — the all-in-one smart building platform"
+          className="w-full h-auto rounded-3xl border border-border/70"
+        />
+        <img
+          src={collageAsset.url}
+          alt="Talesso solutions — Face Recognition, QR/PIN/BLE Access, ALPR, Video Intercom"
+          className="mt-6 w-full h-auto rounded-3xl border border-border/70"
+        />
       </div>
     </section>
-  );
-}
-
-type Pin = { Icon: typeof Wifi; label: string; x: number; y: number };
-
-const OFFICE_PINS: Pin[] = [
-  { Icon: Wifi, label: "Internet", x: 50, y: 14 },
-  { Icon: Lightbulb, label: "Lighting", x: 18, y: 34 },
-  { Icon: Thermometer, label: "Climate", x: 78, y: 38 },
-  { Icon: VideoIcon, label: "Cameras", x: 16, y: 60 },
-  { Icon: Lock, label: "Access", x: 52, y: 70 },
-];
-
-const HOME_PINS: Pin[] = [
-  { Icon: Wifi, label: "Internet", x: 46, y: 12 },
-  { Icon: Lightbulb, label: "Lighting", x: 84, y: 26 },
-  { Icon: Thermometer, label: "Climate", x: 16, y: 36 },
-  { Icon: Lock, label: "Smart Locks", x: 84, y: 56 },
-  { Icon: Car, label: "Garage", x: 86, y: 76 },
-];
-
-function MiniMap({
-  title,
-  subtitle,
-  HeaderIcon,
-  bg,
-  pins,
-}: {
-  title: string;
-  subtitle: string;
-  HeaderIcon: typeof Building2;
-  bg: string;
-  pins: Pin[];
-}) {
-  return (
-    <div className="relative rounded-3xl border border-border/70 bg-card overflow-hidden">
-      <div className="flex items-center gap-3 p-5">
-        <div className="glass flex h-10 w-10 items-center justify-center rounded-xl">
-          <HeaderIcon className="h-5 w-5 text-[#1e6bff]" strokeWidth={1.75} />
-        </div>
-        <div>
-          <h3 className="font-display text-xl font-bold tracking-tight">{title}</h3>
-          <p className="text-xs text-muted-foreground">{subtitle}</p>
-        </div>
-      </div>
-      <div className="relative mx-3 mb-3 aspect-[16/10] overflow-hidden rounded-2xl">
-        <img src={bg} alt={title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-white/15" />
-        {pins.map((p) => (
-          <div
-            key={p.label}
-            style={{ left: `${p.x}%`, top: `${p.y}%` }}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-          >
-            <span className="glass flex items-center gap-1.5 rounded-full pl-1.5 pr-3 py-1 text-[11px] font-medium text-foreground">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/60">
-                <p.Icon className="h-3 w-3 text-[#1e6bff]" strokeWidth={2} />
-              </span>
-              {p.label}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
 function BuildingsShowcase() {
   return (
     <section className="relative pb-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-10 max-w-2xl">
+      <div className="px-4 md:px-8">
+        <div className="mx-auto mb-10 max-w-7xl">
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Where Talesso lives</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
             Offices &amp; Residences.
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            One AI platform — two environments. <Link to="/clients" className="underline underline-offset-4">Explore the interactive map →</Link>
+            One AI platform — two environments.{" "}
+            <Link to="/clients" className="underline underline-offset-4">
+              Open the interactive map →
+            </Link>
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <MiniMap
-            title="Offices"
-            subtitle="Intelligent spaces for productivity"
-            HeaderIcon={Building2}
-            bg="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=80"
-            pins={OFFICE_PINS}
-          />
-          <MiniMap
-            title="Residences"
-            subtitle="Smart living, connected and secure"
-            HeaderIcon={HomeIcon}
-            bg="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80"
-            pins={HOME_PINS}
-          />
-        </div>
+        <img
+          src={buildingsAsset.url}
+          alt="Talesso for Offices and Residences — smart device control across the building"
+          className="w-full h-auto rounded-3xl border border-border/70"
+        />
       </div>
     </section>
   );
