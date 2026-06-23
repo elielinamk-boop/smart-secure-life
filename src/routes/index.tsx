@@ -26,6 +26,9 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import meetAsset from "@/assets/meet-talesso.png.asset.json";
+import collageAsset from "@/assets/solutions-collage.png.asset.json";
+import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -139,9 +142,6 @@ function Hero() {
           </Link>
           <Link to="/solutions" className="text-sm font-medium hover:opacity-70">
             Our Solutions →
-          </Link>
-          <Link to="/video" className="text-sm font-medium hover:opacity-70">
-            Watch the film →
           </Link>
         </div>
       </div>
