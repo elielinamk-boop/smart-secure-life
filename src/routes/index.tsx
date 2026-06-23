@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ShieldCheck,
   Sparkles,
@@ -15,6 +15,8 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
+import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -84,40 +86,14 @@ const channels = [
 function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
-      <Nav />
+      <SiteNav />
       <Hero />
       <Solutions />
       <AISection />
       <Channels />
       <CTA />
-      <Footer />
+      <SiteFooter />
     </div>
-  );
-}
-
-function Nav() {
-  const links = ["Solutions", "AI Platform", "Channels", "Contact"];
-  return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
-      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2 font-display tracking-[0.25em] text-sm font-semibold">
-          TAL<span className="inline-block w-3 h-3 bg-foreground rounded-[3px] translate-y-[1px]" />SSO
-        </a>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          {links.map((l) => (
-            <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} className="hover:text-foreground transition-colors">
-              {l}
-            </a>
-          ))}
-        </nav>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 rounded-full border border-foreground/20 bg-background px-4 py-2 text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
-        >
-          Get started <ArrowRight className="h-4 w-4" />
-        </a>
-      </div>
-    </header>
   );
 }
 
@@ -143,15 +119,18 @@ function Hero() {
           management — all powered by our proprietary AI platform.
         </p>
         <div className="mt-10 flex items-center justify-center gap-6 flex-wrap">
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className="inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/80 px-6 py-3 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
           >
             Get a consultation <ArrowRight className="h-4 w-4" />
-          </a>
-          <a href="#solutions" className="text-sm font-medium hover:opacity-70">
+          </Link>
+          <Link to="/solutions" className="text-sm font-medium hover:opacity-70">
             Our Solutions →
-          </a>
+          </Link>
+          <Link to="/video" className="text-sm font-medium hover:opacity-70">
+            Watch the film →
+          </Link>
         </div>
       </div>
     </section>
@@ -281,12 +260,12 @@ function CTA() {
             <p className="mt-6 text-muted-foreground max-w-xl mx-auto">
               Book a 20-minute consultation with our team. We'll map out the AI stack for your space.
             </p>
-            <a
-              href="mailto:hello@talesso.ai"
+            <Link
+              to="/contact"
               className="mt-10 inline-flex items-center gap-2 rounded-full bg-foreground text-background px-7 py-3.5 text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Get a consultation <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -294,15 +273,3 @@ function CTA() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="border-t border-border/60">
-      <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2 font-display tracking-[0.25em] text-foreground font-semibold">
-          TAL<span className="inline-block w-2.5 h-2.5 bg-foreground rounded-[3px] translate-y-[1px]" />SSO
-        </div>
-        <p>© {new Date().getFullYear()} Talesso. All rights reserved.</p>
-      </div>
-    </footer>
-  );
-}
