@@ -128,6 +128,9 @@ function Hero() {
           <Link to="/solutions" className="text-sm font-medium hover:opacity-70">
             Our Solutions →
           </Link>
+          <Link to="/video" className="text-sm font-medium hover:opacity-70">
+            Watch the film →
+          </Link>
         </div>
       </div>
     </section>
