@@ -14,6 +14,15 @@ import {
   MessageSquare,
   ArrowRight,
   Check,
+  ScanFace,
+  QrCode,
+  Bluetooth,
+  Video as VideoIcon,
+  Wifi,
+  Lightbulb,
+  Thermometer,
+  Lock,
+  Home as HomeIcon,
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -88,8 +97,11 @@ function Landing() {
     <div className="min-h-screen bg-background text-foreground antialiased">
       <SiteNav />
       <Hero />
+      <VideoShowcase />
       <Solutions />
+      <PhotoShowcase />
       <AISection />
+      <BuildingsShowcase />
       <Channels />
       <CTA />
       <SiteFooter />
