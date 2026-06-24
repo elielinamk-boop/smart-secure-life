@@ -246,9 +246,13 @@ function Solutions() {
               key={s.title}
               className="group relative rounded-3xl border border-white/60 bg-gradient-to-b from-white/70 to-white/30 backdrop-blur-md p-7 text-center transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(0,40,120,0.25)]"
             >
-              <GlassSphere index={i}>
-                <s.icon className="h-7 w-7 text-foreground/75" strokeWidth={1.6} />
-              </GlassSphere>
+              <GlassSphere index={i} />
+              <div className="pointer-events-none absolute left-1/2 top-7 -translate-x-1/2 z-10">
+                <s.icon
+                  className="h-7 w-7 text-foreground/50 transition-colors duration-300 group-hover:text-[#77DDFF]"
+                  strokeWidth={1.6}
+                />
+              </div>
               <h3 className="mt-8 font-display text-lg font-bold tracking-tight">{s.title}</h3>
               <p className="mt-4 text-sm text-foreground/60 leading-relaxed">{s.desc}</p>
             </div>
@@ -259,8 +263,7 @@ function Solutions() {
   );
 }
 
-function GlassSphere({ children, index }: { children: ReactNode; index: number }) {
-  // alternate subtle blue tint for variety like the reference
+function GlassSphere({ index }: { index: number }) {
   const tinted = index % 2 === 1;
   return (
     <div className="relative mx-auto h-20 w-20">
@@ -273,7 +276,6 @@ function GlassSphere({ children, index }: { children: ReactNode; index: number }
       />
       <div className="absolute inset-[3px] rounded-full border border-white/70" />
       <div className="absolute left-2 top-1.5 h-4 w-6 rounded-full bg-white/80 blur-[2px]" />
-      <div className="relative z-10 flex h-full w-full items-center justify-center">{children}</div>
     </div>
   );
 }
