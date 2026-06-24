@@ -29,6 +29,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import meetAsset from "@/assets/meet-talesso.png.asset.json";
 import collageAsset from "@/assets/solutions-collage.png.asset.json";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
+import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -100,8 +101,9 @@ function Landing() {
     <div className="min-h-screen bg-background text-foreground antialiased">
       <SiteNav />
       <Hero />
-      <VideoShowcase />
       <Solutions />
+      <MeetEyecid />
+      <VideoShowcase />
       <PhotoShowcase />
       <AISection />
       <BuildingsShowcase />
@@ -114,35 +116,39 @@ function Landing() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      {/* soft blurred gradient blobs */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full bg-accent-peach/50 blur-3xl" />
-      <div className="pointer-events-none absolute top-40 -right-32 h-[32rem] w-[32rem] rounded-full bg-accent-peach/40 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-1/3 h-[20rem] w-[20rem] rounded-full bg-accent-blue/30 blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-28 md:pt-32 md:pb-40 text-center">
-        <span className="inline-flex items-center rounded-full border border-accent-blue/60 bg-background/70 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground">
-          TALESSO · AI-POWERED TECHNOLOGY
-        </span>
-        <h1 className="mt-8 font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] leading-[0.95]">
-          AI Solutions for
-          <br /> Security, Access
-          <br /> and Smart Living
-        </h1>
-        <p className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
-          We provide intelligent biometric access control, smart home automation, video analytics, and building
-          management — all powered by our proprietary AI platform.
-        </p>
-        <div className="mt-10 flex items-center justify-center gap-6 flex-wrap">
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/80 px-6 py-3 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
-          >
-            Get a consultation <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link to="/solutions" className="text-sm font-medium hover:opacity-70">
-            Our Solutions →
-          </Link>
+    <section className="relative px-4 md:px-6 pt-6 pb-16">
+      <div className="relative mx-auto max-w-[88rem] overflow-hidden rounded-[2.5rem] bg-background">
+        {/* peach gradient blob behind */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-1/2 h-[120%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-gradient-to-br from-accent-peach/70 via-accent-peach/40 to-accent-blue/40 blur-3xl" />
+        </div>
+        <div className="relative px-6 pt-20 pb-24 md:pt-28 md:pb-32 text-center">
+          <span className="inline-flex items-center rounded-full border border-accent-blue/60 bg-background/80 px-5 py-2 text-[0.72rem] font-medium tracking-[0.15em] text-foreground/70">
+            TALESSO · AI-POWERED TECHNOLOGY
+          </span>
+          <h1 className="mt-8 font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.04em] leading-[0.95]">
+            AI Solutions for
+            <br /> Security, Access
+            <br /> and Smart Living
+          </h1>
+          <p className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-foreground/60 leading-relaxed">
+            We provide intelligent biometric access control, smart home automation, video analytics,
+            and building management — all powered by our proprietary AI platform.
+          </p>
+          <div className="mt-12 flex items-center justify-center gap-4 md:gap-8 flex-wrap">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+            >
+              Get a consultation <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/solutions"
+              className="inline-flex items-center px-4 py-3.5 min-h-12 text-sm font-semibold hover:opacity-70"
+            >
+              Our Solutions →
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -223,36 +229,110 @@ function BuildingsShowcase() {
 
 function Solutions() {
   return (
-    <section id="solutions" className="relative py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="flex items-end justify-between flex-wrap gap-6 mb-14">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Solutions</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-[-0.03em]">
-              One platform. Every layer of the building.
-            </h2>
-          </div>
-          <p className="max-w-md text-muted-foreground">
-            From the front gate to indoor air quality — a unified system that sees, decides, and acts.
-          </p>
-        </div>
+    <section id="solutions" className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-[88rem] px-6 md:px-10">
+        <p className="text-xs uppercase tracking-[0.28em] text-foreground/50">Solutions</p>
+        <h2 className="mt-4 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] max-w-3xl">
+          One platform. Every layer of the building.
+        </h2>
+        <p className="mt-4 max-w-md text-sm text-foreground/55 leading-relaxed">
+          From the front gate to indoor air quality — a unified system that sees, decides, and acts.
+        </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {solutions.map((s) => (
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          {solutions.map((s, i) => (
             <div
               key={s.title}
-              className="group relative rounded-3xl border border-border/70 bg-card p-6 transition-all hover:border-foreground/30 hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.2)]"
+              className="group relative rounded-3xl border border-white/60 bg-gradient-to-b from-white/70 to-white/30 backdrop-blur-md p-7 text-center transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(0,40,120,0.25)]"
             >
-              <div className="mb-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-blue/40 to-accent-peach/40">
-                <s.icon className="h-6 w-6 text-foreground" strokeWidth={1.5} />
-              </div>
-              <h3 className="font-display text-xl font-semibold tracking-tight">{s.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              <GlassSphere index={i}>
+                <s.icon className="h-7 w-7 text-foreground/75" strokeWidth={1.6} />
+              </GlassSphere>
+              <h3 className="mt-8 font-display text-lg font-bold tracking-tight">{s.title}</h3>
+              <p className="mt-4 text-sm text-foreground/60 leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function GlassSphere({ children, index }: { children: React.ReactNode; index: number }) {
+  // alternate subtle blue tint for variety like the reference
+  const tinted = index % 2 === 1;
+  return (
+    <div className="relative mx-auto h-20 w-20">
+      <div
+        className={`absolute inset-0 rounded-full ${
+          tinted
+            ? "bg-gradient-to-br from-[#cfe6ff] via-white to-[#bcd9ff]"
+            : "bg-gradient-to-br from-white via-[#f3f6fb] to-[#dfe6ef]"
+        } shadow-[inset_0_2px_8px_rgba(255,255,255,0.9),inset_0_-6px_12px_rgba(80,110,150,0.25),0_10px_24px_-12px_rgba(40,60,100,0.35)]`}
+      />
+      <div className="absolute inset-[3px] rounded-full border border-white/70" />
+      <div className="absolute left-2 top-1.5 h-4 w-6 rounded-full bg-white/80 blur-[2px]" />
+      <div className="relative z-10 flex h-full w-full items-center justify-center">{children}</div>
+    </div>
+  );
+}
+
+function MeetEyecid() {
+  return (
+    <section className="relative py-20 md:py-28">
+      <div className="mx-auto max-w-[88rem] px-6 md:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_0.7fr] gap-10 lg:gap-8 items-center">
+          {/* Left: heading */}
+          <div>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">
+              MEET{" "}
+              <span className="inline-flex items-baseline font-bold">
+                EYE
+                <span className="text-[#c8102e]">C</span>
+                ID
+              </span>
+            </h2>
+            <h3 className="mt-6 font-display text-2xl md:text-4xl font-extrabold tracking-tight leading-[1.1]">
+              THE ALL-IN-ONE
+              <br /> SMART BUILDING
+              <br /> PLATFORM
+            </h3>
+          </div>
+
+          {/* Center: device */}
+          <div className="relative flex justify-center">
+            <img
+              src={eyecidAsset.url}
+              alt="EYECID — face recognition access terminal"
+              width={1024}
+              height={1536}
+              loading="lazy"
+              className="w-full max-w-sm h-auto drop-shadow-[0_30px_60px_rgba(20,30,60,0.25)]"
+            />
+          </div>
+
+          {/* Right: stats */}
+          <div className="space-y-8">
+            <StatRow accent="1" label="Platform" />
+            <StatRow accent="1" label="Interface" />
+            <StatRow accent="FULL" label="Control" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatRow({ accent, label }: { accent: string; label: string }) {
+  return (
+    <div>
+      <div className="font-display text-5xl md:text-6xl italic font-bold text-[#c8102e] leading-none">
+        {accent}
+      </div>
+      <div className="mt-1 font-display text-3xl md:text-4xl font-semibold tracking-tight">
+        {label}
+      </div>
+    </div>
   );
 }
 
