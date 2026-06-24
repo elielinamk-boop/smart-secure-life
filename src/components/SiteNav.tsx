@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Globe, Menu, X } from "lucide-react";
+import { Globe, Menu, X, ArrowRight } from "lucide-react";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -21,38 +21,41 @@ export function SiteNav() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="glass mx-auto mt-3 max-w-7xl rounded-2xl px-5 md:px-7 h-16 flex items-center justify-between">
+      <div className="glass mx-auto mt-3 max-w-7xl rounded-2xl px-4 md:px-6 h-16 flex items-center justify-between gap-3">
         <Logo />
 
-        <nav className="hidden lg:flex items-center gap-9 text-[0.78rem] tracking-[0.18em] font-medium text-foreground/70">
+        <nav className="hidden lg:flex items-center gap-2 text-[0.82rem] tracking-[0.18em] font-semibold text-foreground/80">
           {NAV.map((item) => {
             const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
             return (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`relative py-1 transition-colors hover:text-foreground ${active ? "text-foreground" : ""}`}
+                className={`relative inline-flex items-center px-4 py-2.5 min-h-11 rounded-full transition-colors hover:text-foreground hover:bg-white/40 active:bg-white/60 ${active ? "text-foreground bg-white/50" : ""}`}
               >
                 {item.label}
-                {active && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#9ec5ff] to-[#1e6bff]" />
-                )}
               </Link>
             );
           })}
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link
+            to="/contact"
+            className="hidden md:inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/80 px-5 py-2.5 min-h-11 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+          >
+            Get started <ArrowRight className="h-4 w-4" />
+          </Link>
           <div className="relative">
             <button
               onClick={() => setLangOpen((v) => !v)}
-              className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium tracking-wider"
+              className="glass flex items-center gap-1.5 rounded-full px-4 py-2.5 min-h-11 text-xs font-semibold tracking-wider"
             >
-              <Globe className="h-3.5 w-3.5" strokeWidth={1.75} />
+              <Globe className="h-4 w-4" strokeWidth={1.75} />
               {lang}
             </button>
             {langOpen && (
-              <div className="glass absolute right-0 mt-2 w-24 rounded-xl p-1 z-50">
+              <div className="glass absolute right-0 mt-2 w-28 rounded-xl p-1.5 z-50">
                 {LANGS.map((l) => (
                   <button
                     key={l}
@@ -60,7 +63,7 @@ export function SiteNav() {
                       setLang(l);
                       setLangOpen(false);
                     }}
-                    className={`block w-full text-left rounded-lg px-3 py-1.5 text-xs tracking-wider hover:bg-white/40 ${lang === l ? "text-foreground font-semibold" : "text-foreground/70"}`}
+                    className={`block w-full text-left rounded-lg px-3 py-2.5 min-h-10 text-xs tracking-wider hover:bg-white/40 ${lang === l ? "text-foreground font-semibold" : "text-foreground/70"}`}
                   >
                     {l}
                   </button>
@@ -69,27 +72,34 @@ export function SiteNav() {
             )}
           </div>
           <button
-            className="lg:hidden glass rounded-full p-2"
+            className="lg:hidden glass rounded-full p-3 min-h-11 min-w-11 flex items-center justify-center"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
-            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="lg:hidden glass mx-auto mt-2 max-w-7xl rounded-2xl px-5 py-4 flex flex-col gap-3">
+        <div className="lg:hidden glass mx-auto mt-2 max-w-7xl rounded-2xl px-4 py-3 flex flex-col gap-1">
           {NAV.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               onClick={() => setOpen(false)}
-              className="text-sm tracking-[0.18em] font-medium text-foreground/80 hover:text-foreground"
+              className="rounded-xl px-4 py-3 min-h-12 text-sm tracking-[0.18em] font-semibold text-foreground/80 hover:text-foreground hover:bg-white/40 active:bg-white/60"
             >
               {item.label}
             </Link>
           ))}
+          <Link
+            to="/contact"
+            onClick={() => setOpen(false)}
+            className="mt-2 rounded-full border border-accent-blue/70 bg-background/80 px-4 py-3 min-h-12 text-center text-sm font-semibold hover:bg-foreground hover:text-background transition-colors"
+          >
+            Get started →
+          </Link>
         </div>
       )}
     </header>
