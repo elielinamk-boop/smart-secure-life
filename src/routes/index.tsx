@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import {
   ShieldCheck,
   Sparkles,
@@ -258,7 +259,7 @@ function Solutions() {
   );
 }
 
-function GlassSphere({ children, index }: { children: React.ReactNode; index: number }) {
+function GlassSphere({ children, index }: { children: ReactNode; index: number }) {
   // alternate subtle blue tint for variety like the reference
   const tinted = index % 2 === 1;
   return (
