@@ -1980,14 +1980,14 @@ function Partners() {
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
             Trusted by Leading Clients
           </div>
-          <div className="pt-mask overflow-hidden bg-white rounded-2xl py-6">
-            <div className="pt-track pt-track-slow items-center">
+          <div className="pt-mask overflow-hidden py-6">
+            <div className="pt-track pt-track-slow items-center gap-16">
               {Array.from({ length: 4 }).map((_, i) => (
                 <img
                   key={i}
                   src={clientsLogosWhiteAsset.url}
                   alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
-                  className="h-20 md:h-24 w-auto max-w-none shrink-0"
+                  className="h-24 md:h-28 w-auto max-w-none shrink-0 object-contain"
                   loading="lazy"
                 />
               ))}
