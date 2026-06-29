@@ -691,11 +691,7 @@ function BuildingCard({
   // Center the panel, then nudge it slightly toward the active feature so each
   // hotspot's description sits in a subtly different spot — never cropped.
   const panelPos = activeInfo
-    ? {
-        left: `clamp(10rem, calc(50% + ${(activeInfo.focus.x - 50) * 0.35}%), calc(100% - 10rem))`,
-        top: `clamp(11.5rem, calc(50% + ${(activeInfo.focus.y - 50) * 0.3}%), calc(100% - 11.5rem))`,
-        transform: "translate(-50%, -50%)",
-      }
+    ? { left: "50%", top: "50%", transform: "translate(-50%, -50%)" }
     : null;
 
   return (
