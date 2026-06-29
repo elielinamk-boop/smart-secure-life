@@ -802,7 +802,7 @@ function ProductGallery() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const tileRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const reveal = useInView<HTMLDivElement>({ threshold: 0.15, once: true });
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
 
   // Scroll parallax — each tile gets a slightly different speed (max 20px).
   useEffect(() => {
