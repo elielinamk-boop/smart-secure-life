@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import {
   ShieldCheck,
   Sparkles,
@@ -117,39 +118,123 @@ function Landing() {
 }
 
 function Hero() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLHeadingElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    let raf = 0;
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    const onMove = (e: MouseEvent) => {
+      const r = wrap.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    };
+    const tick = () => {
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
+      if (bgRef.current)   bgRef.current.style.transform   = `translate3d(${cx * 12}px, ${cy * 12}px, 0)`;
+      if (badgeRef.current)badgeRef.current.style.transform= `translate3d(${cx * 3}px, ${cy * 3}px, 0)`;
+      if (headRef.current) headRef.current.style.transform = `translate3d(${cx * 7}px, ${cy * 7}px, 0)`;
+      if (ctaRef.current)  ctaRef.current.style.transform  = `translate3d(${cx * 5}px, ${cy * 5}px, 0)`;
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    raf = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
-    <section className="relative overflow-hidden">
-      {/* full-bleed soft gradient — no cropping */}
-      <div className="pointer-events-none absolute inset-0 -z-0">
-        <div className="absolute left-1/2 top-[42%] h-[80rem] w-[80rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,210,190,0.55),rgba(200,220,255,0.35)_55%,transparent_75%)] blur-2xl" />
-      </div>
-      <div className="relative px-6 pt-16 pb-28 md:pt-24 md:pb-36 text-center mx-auto max-w-5xl animate-fade-in">
-          <span className="inline-flex items-center rounded-full border border-accent-blue/60 bg-background/80 px-5 py-2 text-[0.72rem] font-medium tracking-[0.15em] text-foreground/70">
-            TALESSO · AI-POWERED TECHNOLOGY
-          </span>
-          <h1 className="mt-8 font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.04em] leading-[0.95]">
-            AI Solutions for
-            <br /> Security, Access
-            <br /> and Smart Living
+    <section ref={wrapRef} className="relative px-4 sm:px-6 lg:px-8 pt-6 pb-16">
+      <div className="relative mx-auto max-w-[1440px] overflow-hidden rounded-[48px] min-h-[calc(100vh-7rem)] flex items-center justify-center isolate">
+        {/* Base wash */}
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(135deg,#ffe5d9_0%,#fff1ea_28%,#f6f1ff_58%,#e6efff_100%)]" />
+        {/* Animated gradient blobs */}
+        <div ref={bgRef} className="pointer-events-none absolute inset-0 -z-10 will-change-transform">
+          <div className="absolute -left-[10%] top-[8%] h-[55rem] w-[55rem] rounded-full bg-[radial-gradient(closest-side,rgba(255,193,170,0.85),transparent_70%)] blur-3xl hero-gradient-a" />
+          <div className="absolute right-[-15%] bottom-[-10%] h-[55rem] w-[55rem] rounded-full bg-[radial-gradient(closest-side,rgba(205,222,255,0.85),transparent_70%)] blur-3xl hero-gradient-a" style={{ animationDelay: "-6s" }} />
+          <div className="absolute left-[35%] top-[35%] h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(closest-side,rgba(255,232,220,0.7),transparent_75%)] blur-3xl hero-gradient-b" />
+        </div>
+        {/* Noise */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.06] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+          }}
+        />
+        {/* Floating particles */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          {Array.from({ length: 14 }).map((_, i) => (
+            <span
+              key={i}
+              className="absolute h-1 w-1 rounded-full bg-white/70"
+              style={{
+                left: `${(i * 73) % 100}%`,
+                top: `${(i * 41) % 100}%`,
+                animation: `hero-particle ${10 + (i % 5) * 2}s linear ${i * 0.7}s infinite`,
+                ["--px" as never]: `${(i % 2 ? 1 : -1) * (20 + (i % 4) * 10)}px`,
+                ["--py" as never]: `${80 + (i % 3) * 60}px`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Content */}
+        <div className="relative w-full px-6 py-20 md:py-28 text-center mx-auto max-w-5xl">
+          <div ref={badgeRef} className="will-change-transform animate-line-in" style={{ animationDelay: "0.05s" }}>
+            <span className="group inline-flex items-center rounded-full border border-accent-blue/60 bg-background/80 px-5 py-2 text-[0.72rem] font-medium tracking-[0.15em] text-foreground/70 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-10px_rgba(80,130,255,0.55)]">
+              TALESSO · AI-POWERED TECHNOLOGY
+            </span>
+          </div>
+          <h1
+            ref={headRef}
+            className="mt-8 font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.04em] leading-[0.95] will-change-transform"
+          >
+            <span className="block animate-line-in" style={{ animationDelay: "0.25s" }}>AI Solutions for</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.40s" }}>Security, Access</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.55s" }}>and Smart Living</span>
           </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-foreground/60 leading-relaxed">
+          <p
+            className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-foreground/60 leading-relaxed animate-line-in"
+            style={{ animationDelay: "0.85s" }}
+          >
             We provide intelligent biometric access control, smart home automation, video analytics,
             and building management — all powered by our proprietary AI platform.
           </p>
-          <div className="mt-12 flex items-center justify-center gap-4 md:gap-8 flex-wrap">
+          <div
+            ref={ctaRef}
+            className="mt-12 flex items-center justify-center gap-4 md:gap-8 flex-wrap will-change-transform animate-line-in"
+            style={{ animationDelay: "1.05s" }}
+          >
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              className="group inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-foreground hover:text-background hover:border-foreground hover:shadow-[0_18px_40px_-18px_rgba(80,130,255,0.7)] active:scale-[0.97]"
             >
-              Get a consultation <ArrowRight className="h-4 w-4" />
+              Get a consultation
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to="/solutions"
-              className="inline-flex items-center px-4 py-3.5 min-h-12 text-sm font-semibold hover:opacity-70"
+              className="group relative inline-flex items-center px-4 py-3.5 min-h-12 text-sm font-semibold text-foreground/85 hover:text-foreground transition-colors"
             >
-              Our Solutions →
+              <span className="relative">
+                Our Solutions
+                <span className="absolute left-0 -bottom-0.5 h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-300 group-hover:scale-x-100" />
+              </span>
+              <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
+        </div>
       </div>
     </section>
   );

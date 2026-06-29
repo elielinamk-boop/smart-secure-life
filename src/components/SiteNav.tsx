@@ -28,7 +28,7 @@ export function SiteNav() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 animate-nav-in">
       <div
         className={`mx-auto mt-3 max-w-7xl rounded-2xl px-4 md:px-6 h-16 flex items-center justify-between gap-3 transition-all duration-500 ${
           scrolled
