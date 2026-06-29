@@ -885,6 +885,7 @@ function ScenesShowcase() {
             onClose={() => setPinned(null)}
             imageUrl={officeSceneAsset.url}
             bgMode="cover"
+            headerLight
           />
         </div>
       </div>
