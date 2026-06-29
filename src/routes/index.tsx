@@ -208,8 +208,9 @@ function Hero() {
             className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-foreground/60 leading-relaxed animate-line-in"
             style={{ animationDelay: "0.85s" }}
           >
-            We provide intelligent biometric access control, smart home automation, video analytics,
-            and building management — all powered by our proprietary AI platform.
+            We provide intelligent biometric access control, smart home automation, video analytics, and building management —{"\u00A0"}
+            <br />
+            all powered by our proprietary AI platform.
           </p>
           <div
             ref={ctaRef}
