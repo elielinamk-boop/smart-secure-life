@@ -844,7 +844,7 @@ function ScenesShowcase() {
       <div className="px-4 md:px-8">
         <div className="mx-auto mb-10 max-w-7xl">
           <p className="text-sm uppercase tracking-[0.2em] text-white">
-            Talesso for hospitality &amp; workplace
+            {"\n"}
           </p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] text-white">
             Hotels &amp; Commercial Real Estate.
