@@ -1985,7 +1985,7 @@ function Partners() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <img
                   key={i}
-                  src={clientsLogosAsset.url}
+                  src={clientsLogosWhiteAsset.url}
                   alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
                   className="h-20 md:h-24 w-auto max-w-none shrink-0"
                   loading="lazy"
