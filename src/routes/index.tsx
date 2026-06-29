@@ -32,6 +32,10 @@ import { SiteFooter } from "@/components/SiteFooter";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
+import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
+import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
+import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
+import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
 import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
@@ -106,6 +110,7 @@ function Landing() {
       <Hero />
       <Solutions />
       <MeetEyecid />
+      <ProductGallery />
       <VideoShowcase />
       <AISection />
       <BuildingsShowcase />
