@@ -993,10 +993,10 @@ function BuildingCard({
             <Icon className="h-6 w-6 text-[#0f172a]" />
           </span>
           <div>
-            <h3 className="font-display text-2xl md:text-3xl font-bold tracking-[-0.02em] text-[#0f172a]">
+            <h3 className={`font-display text-2xl md:text-3xl font-bold tracking-[-0.02em] ${headerLight ? "text-white" : "text-[#0f172a]"}`}>
               {title}
             </h3>
-            <p className="text-sm text-muted-foreground">{subtitle}</p>
+            <p className={`text-sm ${headerLight ? "text-white/80" : "text-muted-foreground"}`}>{subtitle}</p>
           </div>
         </div>
 
