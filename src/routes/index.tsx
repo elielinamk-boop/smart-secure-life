@@ -843,13 +843,13 @@ function ScenesShowcase() {
     <section className="relative pb-24">
       <div className="px-4 md:px-8">
         <div className="mx-auto mb-10 max-w-7xl">
-          <p className="text-sm uppercase tracking-[0.2em] text-white">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
             {"\n"}
           </p>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] text-white">
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
             Hotels &amp; Commercial Real Estate.
           </h2>
-          <p className="mt-3 text-white text-sm">
+          <p className="mt-3 text-muted-foreground text-sm">
             Tap any feature to see how it works inside each building.
           </p>
         </div>
