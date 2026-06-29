@@ -792,22 +792,20 @@ const galleryTiles: { src: string; alt: string }[] = [
 
 function ProductGallery() {
   return (
-    <section className="relative py-16 md:py-24">
-      <div className="mx-auto max-w-[1920px] px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {galleryTiles.map((t) => (
-            <img
-              key={t.src}
-              src={t.src}
-              alt={t.alt}
-              loading="lazy"
-              width={1920}
-              height={1088}
-              className="w-full h-auto select-none"
-              draggable={false}
-            />
-          ))}
-        </div>
+    <section className="relative w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full">
+        {galleryTiles.map((t) => (
+          <img
+            key={t.src}
+            src={t.src}
+            alt={t.alt}
+            loading="lazy"
+            width={960}
+            height={488}
+            className="block w-full h-auto select-none"
+            draggable={false}
+          />
+        ))}
       </div>
     </section>
   );
