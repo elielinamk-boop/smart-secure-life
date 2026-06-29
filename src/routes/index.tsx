@@ -522,7 +522,7 @@ function BuildingsShowcase() {
             Offices &amp; Residences.
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            One AI platform — two environments. Tap any feature to see how it works.
+            Tap any feature to see how it works.
           </p>
         </div>
 
