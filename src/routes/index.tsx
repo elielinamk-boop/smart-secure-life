@@ -325,36 +325,125 @@ function BuildingsShowcase() {
 }
 
 function Solutions() {
+  const intro = useInView<HTMLDivElement>({ threshold: 0.2 });
+  const grid = useInView<HTMLDivElement>({ threshold: 0.15 });
   return (
-    <section id="solutions" className="relative py-20 md:py-28">
-      <div className="mx-auto max-w-[88rem] px-6 md:px-10">
-        <p className="text-xs uppercase tracking-[0.28em] text-foreground/50">Solutions</p>
+    <section id="solutions" className="relative py-20 md:py-28 overflow-hidden">
+      {/* Soft moving background reflections */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-32 left-[10%] h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(closest-side,rgba(255,210,225,0.35),transparent_70%)] blur-3xl hero-gradient-a" />
+        <div className="absolute bottom-[-12rem] right-[5%] h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(closest-side,rgba(200,225,255,0.4),transparent_70%)] blur-3xl hero-gradient-a" style={{ animationDelay: "-7s" }} />
+      </div>
+
+      <div ref={intro.ref} className="mx-auto max-w-[88rem] px-6 md:px-10">
+        <p
+          className={`text-xs uppercase tracking-[0.28em] text-foreground/50 transition-all duration-500 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
+        >
+          Solutions
+        </p>
         <h2 className="mt-4 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] max-w-3xl">
-          One platform. Every layer of the building.
+          <span
+            className={`block transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-md"}`}
+            style={{ transitionDelay: "150ms" }}
+          >
+            One platform.
+          </span>
+          <span
+            className={`block transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-md"}`}
+            style={{ transitionDelay: "300ms" }}
+          >
+            Every layer of the building.
+          </span>
         </h2>
-        <p className="mt-4 max-w-md text-sm text-foreground/55 leading-relaxed">
+        <p
+          className={`mt-4 max-w-md text-sm text-foreground/55 leading-relaxed transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
+          style={{ transitionDelay: "500ms" }}
+        >
           From the front gate to indoor air quality — a unified system that sees, decides, and acts.
         </p>
 
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div ref={grid.ref} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {solutions.map((s, i) => (
-            <div
+            <SolutionCard
               key={s.title}
-              className="group relative rounded-3xl border border-white/60 bg-gradient-to-b from-white/70 to-white/30 backdrop-blur-md p-7 text-center transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(0,40,120,0.25)]"
-            >
-              <GlassSphere index={i}>
-                <s.icon
-                  className="h-7 w-7 text-foreground/45 transition-colors duration-300 group-hover:text-[#77DDFF]"
-                  strokeWidth={1.6}
-                />
-              </GlassSphere>
-              <h3 className="mt-8 font-display text-lg font-bold tracking-tight">{s.title}</h3>
-              <p className="mt-4 text-sm text-foreground/60 leading-relaxed">{s.desc}</p>
-            </div>
+              index={i}
+              icon={s.icon}
+              title={s.title}
+              desc={s.desc}
+              inView={grid.inView}
+            />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function SolutionCard({
+  index,
+  icon: Icon,
+  title,
+  desc,
+  inView,
+}: {
+  index: number;
+  icon: typeof ShieldCheck;
+  title: string;
+  desc: string;
+  inView: boolean;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const iconWrapRef = useRef<HTMLDivElement>(null);
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+    const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    card.style.transform = `translate3d(${x * 3}px, ${y * 3 - 8}px, 0)`;
+    if (iconWrapRef.current) iconWrapRef.current.style.transform = `translate3d(${x * 6}px, ${y * 6}px, 0)`;
+  };
+  const onLeave = () => {
+    if (cardRef.current) cardRef.current.style.transform = "";
+    if (iconWrapRef.current) iconWrapRef.current.style.transform = "";
+  };
+
+  const delay = 700 + index * 100;
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      className={`group relative rounded-3xl border border-white/60 bg-gradient-to-b from-white/70 to-white/30 backdrop-blur-md p-7 text-center will-change-transform transition-[transform,box-shadow,background,border-color] duration-[350ms] ease-out hover:border-white/80 hover:bg-gradient-to-b hover:from-white/85 hover:to-white/40 hover:shadow-[0_30px_70px_-30px_rgba(0,40,120,0.35)] ${inView ? "animate-card-rise" : "opacity-0"}`}
+      style={{ animationDelay: inView ? `${delay}ms` : undefined }}
+    >
+      <div
+        ref={iconWrapRef}
+        className="will-change-transform transition-transform duration-300"
+      >
+        <div
+          className={`${inView ? "animate-icon-pop" : "opacity-0"}`}
+          style={{ animationDelay: inView ? `${delay + 120}ms` : undefined }}
+        >
+          <GlassSphere index={index}>
+            <Icon
+              className="h-7 w-7 text-foreground/45 transition-all duration-300 group-hover:text-[#77DDFF] group-hover:scale-110 group-hover:rotate-[6deg]"
+              strokeWidth={1.6}
+            />
+          </GlassSphere>
+        </div>
+      </div>
+      <h3
+        className="mt-8 font-display text-lg font-bold tracking-tight transition-colors duration-200 group-hover:text-foreground"
+      >
+        {title}
+      </h3>
+      <p className="mt-4 text-sm text-foreground/60 leading-relaxed transition-colors duration-200 group-hover:text-foreground/75">
+        {desc}
+      </p>
+    </div>
   );
 }
 
