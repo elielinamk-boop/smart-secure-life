@@ -520,9 +520,9 @@ function MeetEyecid() {
       }`}
     >
       <div className="mx-auto max-w-[88rem] px-6 md:px-10">
-        <div className="mb-12 max-w-2xl">
+        <div className="mb-12 max-w-none">
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Meet the platform</p>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] whitespace-nowrap">
             The all-in-one smart building platform.
           </h2>
         </div>
