@@ -854,7 +854,7 @@ function ProductGallery() {
           100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9) rotate(0deg); }
         }
         .pg4-qr {
-          position: absolute; left: 50%; top: 50%;
+          position: absolute; left: 38%; top: 50%;
           width: 24%; aspect-ratio: 1/1;
           padding: 8px; background: #fff;
           border-radius: 8px;
