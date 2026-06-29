@@ -46,6 +46,7 @@ import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
 import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
 import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
+import clientsLogosAsset from "@/assets/clients-logos.png.asset.json";
 import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
 import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
 import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
@@ -1978,22 +1979,13 @@ function Partners() {
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
             Trusted by Leading Clients
           </div>
-          <div className="pt-mask overflow-hidden">
-            <div className="pt-track pt-track-slow">
-              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((c, i) => (
-                <div key={i} className="shrink-0 px-6 flex items-center justify-center">
-                  <div
-                    className={`flex items-center justify-center text-center shadow-[0_12px_30px_-18px_rgba(0,0,0,0.35)] ${c.shape === "circle" ? "rounded-full w-24 h-24" : "rounded-2xl px-6 py-4 min-w-[180px] h-24"}`}
-                    style={{ background: c.bg, color: c.color }}
-                  >
-                    <div className="leading-tight">
-                      <div style={{ fontWeight: Number(c.font ?? 700), fontSize: c.shape === "circle" ? 22 : 22, letterSpacing: "0.02em" }}>{c.name}</div>
-                      {c.sub && <div className="text-[10px] mt-1 opacity-80">{c.sub}</div>}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="flex justify-center">
+            <img
+              src={clientsLogosAsset.url}
+              alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
+              className="w-full max-w-6xl h-auto object-contain"
+              loading="lazy"
+            />
           </div>
         </div>
       </div>
@@ -2013,34 +2005,28 @@ function AboutUs() {
   return (
     <section id="about" className="relative py-24 md:py-32 overflow-hidden">
       <style>{`
-        @keyframes au-wave-a { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes au-wave-b { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        @keyframes au-shimmer { 0%,100% { opacity:.55; } 50% { opacity:.85; } }
-        @keyframes au-sun { 0%,100% { transform: translateY(0) scale(1); filter: blur(0px);} 50% { transform: translateY(-6px) scale(1.03); filter: blur(.5px);} }
-        @keyframes au-glow { 0%,100% { opacity:.55;} 50% { opacity:.85;} }
-        .au-bg { background: linear-gradient(180deg, #fff4e6 0%, #ffe6d0 18%, #e9eef5 48%, #c5d4e1 100%); }
-        .au-sun { position:absolute; top:8%; left:50%; transform:translateX(-50%); width:180px; height:180px; border-radius:9999px; background: radial-gradient(circle at 50% 50%, #ffd27a 0%, #ffb55a 45%, rgba(255,181,90,0) 72%); animation: au-sun 7s ease-in-out infinite; }
-        .au-sun-glow { position:absolute; top:-2%; left:50%; transform:translateX(-50%); width:520px; height:380px; border-radius:9999px; background: radial-gradient(circle, rgba(255,210,140,0.55), rgba(255,210,140,0) 65%); animation: au-glow 6s ease-in-out infinite; }
+        @keyframes au-wave-a { 0% { transform: translateX(0) translateY(0); } 50% { transform: translateX(-25%) translateY(-6px);} 100% { transform: translateX(-50%) translateY(0); } }
+        @keyframes au-wave-b { 0% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-25%) translateY(5px);} 100% { transform: translateX(0) translateY(0); } }
+        @keyframes au-shimmer { 0%,100% { opacity:.65; } 50% { opacity:.95; } }
+        .au-bg { background: linear-gradient(180deg, #cfe4f1 0%, #a9cee0 35%, #7fb3cc 70%, #4f8db0 100%); }
         .au-wave { position:absolute; left:0; width:200%; height:140px; will-change: transform; }
-        .au-wave-a { animation: au-wave-a 14s linear infinite; }
-        .au-wave-b { animation: au-wave-b 22s linear infinite; opacity:.6; }
-        .au-wave-c { animation: au-wave-a 30s linear infinite; opacity:.4; }
-        .au-shimmer { animation: au-shimmer 5s ease-in-out infinite; }
+        .au-wave-a { animation: au-wave-a 8s ease-in-out infinite; }
+        .au-wave-b { animation: au-wave-b 11s ease-in-out infinite; opacity:.7; }
+        .au-wave-c { animation: au-wave-a 16s ease-in-out infinite; opacity:.5; }
+        .au-shimmer { animation: au-shimmer 4s ease-in-out infinite; }
       `}</style>
 
       {/* Animated sea background */}
       <div className="absolute inset-0 au-bg" aria-hidden />
-      <div className="au-sun-glow" aria-hidden />
-      <div className="au-sun" aria-hidden />
-      <div className="absolute inset-x-0 bottom-0 h-[55%] overflow-hidden" aria-hidden>
+      <div className="absolute inset-x-0 bottom-0 h-[70%] overflow-hidden" aria-hidden>
         <svg className="au-wave au-wave-c" style={{ bottom: 90 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
-          <path d="M0,70 C360,20 720,120 1440,70 C2160,20 2520,120 2880,70 L2880,140 L0,140 Z" fill="#b9cad9" />
+          <path d="M0,70 C360,20 720,120 1440,70 C2160,20 2520,120 2880,70 L2880,140 L0,140 Z" fill="#7aa9c4" />
         </svg>
         <svg className="au-wave au-wave-b" style={{ bottom: 40 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
-          <path d="M0,60 C360,100 720,10 1440,60 C2160,110 2520,20 2880,60 L2880,140 L0,140 Z" fill="#a9bdcf" />
+          <path d="M0,60 C360,100 720,10 1440,60 C2160,110 2520,20 2880,60 L2880,140 L0,140 Z" fill="#5d92ae" />
         </svg>
         <svg className="au-wave au-wave-a au-shimmer" style={{ bottom: 0 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
-          <path d="M0,80 C360,30 720,130 1440,80 C2160,30 2520,130 2880,80 L2880,140 L0,140 Z" fill="#94aec3" />
+          <path d="M0,80 C360,30 720,130 1440,80 C2160,30 2520,130 2880,80 L2880,140 L0,140 Z" fill="#3f7997" />
         </svg>
       </div>
 
