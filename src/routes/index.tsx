@@ -29,7 +29,6 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
-import meetAsset from "@/assets/meet-talesso.png.asset.json";
 import collageAsset from "@/assets/solutions-collage.png.asset.json";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
@@ -266,7 +265,6 @@ function VideoShowcase() {
 }
 
 function PhotoShowcase() {
-  const meet = useInView<HTMLDivElement>();
   const coll = useInView<HTMLDivElement>();
   return (
     <section className="relative pb-24 pt-10">
@@ -276,16 +274,6 @@ function PhotoShowcase() {
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
             The all-in-one smart building platform.
           </h2>
-        </div>
-        <div
-          ref={meet.ref}
-          className={`transition-all duration-1000 ease-out ${meet.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-md"}`}
-        >
-          <img
-            src={meetAsset.url}
-            alt="Meet Talesso — the all-in-one smart building platform"
-            className="w-full h-auto rounded-3xl border border-border/70"
-          />
         </div>
         <div
           ref={coll.ref}
