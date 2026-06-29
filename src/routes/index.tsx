@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import {
   ShieldCheck,
   Sparkles,
+  Settings,
   Smartphone,
   Send,
   Monitor,
@@ -63,7 +64,7 @@ const solutions = [
     desc: "QR/PIN invitations, office & coworking booking, OCR registration, smart routing.",
   },
   {
-    icon: Sparkles,
+    icon: Settings,
     title: "Automation",
     desc: "KNX / Smart Home: lights, blinds, climate, doors — all by scenarios.",
   },
