@@ -871,6 +871,7 @@ function ScenesShowcase() {
             onClose={() => setPinned(null)}
             imageUrl={hotelSceneAsset.url}
             bgMode="cover"
+            headerLight
           />
           <BuildingCard
             side="residence"
