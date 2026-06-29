@@ -885,6 +885,7 @@ function ScenesShowcase() {
             onClose={() => setPinned(null)}
             imageUrl={officeSceneAsset.url}
             bgMode="cover"
+            headerLight
           />
         </div>
       </div>
@@ -905,6 +906,7 @@ function BuildingCard({
   onClose,
   imageUrl,
   bgMode = "split",
+  headerLight = false,
 }: {
   side: "office" | "residence";
   title: string;
@@ -918,6 +920,7 @@ function BuildingCard({
   onClose: () => void;
   imageUrl?: string;
   bgMode?: "split" | "cover";
+  headerLight?: boolean;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
@@ -991,10 +994,10 @@ function BuildingCard({
             <Icon className="h-6 w-6 text-[#0f172a]" />
           </span>
           <div>
-            <h3 className="font-display text-2xl md:text-3xl font-bold tracking-[-0.02em] text-[#0f172a]">
+            <h3 className={`font-display text-2xl md:text-3xl font-bold tracking-[-0.02em] ${headerLight ? "text-white" : "text-[#0f172a]"}`}>
               {title}
             </h3>
-            <p className="text-sm text-muted-foreground">{subtitle}</p>
+            <p className={`text-sm ${headerLight ? "text-white/80" : "text-muted-foreground"}`}>{subtitle}</p>
           </div>
         </div>
 
