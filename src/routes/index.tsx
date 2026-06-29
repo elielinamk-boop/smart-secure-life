@@ -485,52 +485,178 @@ function GlassSphere({ children, index }: { children: ReactNode; index: number }
 }
 
 function MeetEyecid() {
-  const device = useInView<HTMLDivElement>({ threshold: 0.25 });
+function MeetEyecid() {
+  const section = useInView<HTMLElement>({ threshold: 0.18 });
+  const deviceWrap = useRef<HTMLDivElement | null>(null);
+  const deviceInner = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const target = useRef({ rx: 0, ry: 0 });
+  const current = useRef({ rx: 0, ry: 0 });
+  const rafId = useRef<number | null>(null);
+
+  // Mouse-follow elastic rotation + scroll parallax on device
+  useEffect(() => {
+    const loop = () => {
+      current.current.rx += (target.current.rx - current.current.rx) * 0.08;
+      current.current.ry += (target.current.ry - current.current.ry) * 0.08;
+      if (deviceInner.current) {
+        deviceInner.current.style.transform = `perspective(900px) rotateX(${current.current.rx.toFixed(2)}deg) rotateY(${current.current.ry.toFixed(2)}deg)`;
+      }
+      rafId.current = requestAnimationFrame(loop);
+    };
+    rafId.current = requestAnimationFrame(loop);
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!stageRef.current || !deviceWrap.current) return;
+      const rect = stageRef.current.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const progress = (vh - rect.top) / (vh + rect.height); // 0..1 through view
+      const clamped = Math.max(0, Math.min(1, progress));
+      const ty = (clamped - 0.5) * -40; // device drifts up slower
+      deviceWrap.current.style.setProperty("--py", `${ty}px`);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    target.current.ry = x * 8; // ±4deg
+    target.current.rx = -y * 8;
+  };
+  const handleLeave = () => {
+    target.current.rx = 0;
+    target.current.ry = 0;
+  };
+
+  const lineCls = (delay: string) =>
+    section.inView
+      ? "inline-block animate-line-in"
+      : "inline-block opacity-0";
+
+  // Scanning particle positions inside the screen (relative %)
+  const particles = [
+    { left: "22%", top: "55%", dx: "8px",  dy: "-40px", delay: "0.2s",  dur: "5.5s" },
+    { left: "38%", top: "70%", dx: "-6px", dy: "-55px", delay: "1.1s",  dur: "6.2s" },
+    { left: "55%", top: "50%", dx: "10px", dy: "-48px", delay: "0.6s",  dur: "5.8s" },
+    { left: "70%", top: "65%", dx: "-8px", dy: "-60px", delay: "1.6s",  dur: "6.8s" },
+    { left: "30%", top: "40%", dx: "12px", dy: "-35px", delay: "2.2s",  dur: "5.4s" },
+    { left: "62%", top: "38%", dx: "-10px",dy: "-42px", delay: "0.9s",  dur: "6.0s" },
+  ];
+
   return (
-    <section className="relative py-20 md:py-28">
+    <section
+      ref={section.ref}
+      className={`relative py-20 md:py-28 transition-all duration-[800ms] ease-out ${
+        section.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      }`}
+    >
       <div className="mx-auto max-w-[88rem] px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_0.7fr] gap-10 lg:gap-8 items-center">
           {/* Left: heading */}
           <div>
             <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">
-              MEET{" "}
-              <span className="inline-flex items-baseline font-bold">
+              <span className={lineCls("")} style={{ animationDelay: "0.05s" }}>MEET</span>{" "}
+              <span
+                className={`relative inline-flex items-baseline font-bold overflow-hidden ${lineCls("")}`}
+                style={{ animationDelay: "0.25s" }}
+              >
                 EYE
-                <span className="text-[#c8102e]">C</span>
+                <span
+                  className="text-[#c8102e]"
+                  style={{ animation: section.inView ? "eyecid-c-glow 1.4s ease-out 0.6s 1 both" : undefined }}
+                >
+                  C
+                </span>
                 ID
+                {/* one-shot light sweep across EYECID */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-y-0 left-0 w-2/3 bg-[linear-gradient(110deg,transparent_35%,rgba(255,255,255,0.85)_50%,transparent_65%)] mix-blend-screen"
+                  style={{ animation: section.inView ? "eyecid-text-sweep 1.4s ease-out 0.9s 1 both" : undefined }}
+                />
               </span>
             </h2>
             <h3 className="mt-6 font-display text-2xl md:text-4xl font-extrabold tracking-tight leading-[1.1]">
-              THE ALL-IN-ONE
-              <br /> SMART BUILDING
-              <br /> PLATFORM
+              <span className={`block ${lineCls("")}`} style={{ animationDelay: "0.45s" }}>THE ALL-IN-ONE</span>
+              <span className={`block ${lineCls("")}`} style={{ animationDelay: "0.6s" }}>SMART BUILDING</span>
+              <span className={`block ${lineCls("")}`} style={{ animationDelay: "0.75s" }}>PLATFORM</span>
             </h3>
           </div>
 
           {/* Center: device */}
           <div
-            ref={device.ref}
-            className={`relative flex justify-center transition-all duration-[1400ms] ease-out ${
-              device.inView
-                ? "opacity-100 translate-y-0 scale-100 blur-0"
-                : "opacity-0 translate-y-24 scale-90 blur-md"
-            }`}
+            ref={stageRef}
+            onMouseMove={handleMove}
+            onMouseLeave={handleLeave}
+            className="relative flex justify-center"
           >
-            <img
-              src={eyecidAsset.url}
-              alt="EYECID — face recognition access terminal"
-              width={1024}
-              height={1536}
-              loading="lazy"
-              className="w-full max-w-sm h-auto drop-shadow-[0_40px_80px_rgba(20,30,60,0.35)] hover:scale-[1.03] transition-transform duration-500"
-            />
+            <div
+              ref={deviceWrap}
+              className={`relative w-full max-w-sm transition-all duration-1000 ease-out will-change-transform ${
+                section.inView ? "opacity-100 scale-100 translate-y-0 blur-0" : "opacity-0 scale-95 translate-y-6 blur-sm"
+              }`}
+              style={{ transform: "translateY(var(--py, 0px))" }}
+            >
+              <div ref={deviceInner} className="relative animate-eyecid-float will-change-transform" style={{ transformStyle: "preserve-3d" }}>
+                <img
+                  src={eyecidAsset.url}
+                  alt="EYECID — face recognition access terminal"
+                  width={1024}
+                  height={1536}
+                  loading="lazy"
+                  className="w-full h-auto drop-shadow-[0_40px_80px_rgba(20,30,60,0.35)] select-none"
+                  draggable={false}
+                />
+                {/* Scanning overlay over screen area (~10-78% of image height) */}
+                <div className="pointer-events-none absolute inset-x-[14%] top-[10%] bottom-[22%] overflow-hidden rounded-[10px]">
+                  {/* faint scanning pulse */}
+                  <div
+                    className="absolute inset-x-0 h-[2px] bg-[linear-gradient(90deg,transparent,rgba(119,221,255,0.55),transparent)]"
+                    style={{ top: "40%", animation: "eyecid-scan-pulse 3.4s ease-in-out infinite" }}
+                  />
+                  {/* particles */}
+                  {particles.map((p, i) => (
+                    <span
+                      key={i}
+                      className="absolute h-1 w-1 rounded-full bg-[#77DDFF]"
+                      style={{
+                        left: p.left,
+                        top: p.top,
+                        boxShadow: "0 0 8px rgba(119,221,255,0.75)",
+                        // @ts-expect-error custom props
+                        "--dx": p.dx,
+                        "--dy": p.dy,
+                        animation: `eyecid-particle ${p.dur} ease-out ${p.delay} infinite`,
+                      }}
+                    />
+                  ))}
+                </div>
+                {/* Diagonal reflection sweep across the whole device every ~9s */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[24px]">
+                  <div
+                    className="absolute -inset-y-1/2 left-0 w-1/2 bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.35)_50%,transparent_60%)] mix-blend-screen"
+                    style={{ animation: "eyecid-device-sheen 9s ease-in-out 1.6s infinite" }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right: stats */}
           <div className="space-y-8">
-            <StatRow accent={<AnimatedNumber value={1} />} label="Platform" />
-            <StatRow accent={<AnimatedNumber value={1} />} label="Interface" />
-            <StatRow accent="FULL" label="Control" />
+            <StatRow accent={1} label="Platform" inView={section.inView} delay={0} />
+            <StatRow accent={1} label="Platform" hidden delay={0} inView={false} />
+            <StatRow accent={1} label="Interface" inView={section.inView} delay={300} />
+            <StatRow accent="FULL" label="Control" inView={section.inView} delay={600} />
           </div>
         </div>
       </div>
@@ -538,13 +664,46 @@ function MeetEyecid() {
   );
 }
 
-function StatRow({ accent, label }: { accent: ReactNode; label: string }) {
+function StatRow({
+  accent,
+  label,
+  inView,
+  delay,
+  hidden,
+}: {
+  accent: number | string;
+  label: string;
+  inView: boolean;
+  delay: number;
+  hidden?: boolean;
+}) {
+  if (hidden) return null;
+  const isFull = typeof accent === "string";
   return (
-    <div className="animate-fade-in">
-      <div className="font-display text-5xl md:text-6xl italic font-bold text-[#c8102e] leading-none">
-        {accent}
+    <div className="group cursor-default transition-transform duration-300 ease-out hover:-translate-y-0.5">
+      <div className="relative overflow-hidden leading-none">
+        <div
+          className={`font-display text-5xl md:text-6xl italic font-bold text-[#c8102e] leading-none transition-transform duration-300 group-hover:scale-[1.05] ${
+            inView ? (isFull ? "animate-eyecid-full" : "animate-eyecid-stat-num") : "opacity-0"
+          }`}
+          style={{ animationDelay: `${delay}ms` }}
+        >
+          {accent}
+        </div>
+        {isFull && inView && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,transparent_35%,rgba(255,255,255,0.85)_50%,transparent_65%)] mix-blend-screen"
+            style={{ animation: `eyecid-full-sheen 1.2s ease-out ${delay + 300}ms 1 both` }}
+          />
+        )}
       </div>
-      <div className="mt-1 font-display text-3xl md:text-4xl font-semibold tracking-tight">
+      <div
+        className={`mt-1 font-display text-3xl md:text-4xl font-semibold tracking-tight transition-colors duration-300 group-hover:text-foreground ${
+          inView ? "animate-eyecid-stat-text" : "opacity-0"
+        }`}
+        style={{ animationDelay: `${delay + 350}ms` }}
+      >
         {label}
       </div>
     </div>
