@@ -922,7 +922,7 @@ function ProductGallery() {
         <div className="mx-auto mb-10 max-w-7xl">
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{"\n"}</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            Intelligence you can see.
+            {"\n"}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm max-w-xl">
             Four products. One platform. Hover to feel each system come alive.
