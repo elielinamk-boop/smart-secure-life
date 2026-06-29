@@ -686,9 +686,9 @@ function BuildingCard({
   const bgPos = side === "office" ? "0% center" : "100% center";
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
-  // Always place the panel inside the left side of the building image.
+  // Center the info panel in the middle of the building image.
   const panelPos = activeInfo
-    ? { left: "clamp(0.75rem, 2.5vw, 1.25rem)", top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))` }
+    ? { left: "50%", top: "50%", transform: "translate(-50%, -50%)" }
     : null;
 
   return (
@@ -790,10 +790,7 @@ function BuildingCard({
             className="ibs-panel absolute z-30 w-[min(19rem,calc(100%-1.5rem))] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
             style={panelPos}
           >
-            <span
-              className="ibs-panel-arrow"
-              style={{ right: "-7px", top: "11rem", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }}
-            />
+            {/* arrow removed — panel is centered, no longer pointing at the hotspot */}
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a]/5">
                 <activeInfo.icon className="h-5 w-5 text-[#2563eb]" />
