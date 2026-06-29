@@ -47,7 +47,7 @@ import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
 import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
 import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
 import clientsLogosAsset from "@/assets/clients-logos.png.asset.json";
-import clientsLogosWhiteAsset from "@/assets/clients-logos-white.png.asset.json";
+import clientsLogosWhiteAsset from "@/assets/clients-logos-transparent.png.asset.json";
 import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
 import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
 import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
@@ -1980,14 +1980,14 @@ function Partners() {
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
             Trusted by Leading Clients
           </div>
-          <div className="pt-mask overflow-hidden bg-white rounded-2xl py-6">
-            <div className="pt-track pt-track-slow items-center">
+          <div className="pt-mask overflow-hidden py-6">
+            <div className="pt-track pt-track-slow items-center gap-16">
               {Array.from({ length: 4 }).map((_, i) => (
                 <img
                   key={i}
                   src={clientsLogosWhiteAsset.url}
                   alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
-                  className="h-20 md:h-24 w-auto max-w-none shrink-0"
+                  className="h-24 md:h-28 w-auto max-w-none shrink-0 object-contain"
                   loading="lazy"
                 />
               ))}
