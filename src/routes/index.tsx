@@ -32,6 +32,7 @@ import {
   ParkingSquare,
   DoorOpen,
   X as XIcon,
+  ArrowUp,
   type LucideIcon,
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
