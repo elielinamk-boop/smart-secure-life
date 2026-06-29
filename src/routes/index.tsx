@@ -31,6 +31,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
+import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
@@ -534,14 +535,12 @@ function MeetEyecid() {
                 className={`relative inline-flex items-baseline font-bold overflow-hidden ${lineCls("")}`}
                 style={{ animationDelay: "0.25s" }}
               >
-                EYE
-                <span
-                  className="text-[#c8102e]"
-                  style={{ animation: section.inView ? "eyecid-c-glow 1.4s ease-out 0.6s 1 both" : undefined }}
-                >
-                  C
-                </span>
-                ID
+                <img
+                  src={eyecidLogoAsset.url}
+                  alt="EYECID"
+                  className="inline-block h-[0.85em] w-auto align-baseline select-none"
+                  draggable={false}
+                />
                 {/* one-shot light sweep across EYECID */}
                 <span
                   aria-hidden
