@@ -289,7 +289,15 @@ function VideoShowcase() {
 type FeatureKey =
   | "internet" | "lighting" | "climate" | "cameras" | "access"
   | "leak" | "integrations" | "parking"
-  | "smart-locks" | "garage";
+  | "smart-locks" | "garage"
+  // Hotel scene
+  | "ai-concierge" | "keyless-checkin" | "personalized-service"
+  | "room-automation" | "hotel-temperature" | "hotel-lighting"
+  | "energy-management" | "housekeeping"
+  // Commercial real estate scene
+  | "analytics" | "temp-access" | "office-lighting"
+  | "access-management" | "office-temperature" | "occupancy"
+  | "energy-optimization" | "meeting-rooms";
 
 type FeatureInfo = {
   name: string;
@@ -301,6 +309,8 @@ type FeatureInfo = {
   tint: string;
   /* overlay focal point inside the card (% of card box) */
   focus: { x: number; y: number; r: number };
+  /* which visual effect to render — defaults to feature key */
+  effect?: FeatureKey;
 };
 
 const FEATURE_INFO: Record<FeatureKey, FeatureInfo> = {
