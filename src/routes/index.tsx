@@ -29,7 +29,6 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
-import collageAsset from "@/assets/solutions-collage.png.asset.json";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
@@ -265,7 +264,6 @@ function VideoShowcase() {
 }
 
 function PhotoShowcase() {
-  const coll = useInView<HTMLDivElement>();
   return (
     <section className="relative pb-24 pt-10">
       <div className="mx-auto max-w-7xl px-6">
@@ -274,16 +272,6 @@ function PhotoShowcase() {
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
             The all-in-one smart building platform.
           </h2>
-        </div>
-        <div
-          ref={coll.ref}
-          className={`mt-6 transition-all duration-1000 delay-150 ease-out ${coll.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-md"}`}
-        >
-          <img
-            src={collageAsset.url}
-            alt="Talesso solutions — Face Recognition, QR/PIN/BLE Access, ALPR, Video Intercom"
-            className="w-full h-auto rounded-3xl border border-border/70"
-          />
         </div>
       </div>
     </section>
