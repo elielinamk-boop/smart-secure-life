@@ -104,7 +104,6 @@ function Landing() {
       <SiteNav />
       <Hero />
       <Solutions />
-      <PhotoShowcase />
       <MeetEyecid />
       <VideoShowcase />
       <AISection />
@@ -258,21 +257,6 @@ function VideoShowcase() {
         <p className="mt-5 text-center text-sm text-muted-foreground">
           Talesso — The Future of Smart Buildings.
         </p>
-      </div>
-    </section>
-  );
-}
-
-function PhotoShowcase() {
-  return (
-    <section className="relative pb-24 pt-10">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-10 max-w-2xl">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Meet the platform</p>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            The all-in-one smart building platform.
-          </h2>
-        </div>
       </div>
     </section>
   );
@@ -535,6 +519,12 @@ function MeetEyecid() {
       }`}
     >
       <div className="mx-auto max-w-[88rem] px-6 md:px-10">
+        <div className="mb-12 max-w-2xl">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Meet the platform</p>
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
+            The all-in-one smart building platform.
+          </h2>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_0.7fr] gap-10 lg:gap-8 items-center">
           {/* Left: heading */}
           <div>
