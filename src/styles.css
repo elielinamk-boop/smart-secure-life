@@ -196,3 +196,33 @@
 .animate-line-in  { animation: hero-line-reveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .hero-gradient-a  { animation: hero-gradient-drift 18s ease-in-out infinite; }
 .hero-gradient-b  { animation: hero-gradient-hue 22s ease-in-out infinite; }
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.97); filter: blur(8px); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0)    scale(1);    filter: blur(0); }
+}
+
+@keyframes icon-pop {
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes sphere-sheen {
+  0%   { transform: translate3d(-120%, -120%, 0) rotate(20deg); opacity: 0; }
+  20%  { opacity: 0.9; }
+  100% { transform: translate3d(220%, 220%, 0)  rotate(20deg); opacity: 0; }
+}
+
+@keyframes icon-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(0, -3px, 0) rotate(1.5deg); }
+}
+
+@keyframes sphere-breath {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(119,221,255,0); }
+  50%      { box-shadow: 0 0 24px 2px rgba(119,221,255,0.18); }
+}
+
+.animate-card-rise { animation: card-rise 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-icon-pop  { animation: icon-pop 0.7s cubic-bezier(0.34,1.56,0.64,1) both; }
