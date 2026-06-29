@@ -788,11 +788,13 @@ function CTA() {
    Simple 2x2 grid of four uncropped product images.
    ============================================================ */
 
-const galleryTiles: { src: string; alt: string }[] = [
-  { src: galleryFaceAsset.url,    alt: "Face recognition biometric access" },
-  { src: galleryQrAsset.url,      alt: "Mobile QR access on EYECID terminal" },
-  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate" },
-  { src: galleryMonitorAsset.url, alt: "EYECID indoor monitor with video call" },
+type TileKind = "face" | "qr" | "plate" | "terminal" | "tv" | "lights" | "motion" | "alert";
+
+const galleryTiles: { src: string; alt: string; kind: TileKind }[] = [
+  { src: galleryFaceAsset.url,    alt: "Face recognition biometric access",       kind: "face" },
+  { src: galleryQrAsset.url,      alt: "Mobile QR access on EYECID terminal",     kind: "qr" },
+  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   kind: "plate" },
+  { src: galleryMonitorAsset.url, alt: "EYECID indoor monitor with video call",   kind: "terminal" },
 ];
 
 function ProductGallery() {
@@ -821,6 +823,146 @@ function ProductGallery() {
           transition: transform 200ms linear;
           will-change: transform;
         }
+        .pg4-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        /* face scan */
+        @keyframes pg4-scan-y {
+          0%   { transform: translateY(0%);   opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 1; }
+          100% { transform: translateY(100%); opacity: 0; }
+        }
+        .pg4-scanline {
+          position: absolute; left: 0; right: 0; top: 0; height: 3px;
+          background: linear-gradient(90deg, transparent, rgba(0,255,200,0.95), transparent);
+          box-shadow: 0 0 18px 4px rgba(0,255,200,0.55);
+          animation: pg4-scan-y 2.6s ease-in-out infinite;
+        }
+        .pg4-corner {
+          position: absolute; width: 22px; height: 22px;
+          border: 2px solid rgba(0,255,200,0.85);
+          filter: drop-shadow(0 0 6px rgba(0,255,200,0.55));
+        }
+        .pg4-corner.tl { top: 14%; left: 14%; border-right: none;  border-bottom: none; }
+        .pg4-corner.tr { top: 14%; right: 14%; border-left: none;  border-bottom: none; }
+        .pg4-corner.bl { bottom: 14%; left: 14%; border-right: none; border-top: none; }
+        .pg4-corner.br { bottom: 14%; right: 14%; border-left: none; border-top: none; }
+        /* qr pop */
+        @keyframes pg4-qr-pop {
+          0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(-6deg); }
+          25%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(0deg); }
+          70%  { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9) rotate(0deg); }
+        }
+        .pg4-qr {
+          position: absolute; left: 50%; top: 50%;
+          width: 24%; aspect-ratio: 1/1;
+          padding: 8px; background: #fff;
+          border-radius: 8px;
+          box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+          animation: pg4-qr-pop 3.2s ease-in-out infinite;
+        }
+        /* plate sweep */
+        @keyframes pg4-plate-sweep {
+          0%   { transform: translateX(-110%); opacity: 0; }
+          15%  { opacity: 1; }
+          85%  { opacity: 1; }
+          100% { transform: translateX(110%);  opacity: 0; }
+        }
+        .pg4-plate-bar {
+          position: absolute; left: 0; top: 50%; height: 8px; width: 100%;
+          transform: translateY(-50%);
+          background: linear-gradient(90deg, transparent, rgba(239,68,68,0.9), transparent);
+          box-shadow: 0 0 18px 4px rgba(239,68,68,0.55);
+          animation: pg4-plate-sweep 2.4s ease-in-out infinite;
+        }
+        /* tv now playing */
+        @keyframes pg4-tv-on {
+          0%, 100% { opacity: 0.85; }
+          50% { opacity: 1; }
+        }
+        .pg4-tv-badge {
+          position: absolute; bottom: 8%; left: 8%;
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 8px 14px; border-radius: 999px;
+          background: rgba(0,0,0,0.55); color: #fff;
+          font: 600 12px/1 ui-sans-serif, system-ui;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          backdrop-filter: blur(6px);
+          animation: pg4-tv-on 2s ease-in-out infinite;
+        }
+        .pg4-tv-dot {
+          width: 8px; height: 8px; border-radius: 50%;
+          background: #ef4444; box-shadow: 0 0 10px #ef4444;
+        }
+        /* lights dimming */
+        @keyframes pg4-lights {
+          0%, 18%   { opacity: 0; }
+          45%, 75%  { opacity: 0.72; }
+          100%      { opacity: 0; }
+        }
+        .pg4-dim {
+          position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.85) 80%);
+          animation: pg4-lights 5s ease-in-out infinite;
+        }
+        /* motion detect box */
+        @keyframes pg4-motion-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.0); border-color: rgba(34,197,94,0.5); }
+          50%      { box-shadow: 0 0 0 6px rgba(34,197,94,0.0); border-color: rgba(34,197,94,1); }
+        }
+        @keyframes pg4-motion-shift {
+          0%   { transform: translate(0%, 0%); }
+          50%  { transform: translate(6%, -3%); }
+          100% { transform: translate(0%, 0%); }
+        }
+        .pg4-motion-box {
+          position: absolute; left: 38%; top: 32%; width: 24%; height: 38%;
+          border: 2px solid rgba(34,197,94,0.8);
+          border-radius: 4px;
+          animation: pg4-motion-pulse 1.4s ease-in-out infinite, pg4-motion-shift 5s ease-in-out infinite;
+        }
+        .pg4-motion-label {
+          position: absolute; top: -22px; left: 0;
+          font: 600 10px/1 ui-sans-serif, system-ui;
+          letter-spacing: 0.08em; text-transform: uppercase;
+          color: #fff; background: rgba(34,197,94,0.85);
+          padding: 4px 6px; border-radius: 3px;
+        }
+        /* security alert */
+        @keyframes pg4-alert-blink {
+          0%, 49%, 100% { opacity: 1; }
+          50%, 99%      { opacity: 0.35; }
+        }
+        @keyframes pg4-alert-ping {
+          0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 0.9; }
+          100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+        }
+        .pg4-alert {
+          position: absolute; top: 10%; right: 8%;
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 8px 12px; border-radius: 6px;
+          background: rgba(220,38,38,0.92); color: #fff;
+          font: 700 11px/1 ui-sans-serif, system-ui;
+          letter-spacing: 0.08em; text-transform: uppercase;
+          box-shadow: 0 8px 24px rgba(220,38,38,0.45);
+          animation: pg4-alert-blink 1.2s ease-in-out infinite;
+        }
+        .pg4-ping-wrap {
+          position: absolute; left: 32%; top: 58%;
+          width: 14px; height: 14px;
+        }
+        .pg4-ping-dot {
+          position: absolute; left: 50%; top: 50%;
+          width: 10px; height: 10px; border-radius: 50%;
+          background: #ef4444; transform: translate(-50%, -50%);
+          box-shadow: 0 0 10px #ef4444;
+        }
+        .pg4-ping-ring {
+          position: absolute; left: 50%; top: 50%;
+          width: 14px; height: 14px; border-radius: 50%;
+          border: 2px solid rgba(239,68,68,0.8);
+          animation: pg4-alert-ping 1.8s ease-out infinite;
+        }
       `}</style>
       <div
         ref={reveal.ref}
@@ -833,6 +975,7 @@ function ProductGallery() {
             alt={t.alt}
             index={i}
             visible={reveal.inView}
+            kind={t.kind}
           />
         ))}
       </div>
@@ -845,11 +988,13 @@ function GalleryTile({
   alt,
   index,
   visible,
+  kind,
 }: {
   src: string;
   alt: string;
   index: number;
   visible: boolean;
+  kind?: TileKind;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -898,19 +1043,98 @@ function GalleryTile({
         className="pg4-img select-none"
         draggable={false}
       />
+      {visible && kind ? <TileOverlay kind={kind} /> : null}
     </div>
   );
+}
+
+function TileOverlay({ kind }: { kind: TileKind }) {
+  switch (kind) {
+    case "face":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <div className="pg4-corner tl" />
+          <div className="pg4-corner tr" />
+          <div className="pg4-corner bl" />
+          <div className="pg4-corner br" />
+          <div className="pg4-scanline" />
+        </div>
+      );
+    case "qr":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <div className="pg4-qr">
+            <svg viewBox="0 0 29 29" width="100%" height="100%" shapeRendering="crispEdges">
+              <rect width="29" height="29" fill="#fff" />
+              {[
+                [0,0,7,7],[22,0,7,7],[0,22,7,7],
+                [2,2,3,3],[24,2,3,3],[2,24,3,3],
+                [10,0,2,2],[14,0,1,3],[18,0,2,1],
+                [9,4,1,2],[12,4,2,1],[17,5,1,2],[20,4,1,2],
+                [0,10,2,2],[4,10,1,2],[10,10,3,3],[15,10,2,2],[19,10,2,1],[24,11,1,2],
+                [3,14,2,1],[8,14,2,2],[13,14,1,3],[17,14,2,2],[22,14,1,2],[26,14,1,1],
+                [0,18,1,2],[5,18,2,1],[10,18,2,2],[15,18,1,2],[19,18,2,1],[23,18,2,2],
+                [10,23,2,1],[14,22,1,3],[18,24,2,2],[22,23,1,2],
+              ].map(([x,y,w,h], i) => (
+                <rect key={i} x={x} y={y} width={w} height={h} fill="#000" />
+              ))}
+            </svg>
+          </div>
+        </div>
+      );
+    case "plate":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <div className="pg4-plate-bar" />
+        </div>
+      );
+    case "tv":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <span className="pg4-tv-badge">
+            <span className="pg4-tv-dot" />
+            Now playing
+          </span>
+        </div>
+      );
+    case "lights":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <div className="pg4-dim" />
+        </div>
+      );
+    case "motion":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <div className="pg4-motion-box">
+            <span className="pg4-motion-label">Motion</span>
+          </div>
+        </div>
+      );
+    case "alert":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <div className="pg4-ping-wrap">
+            <span className="pg4-ping-ring" />
+            <span className="pg4-ping-dot" />
+          </div>
+          <span className="pg4-alert">⚠ Intrusion · Building A</span>
+        </div>
+      );
+    default:
+      return null;
+  }
 }
 
 /* ============================================================
    Section 5 — Smart Living Gallery (2x2, scroll effects)
    ============================================================ */
 
-const gallery2Tiles: { src: string; alt: string }[] = [
-  { src: gallery2TvAsset.url,      alt: "Smart living room with EYECID hub" },
-  { src: gallery2PanelAsset.url,   alt: "EYECID smart home control panel and thermostat" },
-  { src: gallery2EntryAsset.url,   alt: "Outdoor security camera, keypad and modern home entrance" },
-  { src: gallery2ControlAsset.url, alt: "Security operator monitoring multi-screen video wall" },
+const gallery2Tiles: { src: string; alt: string; kind: TileKind }[] = [
+  { src: gallery2TvAsset.url,      alt: "Smart living room with EYECID hub",                              kind: "tv" },
+  { src: gallery2PanelAsset.url,   alt: "EYECID smart home control panel and thermostat",                 kind: "lights" },
+  { src: gallery2EntryAsset.url,   alt: "Outdoor security camera, keypad and modern home entrance",       kind: "motion" },
+  { src: gallery2ControlAsset.url, alt: "Security operator monitoring multi-screen video wall",           kind: "alert" },
 ];
 
 function ProductGallery2() {
@@ -928,6 +1152,7 @@ function ProductGallery2() {
             alt={t.alt}
             index={i}
             visible={reveal.inView}
+            kind={t.kind}
           />
         ))}
       </div>
