@@ -667,15 +667,12 @@ function StatRow({
   label,
   inView,
   delay,
-  hidden,
 }: {
   accent: number | string;
   label: string;
   inView: boolean;
   delay: number;
-  hidden?: boolean;
 }) {
-  if (hidden) return null;
   const isFull = typeof accent === "string";
   return (
     <div className="group cursor-default transition-transform duration-300 ease-out hover:-translate-y-0.5">
