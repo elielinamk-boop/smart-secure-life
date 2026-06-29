@@ -31,6 +31,7 @@ import meetAsset from "@/assets/meet-talesso.png.asset.json";
 import collageAsset from "@/assets/solutions-collage.png.asset.json";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
+import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -103,9 +104,9 @@ function Landing() {
       <SiteNav />
       <Hero />
       <Solutions />
+      <PhotoShowcase />
       <MeetEyecid />
       <VideoShowcase />
-      <PhotoShowcase />
       <AISection />
       <BuildingsShowcase />
       <Channels />
@@ -117,13 +118,12 @@ function Landing() {
 
 function Hero() {
   return (
-    <section className="relative px-4 md:px-6 pt-6 pb-16">
-      <div className="relative mx-auto max-w-[88rem] overflow-hidden rounded-[2.5rem] bg-background">
-        {/* peach gradient blob behind */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-[120%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-gradient-to-br from-accent-peach/70 via-accent-peach/40 to-accent-blue/40 blur-3xl" />
-        </div>
-        <div className="relative px-6 pt-20 pb-24 md:pt-28 md:pb-32 text-center">
+    <section className="relative overflow-hidden">
+      {/* full-bleed soft gradient — no cropping */}
+      <div className="pointer-events-none absolute inset-0 -z-0">
+        <div className="absolute left-1/2 top-[42%] h-[80rem] w-[80rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,210,190,0.55),rgba(200,220,255,0.35)_55%,transparent_75%)] blur-2xl" />
+      </div>
+      <div className="relative px-6 pt-16 pb-28 md:pt-24 md:pb-36 text-center mx-auto max-w-5xl animate-fade-in">
           <span className="inline-flex items-center rounded-full border border-accent-blue/60 bg-background/80 px-5 py-2 text-[0.72rem] font-medium tracking-[0.15em] text-foreground/70">
             TALESSO · AI-POWERED TECHNOLOGY
           </span>
@@ -139,7 +139,7 @@ function Hero() {
           <div className="mt-12 flex items-center justify-center gap-4 md:gap-8 flex-wrap">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-all hover:-translate-y-0.5 hover:shadow-lg"
             >
               Get a consultation <ArrowRight className="h-4 w-4" />
             </Link>
@@ -150,7 +150,6 @@ function Hero() {
               Our Solutions →
             </Link>
           </div>
-        </div>
       </div>
     </section>
   );
@@ -163,7 +162,7 @@ function VideoShowcase() {
         <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-[0_40px_120px_-40px_rgba(0,40,120,0.4)]">
           <iframe
             className="absolute inset-0 h-full w-full"
-            src="https://www.youtube.com/embed/_S-U8Ts5OTU?rel=0&modestbranding=1"
+            src="https://www.youtube.com/embed/jfzARicSq_c?rel=0&modestbranding=1"
             title="Talesso — The Future of Smart Buildings"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -178,6 +177,8 @@ function VideoShowcase() {
 }
 
 function PhotoShowcase() {
+  const meet = useInView<HTMLDivElement>();
+  const coll = useInView<HTMLDivElement>();
   return (
     <section className="relative pb-24 pt-10">
       <div className="mx-auto max-w-7xl px-6">
@@ -187,16 +188,26 @@ function PhotoShowcase() {
             The all-in-one smart building platform.
           </h2>
         </div>
-        <img
-          src={meetAsset.url}
-          alt="Meet Talesso — the all-in-one smart building platform"
-          className="w-full h-auto rounded-3xl border border-border/70"
-        />
-        <img
-          src={collageAsset.url}
-          alt="Talesso solutions — Face Recognition, QR/PIN/BLE Access, ALPR, Video Intercom"
-          className="mt-6 w-full h-auto rounded-3xl border border-border/70"
-        />
+        <div
+          ref={meet.ref}
+          className={`transition-all duration-1000 ease-out ${meet.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-md"}`}
+        >
+          <img
+            src={meetAsset.url}
+            alt="Meet Talesso — the all-in-one smart building platform"
+            className="w-full h-auto rounded-3xl border border-border/70"
+          />
+        </div>
+        <div
+          ref={coll.ref}
+          className={`mt-6 transition-all duration-1000 delay-150 ease-out ${coll.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-md"}`}
+        >
+          <img
+            src={collageAsset.url}
+            alt="Talesso solutions — Face Recognition, QR/PIN/BLE Access, ALPR, Video Intercom"
+            className="w-full h-auto rounded-3xl border border-border/70"
+          />
+        </div>
       </div>
     </section>
   );
@@ -281,6 +292,7 @@ function GlassSphere({ children, index }: { children: ReactNode; index: number }
 }
 
 function MeetEyecid() {
+  const device = useInView<HTMLDivElement>({ threshold: 0.25 });
   return (
     <section className="relative py-20 md:py-28">
       <div className="mx-auto max-w-[88rem] px-6 md:px-10">
@@ -303,21 +315,28 @@ function MeetEyecid() {
           </div>
 
           {/* Center: device */}
-          <div className="relative flex justify-center">
+          <div
+            ref={device.ref}
+            className={`relative flex justify-center transition-all duration-[1400ms] ease-out ${
+              device.inView
+                ? "opacity-100 translate-y-0 scale-100 blur-0"
+                : "opacity-0 translate-y-24 scale-90 blur-md"
+            }`}
+          >
             <img
               src={eyecidAsset.url}
               alt="EYECID — face recognition access terminal"
               width={1024}
               height={1536}
               loading="lazy"
-              className="w-full max-w-sm h-auto drop-shadow-[0_30px_60px_rgba(20,30,60,0.25)]"
+              className="w-full max-w-sm h-auto drop-shadow-[0_40px_80px_rgba(20,30,60,0.35)] hover:scale-[1.03] transition-transform duration-500"
             />
           </div>
 
           {/* Right: stats */}
           <div className="space-y-8">
-            <StatRow accent="1" label="Platform" />
-            <StatRow accent="1" label="Interface" />
+            <StatRow accent={<AnimatedNumber value={1} />} label="Platform" />
+            <StatRow accent={<AnimatedNumber value={1} />} label="Interface" />
             <StatRow accent="FULL" label="Control" />
           </div>
         </div>
@@ -326,9 +345,9 @@ function MeetEyecid() {
   );
 }
 
-function StatRow({ accent, label }: { accent: string; label: string }) {
+function StatRow({ accent, label }: { accent: ReactNode; label: string }) {
   return (
-    <div>
+    <div className="animate-fade-in">
       <div className="font-display text-5xl md:text-6xl italic font-bold text-[#c8102e] leading-none">
         {accent}
       </div>
