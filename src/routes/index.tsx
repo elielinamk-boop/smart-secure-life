@@ -778,3 +778,559 @@ function CTA() {
   );
 }
 
+/* ============================================================
+   Section 4 — Interactive Product Gallery
+   2x2 edge-to-edge grid with subtle "alive" overlays,
+   cinematic staggered reveal, parallax & cursor tilt.
+   ============================================================ */
+
+type GalleryTileKind = "face" | "qr" | "plate" | "monitor";
+
+const galleryTiles: {
+  kind: GalleryTileKind;
+  src: string;
+  alt: string;
+  focal: string;
+}[] = [
+  { kind: "face",    src: galleryFaceAsset.url,    alt: "Face recognition biometric access",       focal: "center 35%" },
+  { kind: "qr",      src: galleryQrAsset.url,      alt: "Mobile QR access on EYECID terminal",     focal: "center" },
+  { kind: "plate",   src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   focal: "center 60%" },
+  { kind: "monitor", src: galleryMonitorAsset.url, alt: "EYECID indoor monitor with video call",   focal: "center" },
+];
+
+function ProductGallery() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const tileRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15, once: true });
+
+  // Scroll parallax — each tile gets a slightly different speed (max 20px).
+  useEffect(() => {
+    let raf = 0;
+    const speeds = [0.06, 0.10, 0.14, 0.18];
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const sec = sectionRef.current;
+        if (!sec) return;
+        const rect = sec.getBoundingClientRect();
+        const progress = 1 - rect.top / window.innerHeight; // ~0..2
+        tileRefs.current.forEach((el, i) => {
+          if (!el) return;
+          const offset = Math.max(-20, Math.min(20, (progress - 0.5) * 40 * speeds[i] * 4));
+          el.style.setProperty("--py", `${offset.toFixed(2)}px`);
+        });
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="relative py-16 md:py-24 overflow-hidden">
+      <style>{`
+        @keyframes pg-fade-up {
+          0%   { opacity: 0; transform: translate3d(0,14px,0) scale(0.98); filter: blur(8px); }
+          100% { opacity: 1; transform: translate3d(0,0,0) scale(1);       filter: blur(0); }
+        }
+        @keyframes pg-pulse-dot {
+          0%, 100% { opacity: 0.55; transform: scale(1); }
+          50%      { opacity: 1;    transform: scale(1.35); }
+        }
+        @keyframes pg-line-glow {
+          0%, 100% { opacity: 0.25; }
+          50%      { opacity: 0.85; }
+        }
+        @keyframes pg-scan-ring {
+          0%   { transform: translate(-50%,-50%) scale(0.55); opacity: 0; }
+          15%  { opacity: 0.55; }
+          100% { transform: translate(-50%,-50%) scale(1.6); opacity: 0; }
+        }
+        @keyframes pg-particle {
+          0%   { transform: translate(0,0); opacity: 0; }
+          15%  { opacity: 1; }
+          100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+        }
+        @keyframes pg-corner-glow {
+          0%, 100% { opacity: 0.45; box-shadow: 0 0 0 rgba(255,255,255,0); }
+          50%      { opacity: 1;    box-shadow: 0 0 14px rgba(255,255,255,0.55); }
+        }
+        @keyframes pg-qr-scan {
+          0%   { transform: translateY(-100%); opacity: 0; }
+          10%  { opacity: 0.9; }
+          90%  { opacity: 0.9; }
+          100% { transform: translateY(100%); opacity: 0; }
+        }
+        @keyframes pg-breath {
+          0%, 100% { opacity: 0.35; }
+          50%      { opacity: 0.85; }
+        }
+        @keyframes pg-confirm-pulse {
+          0%   { transform: scale(0.9); opacity: 0.7; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes pg-trace {
+          0%   { stroke-dashoffset: 240; opacity: 0.2; }
+          40%  { opacity: 1; }
+          100% { stroke-dashoffset: 0;   opacity: 0.4; }
+        }
+        @keyframes pg-plate-scan {
+          0%   { transform: translateX(-110%); opacity: 0; }
+          10%  { opacity: 0.9; }
+          90%  { opacity: 0.9; }
+          100% { transform: translateX(110%);  opacity: 0; }
+        }
+        @keyframes pg-screen-brightness {
+          0%, 100% { opacity: 0; }
+          50%      { opacity: 0.18; }
+        }
+        @keyframes pg-light-sweep {
+          0%   { transform: translateX(-60%) skewX(-18deg); }
+          100% { transform: translateX(160%) skewX(-18deg); }
+        }
+        .pg-tile {
+          opacity: 0;
+          will-change: transform, opacity, filter;
+        }
+        .pg-tile.in {
+          animation: pg-fade-up 0.8s cubic-bezier(0.22,0.61,0.36,1) both;
+        }
+        .pg-inner {
+          transform: translate3d(var(--mx,0), calc(var(--py,0px) + var(--my,0px)), 0) scale(var(--s,1));
+          transition: transform 600ms cubic-bezier(0.22,0.61,0.36,1), box-shadow 600ms ease;
+          will-change: transform;
+        }
+        .pg-tile:hover .pg-inner {
+          --s: 1.01;
+          box-shadow: 0 30px 80px -30px rgba(0,0,0,0.45);
+        }
+        .pg-tile:hover .pg-border {
+          opacity: 1;
+        }
+        .pg-border {
+          opacity: 0.6;
+          transition: opacity 500ms ease;
+        }
+      `}</style>
+
+      <div ref={reveal.ref} className="px-4 md:px-8">
+        <div className="mx-auto mb-10 max-w-7xl">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">AI in action</p>
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
+            Intelligence you can see.
+          </h2>
+          <p className="mt-3 text-muted-foreground text-sm max-w-xl">
+            Four products. One platform. Hover to feel each system come alive.
+          </p>
+        </div>
+
+        <div
+          ref={gridRef}
+          className="mx-auto max-w-[1920px] grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-1.5"
+        >
+          {galleryTiles.map((t, i) => (
+            <GalleryTile
+              key={t.kind}
+              tile={t}
+              index={i}
+              registerRef={(el) => (tileRefs.current[i] = el)}
+              visible={reveal.inView}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GalleryTile({
+  tile,
+  index,
+  registerRef,
+  visible,
+}: {
+  tile: (typeof galleryTiles)[number];
+  index: number;
+  registerRef: (el: HTMLDivElement | null) => void;
+  visible: boolean;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  // Cursor parallax — max ~6px translate.
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const inner = innerRef.current;
+    if (!wrap || !inner) return;
+    const onMove = (e: MouseEvent) => {
+      const r = wrap.getBoundingClientRect();
+      const nx = (e.clientX - r.left) / r.width - 0.5;
+      const ny = (e.clientY - r.top) / r.height - 0.5;
+      inner.style.setProperty("--mx", `${(nx * 6).toFixed(2)}px`);
+      inner.style.setProperty("--my", `${(ny * 6).toFixed(2)}px`);
+    };
+    const onLeave = () => {
+      inner.style.setProperty("--mx", "0px");
+      inner.style.setProperty("--my", "0px");
+    };
+    wrap.addEventListener("mousemove", onMove);
+    wrap.addEventListener("mouseleave", onLeave);
+    return () => {
+      wrap.removeEventListener("mousemove", onMove);
+      wrap.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={(el) => {
+        wrapRef.current = el;
+        registerRef(el);
+      }}
+      className={`pg-tile group relative aspect-[16/10] overflow-hidden ${visible ? "in" : ""}`}
+      style={{ animationDelay: visible ? `${index * 0.18}s` : undefined }}
+    >
+      <div
+        ref={innerRef}
+        className="pg-inner absolute inset-0"
+      >
+        <img
+          src={tile.src}
+          alt={tile.alt}
+          draggable={false}
+          className="absolute inset-0 h-full w-full object-cover select-none"
+          style={{ objectPosition: tile.focal }}
+        />
+
+        {/* Slow moving light reflection (almost invisible) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className="absolute -inset-y-10 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+            style={{
+              animation: `pg-light-sweep ${9 + index * 1.7}s linear ${index * 1.3}s infinite`,
+            }}
+          />
+        </div>
+
+        {/* Tech-specific overlay */}
+        {tile.kind === "face" && <FaceOverlay />}
+        {tile.kind === "qr" && <QrOverlay />}
+        {tile.kind === "plate" && <PlateOverlay />}
+        {tile.kind === "monitor" && <MonitorOverlay />}
+
+        {/* Hover border highlight */}
+        <div className="pg-border pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/15" />
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Per-image overlays ---------- */
+
+function FaceOverlay() {
+  // Approximate facial-landmark points (percent of tile box).
+  const pts: [number, number][] = [
+    [29, 38], [31, 48], [33, 58], [36, 66], [41, 72],
+    [47, 75], [53, 74], [57, 70], [60, 64], [62, 56],
+    [33, 44], [38, 41], [44, 42], [52, 42], [57, 43],
+    [46, 52], [48, 58], [43, 62], [50, 64],
+  ];
+  const lines: [number, number][] = [
+    [0, 10], [10, 11], [11, 12], [12, 13], [13, 14],
+    [14, 15], [15, 9], [9, 8], [8, 7], [7, 6], [6, 5],
+    [5, 4], [4, 3], [3, 2], [2, 1], [1, 0],
+    [15, 17], [17, 18], [18, 16], [16, 11],
+  ];
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {/* Soft scanning ring */}
+      <div
+        className="absolute"
+        style={{
+          left: "46%",
+          top: "55%",
+          width: "38%",
+          aspectRatio: "1 / 1",
+          borderRadius: "50%",
+          border: "1px solid rgba(255,255,255,0.55)",
+          transform: "translate(-50%,-50%)",
+          animation: "pg-scan-ring 5s ease-out infinite",
+        }}
+      />
+      {/* Connection lines */}
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {lines.map(([a, b], i) => (
+          <line
+            key={i}
+            x1={pts[a][0]}
+            y1={pts[a][1]}
+            x2={pts[b][0]}
+            y2={pts[b][1]}
+            stroke="rgba(255,255,255,0.85)"
+            strokeWidth={0.25}
+            vectorEffect="non-scaling-stroke"
+            style={{ animation: `pg-line-glow ${3 + (i % 4) * 0.4}s ease-in-out ${i * 0.08}s infinite` }}
+          />
+        ))}
+      </svg>
+      {/* Pulsing landmark dots */}
+      {pts.map(([x, y], i) => (
+        <span
+          key={i}
+          className="absolute block rounded-full bg-white"
+          style={{
+            left: `${x}%`,
+            top: `${y}%`,
+            width: 4,
+            height: 4,
+            transform: "translate(-50%,-50%)",
+            boxShadow: "0 0 6px rgba(255,255,255,0.85)",
+            animation: `pg-pulse-dot ${2 + (i % 5) * 0.3}s ease-in-out ${i * 0.07}s infinite`,
+          }}
+        />
+      ))}
+      {/* Particles between landmarks */}
+      {[0, 1, 2, 3].map((k) => {
+        const a = pts[(k * 5) % pts.length];
+        const b = pts[(k * 5 + 6) % pts.length];
+        return (
+          <span
+            key={`p-${k}`}
+            className="absolute block rounded-full bg-white"
+            style={{
+              left: `${a[0]}%`,
+              top: `${a[1]}%`,
+              width: 2,
+              height: 2,
+              ["--dx" as string]: `${(b[0] - a[0]) * 0.01 * 100}px`,
+              ["--dy" as string]: `${(b[1] - a[1]) * 0.01 * 100}px`,
+              animation: `pg-particle ${3 + k * 0.7}s linear ${k * 0.9}s infinite`,
+            }}
+          />
+        );
+      })}
+      {/* Scanning frame corners */}
+      {[
+        { top: "10%", left: "18%", b: "tl" },
+        { top: "10%", right: "22%", b: "tr" },
+        { bottom: "8%", left: "18%", b: "bl" },
+        { bottom: "8%", right: "22%", b: "br" },
+      ].map((c, i) => (
+        <span
+          key={i}
+          className="absolute block"
+          style={{
+            ...c,
+            width: 28,
+            height: 28,
+            borderColor: "rgba(255,255,255,0.85)",
+            borderStyle: "solid",
+            borderWidth: 0,
+            borderTopWidth: c.b.startsWith("t") ? 2 : 0,
+            borderBottomWidth: c.b.startsWith("b") ? 2 : 0,
+            borderLeftWidth: c.b.endsWith("l") ? 2 : 0,
+            borderRightWidth: c.b.endsWith("r") ? 2 : 0,
+            animation: `pg-corner-glow ${3.2}s ease-in-out ${i * 0.25}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function QrOverlay() {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {/* Phone screen soft glow — over the phone area (~38%-52% x, 38%-72% y) */}
+      <div
+        className="absolute rounded-[8px]"
+        style={{
+          left: "37%",
+          top: "37%",
+          width: "16%",
+          height: "36%",
+          background: "radial-gradient(closest-side, rgba(80,255,140,0.28), transparent 70%)",
+          mixBlendMode: "screen",
+          animation: "pg-breath 4s ease-in-out infinite",
+        }}
+      />
+      {/* QR scanning light */}
+      <div
+        className="absolute overflow-hidden rounded"
+        style={{ left: "39%", top: "41%", width: "11%", height: "16%" }}
+      >
+        <div
+          className="absolute inset-x-0 h-[18%]"
+          style={{
+            background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.85), transparent)",
+            animation: "pg-qr-scan 3.2s ease-in-out infinite",
+          }}
+        />
+      </div>
+      {/* Access granted confirmation pulse */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          left: "44%",
+          top: "60%",
+          width: "5%",
+          aspectRatio: "1 / 1",
+          border: "1.5px solid rgba(80,255,140,0.85)",
+          transform: "translate(-50%,-50%)",
+          animation: "pg-confirm-pulse 2.4s ease-out infinite",
+        }}
+      />
+      {/* Terminal breathing light */}
+      <div
+        className="absolute"
+        style={{
+          left: "60%",
+          top: "40%",
+          width: "22%",
+          height: "36%",
+          background: "radial-gradient(closest-side, rgba(255,255,255,0.18), transparent 75%)",
+          mixBlendMode: "screen",
+          animation: "pg-breath 5s ease-in-out infinite",
+        }}
+      />
+      {/* Interactive tech icons on the right side */}
+      {[{ top: "20%" }, { top: "37%" }, { top: "54%" }].map((pos, i) => (
+        <button
+          key={i}
+          aria-hidden
+          tabIndex={-1}
+          className="absolute pointer-events-auto rounded-full transition-all duration-500 ease-out hover:scale-110 hover:rotate-6"
+          style={{
+            right: "4%",
+            top: pos.top,
+            width: "5.4%",
+            aspectRatio: "1 / 1",
+            background: "radial-gradient(closest-side, rgba(255,255,255,0.0), rgba(255,255,255,0.0))",
+          }}
+        >
+          <span
+            className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-500 hover:opacity-100 group-hover:opacity-100"
+            style={{ boxShadow: "0 0 24px 4px rgba(255,255,255,0.55)" }}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function PlateOverlay() {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {/* Plate frame pulse + trace — license plate sits around (40-62% x, 78-90% y) */}
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <rect
+          x="40" y="78" width="22" height="8" rx="0.6"
+          fill="none"
+          stroke="rgba(255,255,255,0.9)"
+          strokeWidth={0.35}
+          vectorEffect="non-scaling-stroke"
+          strokeDasharray="240"
+          style={{ animation: "pg-trace 4.5s ease-in-out infinite, pg-line-glow 4.5s ease-in-out infinite" }}
+        />
+      </svg>
+      {/* Recognition brackets */}
+      {[
+        { left: "40%", top: "78%", b: "tl" },
+        { right: "38%", top: "78%", b: "tr" },
+        { left: "40%", top: "85%", b: "bl" },
+        { right: "38%", top: "85%", b: "br" },
+      ].map((c, i) => (
+        <span
+          key={i}
+          className="absolute block"
+          style={{
+            ...c,
+            width: 14,
+            height: 14,
+            borderColor: "rgba(255,255,255,0.9)",
+            borderStyle: "solid",
+            borderWidth: 0,
+            borderTopWidth: c.b.startsWith("t") ? 2 : 0,
+            borderBottomWidth: c.b.startsWith("b") ? 2 : 0,
+            borderLeftWidth: c.b.endsWith("l") ? 2 : 0,
+            borderRightWidth: c.b.endsWith("r") ? 2 : 0,
+            animation: `pg-corner-glow 3s ease-in-out ${i * 0.2}s infinite`,
+          }}
+        />
+      ))}
+      {/* Scanning line over the plate */}
+      <div
+        className="absolute overflow-hidden"
+        style={{ left: "40%", top: "78%", width: "22%", height: "8%" }}
+      >
+        <div
+          className="absolute inset-y-0 w-[22%]"
+          style={{
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent)",
+            animation: "pg-plate-scan 3.6s ease-in-out infinite",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MonitorOverlay() {
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      {/* Screen brightness flicker — monitor sits around (55-92% x, 25-78% y) */}
+      <div
+        className="absolute"
+        style={{
+          left: "55%",
+          top: "25%",
+          width: "37%",
+          height: "53%",
+          background: "radial-gradient(closest-side, rgba(180,210,255,0.35), transparent 75%)",
+          mixBlendMode: "screen",
+          animation: "pg-screen-brightness 6s ease-in-out infinite",
+        }}
+      />
+      {/* Call button pulse — green answer button area */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          left: "82%",
+          top: "62%",
+          width: "3.2%",
+          aspectRatio: "1 / 1",
+          border: "1.5px solid rgba(80,255,140,0.85)",
+          transform: "translate(-50%,-50%)",
+          animation: "pg-confirm-pulse 4.8s ease-out infinite",
+        }}
+      />
+      {/* Three circular icons reactive area */}
+      {[{ left: "62%" }, { left: "74%" }, { left: "86%" }].map((pos, i) => (
+        <button
+          key={i}
+          aria-hidden
+          tabIndex={-1}
+          className="absolute pointer-events-auto rounded-full transition-transform duration-500 ease-out hover:scale-110"
+          style={{
+            left: pos.left,
+            top: "88%",
+            width: "6%",
+            aspectRatio: "1 / 1",
+            transform: "translate(-50%,-50%)",
+          }}
+        >
+          <span
+            className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-500 hover:opacity-100"
+            style={{ boxShadow: "0 0 22px 4px rgba(255,255,255,0.55)" }}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
