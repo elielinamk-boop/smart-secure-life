@@ -689,11 +689,7 @@ function BuildingCard({
   // Place the panel near the active feature, but always fully inside the card
   // and pulled toward the visual center of the image.
   const panelPos = activeInfo
-    ? {
-        left: `clamp(9.75rem, ${activeInfo.focus.x}%, calc(100% - 9.75rem))`,
-        top: `clamp(11rem, ${activeInfo.focus.y}%, calc(100% - 11rem))`,
-        transform: "translate(-50%, -50%)",
-      }
+    ? { left: "50%", top: "50%", transform: "translate(-50%, -50%)" }
     : null;
 
   return (
