@@ -793,7 +793,7 @@ type TileKind = "face" | "qr" | "plate" | "terminal" | "tv" | "lights" | "motion
 const galleryTiles: { src: string; alt: string; kind: TileKind }[] = [
   { src: galleryFaceAsset.url,    alt: "Face recognition biometric access",       kind: "face" },
   { src: galleryQrAsset.url,      alt: "Mobile QR access on EYECID terminal",     kind: "qr" },
-  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   kind: "plate" },
+  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   kind: "terminal" },
   { src: galleryMonitorAsset.url, alt: "EYECID indoor monitor with video call",   kind: "terminal" },
 ];
 
