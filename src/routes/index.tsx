@@ -36,6 +36,10 @@ import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
 import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
 import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
 import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
+import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
+import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
+import gallery2EntryAsset from "@/assets/gallery2-entry.jpg.asset.json";
+import gallery2ControlAsset from "@/assets/gallery2-control.jpg.asset.json";
 import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
@@ -111,6 +115,7 @@ function Landing() {
       <Solutions />
       <MeetEyecid />
       <ProductGallery />
+      <ProductGallery2 />
       <VideoShowcase />
       <AISection />
       <BuildingsShowcase />
@@ -892,5 +897,38 @@ function GalleryTile({
         draggable={false}
       />
     </div>
+  );
+}
+
+/* ============================================================
+   Section 5 — Smart Living Gallery (2x2, scroll effects)
+   ============================================================ */
+
+const gallery2Tiles: { src: string; alt: string }[] = [
+  { src: gallery2TvAsset.url,      alt: "Smart living room with EYECID hub" },
+  { src: gallery2PanelAsset.url,   alt: "EYECID smart home control panel and thermostat" },
+  { src: gallery2EntryAsset.url,   alt: "Outdoor security camera, keypad and modern home entrance" },
+  { src: gallery2ControlAsset.url, alt: "Security operator monitoring multi-screen video wall" },
+];
+
+function ProductGallery2() {
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
+  return (
+    <section className="relative w-full overflow-hidden">
+      <div
+        ref={reveal.ref}
+        className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full"
+      >
+        {gallery2Tiles.map((t, i) => (
+          <GalleryTile
+            key={t.src}
+            src={t.src}
+            alt={t.alt}
+            index={i}
+            visible={reveal.inView}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
