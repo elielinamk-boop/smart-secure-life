@@ -835,6 +835,63 @@ function BuildingsShowcase() {
   );
 }
 
+function ScenesShowcase() {
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
+  const [pinned, setPinned] = useState<{ side: "hotel" | "cre"; key: FeatureKey } | null>(null);
+
+  return (
+    <section className="relative pb-24">
+      <div className="px-4 md:px-8">
+        <div className="mx-auto mb-10 max-w-7xl">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
+            Talesso for hospitality &amp; workplace
+          </p>
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
+            Hotels &amp; Commercial Real Estate.
+          </h2>
+          <p className="mt-3 text-muted-foreground text-sm">
+            Tap any feature to see how it works inside each building.
+          </p>
+        </div>
+
+        <div
+          ref={reveal.ref}
+          className="mx-auto grid max-w-[88rem] grid-cols-1 gap-6 md:grid-cols-2"
+        >
+          <BuildingCard
+            side="office"
+            title="Hotels"
+            subtitle="Exceptional stays, intelligently managed"
+            Icon={Building2}
+            labels={HOTEL_LABELS}
+            visible={reveal.inView}
+            delay={0}
+            pinned={pinned && pinned.side === "hotel" ? pinned.key : null}
+            onPin={(key) => setPinned((p) => (p && p.side === "hotel" && p.key === key ? null : { side: "hotel", key }))}
+            onClose={() => setPinned(null)}
+            imageUrl={hotelSceneAsset.url}
+            bgMode="cover"
+          />
+          <BuildingCard
+            side="residence"
+            title="Commercial Real Estates"
+            subtitle="Smarter spaces, better experiences"
+            Icon={Building2}
+            labels={CRE_LABELS}
+            visible={reveal.inView}
+            delay={250}
+            pinned={pinned && pinned.side === "cre" ? pinned.key : null}
+            onPin={(key) => setPinned((p) => (p && p.side === "cre" && p.key === key ? null : { side: "cre", key }))}
+            onClose={() => setPinned(null)}
+            imageUrl={officeSceneAsset.url}
+            bgMode="cover"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BuildingCard({
   side,
   title,
