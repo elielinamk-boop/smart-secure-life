@@ -897,27 +897,26 @@ function ProductGallery() {
           100% { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.95); }
         }
         .pg4-platepop {
-          position: absolute; left: 50%; top: 12%;
+          position: absolute; left: 60%; top: 60%;
           display: inline-flex; align-items: stretch;
           background: #fff; color: #111;
-          border: 2px solid #111; border-radius: 6px;
-          font: 800 22px/1 ui-monospace, "SF Mono", Menlo, monospace;
+          border: 2px solid #111; border-radius: 8px;
+          font: 800 26px/1 ui-monospace, "SF Mono", Menlo, monospace;
           letter-spacing: 0.12em;
-          box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.55);
           overflow: hidden;
           animation: pg4-platepop 3.2s ease-in-out infinite;
         }
         .pg4-platepop-eu {
           background: #003399; color: #ffcc00;
-          font: 700 10px/1 ui-sans-serif, system-ui;
-          padding: 8px 6px 4px;
+          font: 700 11px/1.05 ui-sans-serif, system-ui;
+          padding: 10px 8px;
           display: flex; flex-direction: column; align-items: center; justify-content: center;
-          gap: 6px;
+          gap: 4px;
+          min-width: 28px;
         }
-        .pg4-platepop-eu::before {
-          content: "★"; font-size: 10px;
-        }
-        .pg4-platepop-num { padding: 10px 14px; }
+        .pg4-platepop-stars { font-size: 12px; line-height: 1; letter-spacing: -1px; }
+        .pg4-platepop-num { padding: 12px 18px; }
         /* tv now playing */
         @keyframes pg4-tv-on {
           0%, 100% { opacity: 0.85; }
