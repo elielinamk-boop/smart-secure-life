@@ -37,6 +37,8 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import buildingsCleanAsset from "@/assets/buildings-clean.png.asset.json";
+import hotelSceneAsset from "@/assets/hotel-scene.jpg.asset.json";
+import officeSceneAsset from "@/assets/office-scene.jpg.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
@@ -125,6 +127,7 @@ function Landing() {
       <ProductGallery2 />
       <VideoShowcase />
       <BuildingsShowcase />
+      <ScenesShowcase />
       <Channels />
       <CTA />
       <SiteFooter />
