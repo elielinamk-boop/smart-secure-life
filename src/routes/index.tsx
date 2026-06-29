@@ -925,7 +925,7 @@ function ProductGallery() {
             {"\n"}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm max-w-xl">
-            Four products. One platform. Hover to feel each system come alive.
+            {"\n"}
           </p>
         </div>
 
