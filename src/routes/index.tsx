@@ -856,7 +856,9 @@ function GalleryTile({
 
   useEffect(() => {
     let raf = 0;
-    const speed = 0.08 + (index % 2) * 0.04; // subtle parallax, alternating
+    // Same parallax speed per row so left/right tiles stay vertically aligned.
+    const row = Math.floor(index / 2);
+    const speed = 0.08 + (row % 2) * 0.04;
     const onScroll = () => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
