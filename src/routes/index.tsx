@@ -8,7 +8,7 @@ import {
   Send,
   Monitor,
   Headphones,
-  Car,
+  Sofa,
   Building2,
   Heart,
   Cpu,
@@ -53,7 +53,7 @@ const solutions = [
     desc: "Face biometrics, liveness detection, video analytics, perimeter control, license plate recognition.",
   },
   {
-    icon: Car,
+    icon: Sofa,
     title: "Comfort",
     desc: "Keyless access via BLE, NFC, Apple Wallet. Voice control. Auto-open parking.",
   },
