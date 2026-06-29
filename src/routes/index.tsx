@@ -131,7 +131,9 @@ function Landing() {
       <BuildingsShowcase />
       <ScenesShowcase />
       <Channels />
-      <CTA />
+      <Partners />
+      <AboutUs />
+      <ContactSection />
       <SiteFooter />
     </div>
   );
@@ -1922,6 +1924,198 @@ function ConnectedExperience() {
               </div>
               {/* Hand silhouette */}
               <div className="absolute -bottom-6 -right-8 w-28 h-40 rounded-t-[60%] bg-gradient-to-b from-amber-100 to-amber-200/70 opacity-60 blur-[2px] -z-10" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Partners ---------------- */
+
+const PARTNER_MANUFACTURERS = ["Ajax Systems", "2N", "Dahua", "Hikvision", "ZKTeco", "Suprema", "Telpo"];
+const PARTNER_CLIENTS = ["FUN CORP", "SVG", "DEPCON", "JBG", "mena aerospace", "{evest}", "Св. Николая"];
+
+function Partners() {
+  return (
+    <section id="clients" className="relative py-24 md:py-32">
+      <style>{`
+        @keyframes pt-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .pt-track { display:flex; gap:4rem; width:max-content; animation: pt-marquee 38s linear infinite; }
+        .pt-track-slow { animation-duration: 52s; }
+        .pt-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+      `}</style>
+      <div className="mx-auto max-w-7xl px-6 space-y-20">
+        <div>
+          <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
+            Compatible with Leading Manufacturers
+          </div>
+          <div className="pt-mask overflow-hidden">
+            <div className="pt-track">
+              {[...PARTNER_MANUFACTURERS, ...PARTNER_MANUFACTURERS].map((name, i) => (
+                <div key={i} className="flex items-center gap-16">
+                  <span className="text-2xl md:text-3xl font-medium text-slate-700 whitespace-nowrap">{name}</span>
+                  <span className="h-6 w-px bg-slate-300" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
+            Trusted by Leading Clients
+          </div>
+          <div className="pt-mask overflow-hidden">
+            <div className="pt-track pt-track-slow">
+              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((name, i) => (
+                <div key={i} className="flex items-center gap-14 shrink-0">
+                  <div className="h-20 w-44 rounded-2xl bg-white border border-black/5 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.25)] flex items-center justify-center text-slate-700 font-semibold text-base px-4 text-center">
+                    {name}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- About Us (animated waves) ---------------- */
+
+function AboutUs() {
+  const cards = [
+    { Icon: Sparkles, label: "Proven Smart Home & Biometric Projects" },
+    { Icon: Cpu, label: "Own Software — Full Stack Control" },
+    { Icon: Settings, label: "Full Cycle: Design to Service" },
+    { Icon: MessageSquare, label: "AI Differentiation: LLM on Terminals" },
+  ];
+  return (
+    <section id="about" className="relative py-24 md:py-32 overflow-hidden">
+      <style>{`
+        @keyframes au-wave-a { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes au-wave-b { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        @keyframes au-shimmer { 0%,100% { opacity:.55; } 50% { opacity:.85; } }
+        .au-bg { background: linear-gradient(180deg, #eef3f8 0%, #d8e4ee 55%, #c5d4e1 100%); }
+        .au-wave { position:absolute; left:0; width:200%; height:140px; will-change: transform; }
+        .au-wave-a { animation: au-wave-a 14s linear infinite; }
+        .au-wave-b { animation: au-wave-b 22s linear infinite; opacity:.6; }
+        .au-wave-c { animation: au-wave-a 30s linear infinite; opacity:.4; }
+        .au-shimmer { animation: au-shimmer 5s ease-in-out infinite; }
+      `}</style>
+
+      {/* Animated sea background */}
+      <div className="absolute inset-0 au-bg" aria-hidden />
+      <div className="absolute inset-x-0 bottom-0 h-[55%] overflow-hidden" aria-hidden>
+        <svg className="au-wave au-wave-c" style={{ bottom: 90 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
+          <path d="M0,70 C360,20 720,120 1440,70 C2160,20 2520,120 2880,70 L2880,140 L0,140 Z" fill="#b9cad9" />
+        </svg>
+        <svg className="au-wave au-wave-b" style={{ bottom: 40 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
+          <path d="M0,60 C360,100 720,10 1440,60 C2160,110 2520,20 2880,60 L2880,140 L0,140 Z" fill="#a9bdcf" />
+        </svg>
+        <svg className="au-wave au-wave-a au-shimmer" style={{ bottom: 0 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
+          <path d="M0,80 C360,30 720,130 1440,80 C2160,30 2520,130 2880,80 L2880,140 L0,140 Z" fill="#94aec3" />
+        </svg>
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        {/* Text */}
+        <div className="lg:col-span-5 bg-white/55 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)] text-[15px] leading-relaxed text-slate-700 space-y-4">
+          <p>Founded as a small company specializing in biometric access systems, we have grown into a comprehensive technology ecosystem encompassing access control, intelligent management platforms, AI-driven solutions, automation, and smart environments.</p>
+          <p>Based in the heart of the Mediterranean, Cyprus, we design and develop our own products with a clear mission: to create technology that makes everyday life simpler, safer, and more connected.</p>
+          <p>We believe that our environment affects how we feel, what we wish and what we think about. So we decided to design and develop technology that transforms the way people interact with their spaces.</p>
+          <p>By seamlessly integrating technology into homes, workplaces, and commercial environments, we create intelligent spaces that work for people.</p>
+          <p>At the core of everything we build is a commitment to improving the way people experience their environment —</p>
+          <p className="font-semibold text-slate-900">one smart solution at a time.</p>
+        </div>
+
+        {/* Right - heading + cards */}
+        <div className="lg:col-span-7">
+          <h2 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-left text-slate-900">About Us</h2>
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {cards.map(({ Icon, label }, i) => (
+              <div key={i} className="bg-white/90 backdrop-blur rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-full bg-white shadow-inner border border-slate-200 flex items-center justify-center mb-4">
+                  <Icon className="w-6 h-6 text-[#77DDFF]" />
+                </div>
+                <div className="text-sm text-slate-700 leading-snug">{label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Contact Section ---------------- */
+
+function ContactSection() {
+  const [submitted, setSubmitted] = useState(false);
+  return (
+    <section id="contact" className="relative py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="text-center">
+          <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-5">Get in Touch</div>
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
+            Fill out the form and we'll get<br className="hidden md:block" /> back to you within 24 hours.
+          </h2>
+          <p className="mt-5 text-muted-foreground text-lg">We're here to answer your questions and provide the support you need.</p>
+        </div>
+
+        <div className="mt-14 grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+          <form
+            onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+            className="lg:col-span-2 relative rounded-3xl p-8 border border-white/60 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)]"
+            style={{ background: "linear-gradient(135deg, rgba(190,219,238,0.55), rgba(255,225,210,0.45))" }}
+          >
+            {[
+              { id: "name", placeholder: "Your Name", Icon: ScanFace, type: "text" },
+              { id: "email", placeholder: "Email", Icon: MessageSquare, type: "email" },
+              { id: "phone", placeholder: "Phone", Icon: Send, type: "tel" },
+            ].map(({ id, placeholder, Icon, type }) => (
+              <div key={id} className="flex items-center gap-3 bg-white/80 rounded-2xl px-4 py-3 mb-4 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <input id={id} name={id} type={type} placeholder={placeholder} className="bg-transparent outline-none flex-1 text-slate-700 placeholder:text-slate-400" />
+              </div>
+            ))}
+            <div className="flex items-start gap-3 bg-white/80 rounded-2xl px-4 py-3 mb-6 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
+                <MessageSquare className="w-5 h-5" />
+              </div>
+              <textarea name="message" placeholder="Message" rows={4} className="bg-transparent outline-none flex-1 resize-none text-slate-700 placeholder:text-slate-400" />
+            </div>
+            <button
+              type="submit"
+              className="w-full rounded-full py-4 font-medium text-slate-900 border border-sky-200 transition hover:shadow-[0_18px_40px_-18px_rgba(119,221,255,0.7)]"
+              style={{ background: "linear-gradient(90deg, rgba(190,219,238,0.7), rgba(255,225,210,0.6))" }}
+            >
+              {submitted ? "✓ Message sent" : "Send message →"}
+            </button>
+          </form>
+
+          <div className="space-y-7 text-slate-700">
+            <h3 className="font-semibold text-slate-900 text-lg">Contact Information</h3>
+            <div>
+              <div className="font-semibold text-slate-900">Email</div>
+              <a href="mailto:Sales@Talesso.tech" className="text-[#3aa9e6] hover:underline">Sales@Talesso.tech</a>
+            </div>
+            <div>
+              <div className="font-semibold text-slate-900">Phone</div>
+              <div>+357 97 879 940</div>
+            </div>
+            <div>
+              <div className="font-semibold text-slate-900">Address</div>
+              <div>Limassol, Cyprus</div>
+            </div>
+            <div>
+              <div className="font-semibold text-slate-900">Company</div>
+              <div>TALESSO LTD (HE 407732)</div>
             </div>
           </div>
         </div>
