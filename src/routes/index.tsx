@@ -991,7 +991,7 @@ function BuildingCard({
 
         {/* Header */}
         <div className="absolute left-6 top-6 z-10 flex items-center gap-4">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm backdrop-blur">
             <Icon className="h-6 w-6 text-[#0f172a]" />
           </span>
           <div>
