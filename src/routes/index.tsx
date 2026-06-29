@@ -918,6 +918,7 @@ function BuildingCard({
   onClose: () => void;
   imageUrl?: string;
   bgMode?: "split" | "cover";
+  headerLight?: boolean;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
