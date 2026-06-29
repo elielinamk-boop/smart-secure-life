@@ -566,12 +566,12 @@ function MeetEyecid() {
           >
             <div
               ref={deviceWrap}
-              className={`relative w-full max-w-sm transition-all duration-1000 ease-out will-change-transform ${
+              className={`relative w-full max-w-md md:max-w-lg lg:max-w-xl transition-all duration-1000 ease-out will-change-transform ${
                 section.inView ? "opacity-100 scale-100 translate-y-0 blur-0" : "opacity-0 scale-95 translate-y-6 blur-sm"
               }`}
               style={{ transform: "translateY(var(--py, 0px))" }}
             >
-              <div ref={deviceInner} className="relative animate-eyecid-float will-change-transform" style={{ transformStyle: "preserve-3d" }}>
+              <div ref={deviceInner} className="relative animate-eyecid-float will-change-transform -scale-x-100" style={{ transformStyle: "preserve-3d" }}>
                 <img
                   src={eyecidAsset.url}
                   alt="EYECID — face recognition access terminal"
