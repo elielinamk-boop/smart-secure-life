@@ -46,6 +46,7 @@ import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
 import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
 import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
+import clientsLogosAsset from "@/assets/clients-logos.png.asset.json";
 import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
 import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
 import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
