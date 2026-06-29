@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import {
   ShieldCheck,
   Sparkles,
@@ -26,10 +26,18 @@ import {
   Thermometer,
   Lock,
   Home as HomeIcon,
+  Camera,
+  Droplet,
+  RefreshCw,
+  ParkingSquare,
+  DoorOpen,
+  X as XIcon,
+  type LucideIcon,
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
+import buildingsCleanAsset from "@/assets/buildings-clean.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
