@@ -862,18 +862,31 @@ function ProductGallery() {
           animation: pg4-qr-pop 3.2s ease-in-out infinite;
         }
         /* plate sweep */
-        @keyframes pg4-plate-sweep {
-          0%   { transform: translateX(-110%); opacity: 0; }
+        @keyframes pg4-plate-scan {
+          0%   { transform: translateX(-4%); opacity: 0; }
           15%  { opacity: 1; }
           85%  { opacity: 1; }
-          100% { transform: translateX(110%);  opacity: 0; }
+          100% { transform: translateX(104%); opacity: 0; }
         }
-        .pg4-plate-bar {
-          position: absolute; left: 0; top: 50%; height: 8px; width: 100%;
-          transform: translateY(-50%);
-          background: linear-gradient(90deg, transparent, rgba(239,68,68,0.9), transparent);
-          box-shadow: 0 0 18px 4px rgba(239,68,68,0.55);
-          animation: pg4-plate-sweep 2.4s ease-in-out infinite;
+        .pg4-plate-box {
+          position: absolute;
+          left: 42%; top: 55%; width: 36%; height: 13%;
+          overflow: hidden;
+        }
+        .pg4-plate-corner {
+          position: absolute; width: 14px; height: 14px;
+          border: 2px solid rgba(0,255,200,0.9);
+          filter: drop-shadow(0 0 6px rgba(0,255,200,0.55));
+        }
+        .pg4-plate-corner.tl { top: -2px; left: -2px; border-right: none;  border-bottom: none; }
+        .pg4-plate-corner.tr { top: -2px; right: -2px; border-left: none;  border-bottom: none; }
+        .pg4-plate-corner.bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .pg4-plate-corner.br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+        .pg4-plate-scanner {
+          position: absolute; top: 0; bottom: 0; left: 0; width: 3px;
+          background: linear-gradient(180deg, transparent, rgba(0,255,200,0.95), transparent);
+          box-shadow: 0 0 18px 4px rgba(0,255,200,0.55);
+          animation: pg4-plate-scan 2.6s ease-in-out infinite;
         }
         /* tv now playing */
         @keyframes pg4-tv-on {
@@ -1085,7 +1098,13 @@ function TileOverlay({ kind }: { kind: TileKind }) {
     case "plate":
       return (
         <div className="pg4-fx" aria-hidden>
-          <div className="pg4-plate-bar" />
+          <div className="pg4-plate-box">
+            <span className="pg4-plate-corner tl" />
+            <span className="pg4-plate-corner tr" />
+            <span className="pg4-plate-corner bl" />
+            <span className="pg4-plate-corner br" />
+            <span className="pg4-plate-scanner" />
+          </div>
         </div>
       );
     case "tv":
