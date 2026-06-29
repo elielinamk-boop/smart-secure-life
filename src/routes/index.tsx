@@ -905,6 +905,7 @@ function BuildingCard({
   onClose,
   imageUrl,
   bgMode = "split",
+  headerLight = false,
 }: {
   side: "office" | "residence";
   title: string;
