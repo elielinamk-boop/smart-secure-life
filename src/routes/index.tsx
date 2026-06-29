@@ -1979,13 +1979,18 @@ function Partners() {
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
             Trusted by Leading Clients
           </div>
-          <div className="flex justify-center">
-            <img
-              src={clientsLogosAsset.url}
-              alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
-              className="w-full max-w-6xl h-auto object-contain"
-              loading="lazy"
-            />
+          <div className="pt-mask overflow-hidden bg-white rounded-2xl py-6">
+            <div className="pt-track pt-track-slow items-center">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <img
+                  key={i}
+                  src={clientsLogosAsset.url}
+                  alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
+                  className="h-20 md:h-24 w-auto max-w-none shrink-0"
+                  loading="lazy"
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
