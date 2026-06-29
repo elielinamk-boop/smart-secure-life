@@ -788,12 +788,12 @@ function CTA() {
    Simple 2x2 grid of four uncropped product images.
    ============================================================ */
 
-type TileKind = "face" | "qr" | "plate" | "terminal" | "tv" | "lights" | "motion" | "alert";
+type TileKind = "face" | "qr" | "plate" | "platepop" | "terminal" | "tv" | "lights" | "motion" | "alert";
 
 const galleryTiles: { src: string; alt: string; kind: TileKind }[] = [
   { src: galleryFaceAsset.url,    alt: "Face recognition biometric access",       kind: "face" },
   { src: galleryQrAsset.url,      alt: "Mobile QR access on EYECID terminal",     kind: "qr" },
-  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   kind: "terminal" },
+  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   kind: "platepop" },
   { src: galleryMonitorAsset.url, alt: "EYECID indoor monitor with video call",   kind: "terminal" },
 ];
 
@@ -888,6 +888,36 @@ function ProductGallery() {
           box-shadow: 0 0 18px 4px rgba(0,255,200,0.55);
           animation: pg4-plate-scan 2.6s ease-in-out infinite;
         }
+        /* plate popup badge */
+        @keyframes pg4-platepop {
+          0%   { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.6); }
+          20%  { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1.06); }
+          35%  { transform: translateX(-50%) translateY(0) scale(1); }
+          80%  { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+          100% { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.95); }
+        }
+        .pg4-platepop {
+          position: absolute; left: 50%; top: 12%;
+          display: inline-flex; align-items: stretch;
+          background: #fff; color: #111;
+          border: 2px solid #111; border-radius: 6px;
+          font: 800 22px/1 ui-monospace, "SF Mono", Menlo, monospace;
+          letter-spacing: 0.12em;
+          box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+          overflow: hidden;
+          animation: pg4-platepop 3.2s ease-in-out infinite;
+        }
+        .pg4-platepop-eu {
+          background: #003399; color: #ffcc00;
+          font: 700 10px/1 ui-sans-serif, system-ui;
+          padding: 8px 6px 4px;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          gap: 6px;
+        }
+        .pg4-platepop-eu::before {
+          content: "★"; font-size: 10px;
+        }
+        .pg4-platepop-num { padding: 10px 14px; }
         /* tv now playing */
         @keyframes pg4-tv-on {
           0%, 100% { opacity: 0.85; }
@@ -1105,6 +1135,15 @@ function TileOverlay({ kind }: { kind: TileKind }) {
             <span className="pg4-plate-corner br" />
             <span className="pg4-plate-scanner" />
           </div>
+        </div>
+      );
+    case "platepop":
+      return (
+        <div className="pg4-fx" aria-hidden>
+          <span className="pg4-platepop">
+            <span className="pg4-platepop-eu">EU</span>
+            <span className="pg4-platepop-num">AB 123 CD</span>
+          </span>
         </div>
       );
     case "tv":
