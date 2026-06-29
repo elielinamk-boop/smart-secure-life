@@ -1728,10 +1728,12 @@ function ConnectedExperience() {
         @keyframes cx-typing { 0%,60%,100% { transform: translateY(0); opacity:.35;} 30% { transform: translateY(-3px); opacity:1;} }
         @keyframes cx-ripple { 0% { transform: translate(-50%,-50%) scale(.3); opacity:.7;} 100% { transform: translate(-50%,-50%) scale(2.4); opacity:0;} }
         .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
-        .cx-card { background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
-        .cx-card:hover { transform: translateY(-4px); border-color:#77DDFF; box-shadow: 0 24px 60px -28px rgba(119,221,255,.65); }
-        .cx-card:hover .cx-card-icon { color:#0f172a; background:#77DDFF; }
-        .cx-card-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s; }
+        .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; overflow:hidden; }
+        .cx-card::before { content:""; position:absolute; inset:0; background: radial-gradient(120% 80% at 50% 0%, rgba(119,221,255,0.28), rgba(119,221,255,0) 60%); opacity:0; transition: opacity .4s ease; pointer-events:none; }
+        .cx-card:hover { transform: translateY(-4px); border-color:#77DDFF; background:#eaf9ff; box-shadow: 0 24px 60px -28px rgba(119,221,255,.65); }
+        .cx-card:hover::before { opacity:1; }
+        .cx-card:hover .cx-card-icon { color:#0a4a5e; background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(119,221,255,0.85)); border-color: rgba(119,221,255,0.9); box-shadow: 0 10px 30px -10px rgba(119,221,255,0.6), inset 0 1px 0 rgba(255,255,255,0.9); }
+        .cx-card-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s, box-shadow .3s, border-color .3s; background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(226,232,240,0.55)); border:1px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px -14px rgba(15,23,42,0.25); }
         .cx-extra { max-height:0; opacity:0; overflow:hidden; transition: max-height .4s ease, opacity .3s ease, margin-top .3s ease; font-size:12.5px; color:#64748b; }
         .cx-card:hover .cx-extra { max-height:60px; opacity:1; margin-top:12px; }
         .cx-typing { display:inline-flex; gap:3px; padding:6px 9px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
@@ -1935,7 +1937,16 @@ function ConnectedExperience() {
 /* ---------------- Partners ---------------- */
 
 const PARTNER_MANUFACTURERS = ["Ajax Systems", "2N", "Dahua", "Hikvision", "ZKTeco", "Suprema", "Telpo"];
-const PARTNER_CLIENTS = ["FUN CORP", "SVG", "DEPCON", "JBG", "mena aerospace", "{evest}", "Св. Николая"];
+type PartnerLogo = { name: string; sub?: string; color: string; bg: string; font?: string; shape?: "circle" | "pill" };
+const PARTNER_CLIENTS: PartnerLogo[] = [
+  { name: "FUN CORP",      color: "#0b0b0b", bg: "#ffffff", font: "900" },
+  { name: "SVG",           color: "#ffffff", bg: "linear-gradient(135deg,#3a6f8f,#0e3a5a)", shape: "circle", font: "900" },
+  { name: "DEPCON",        sub: "Construction LTD", color: "#1659b8", bg: "#ffffff", font: "900" },
+  { name: "JBG",           color: "#ffffff", bg: "#c8202c", shape: "circle", font: "900" },
+  { name: "mena aero",     color: "#c0202c", bg: "#ffffff", font: "700" },
+  { name: "{evest}",       sub: "Numbers Rule",     color: "#1fb6a8", bg: "#ffffff", font: "800" },
+  { name: "Cathedral",     sub: "Limassol",         color: "#7a5a2b", bg: "#fbf6ec", font: "700" },
+];
 
 function Partners() {
   return (
@@ -1969,10 +1980,16 @@ function Partners() {
           </div>
           <div className="pt-mask overflow-hidden">
             <div className="pt-track pt-track-slow">
-              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((name, i) => (
-                <div key={i} className="flex items-center gap-14 shrink-0">
-                  <div className="h-20 w-44 rounded-2xl bg-white border border-black/5 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.25)] flex items-center justify-center text-slate-700 font-semibold text-base px-4 text-center">
-                    {name}
+              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((c, i) => (
+                <div key={i} className="shrink-0 px-6 flex items-center justify-center">
+                  <div
+                    className={`flex items-center justify-center text-center shadow-[0_12px_30px_-18px_rgba(0,0,0,0.35)] ${c.shape === "circle" ? "rounded-full w-24 h-24" : "rounded-2xl px-6 py-4 min-w-[180px] h-24"}`}
+                    style={{ background: c.bg, color: c.color }}
+                  >
+                    <div className="leading-tight">
+                      <div style={{ fontWeight: Number(c.font ?? 700), fontSize: c.shape === "circle" ? 22 : 22, letterSpacing: "0.02em" }}>{c.name}</div>
+                      {c.sub && <div className="text-[10px] mt-1 opacity-80">{c.sub}</div>}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1999,7 +2016,11 @@ function AboutUs() {
         @keyframes au-wave-a { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes au-wave-b { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
         @keyframes au-shimmer { 0%,100% { opacity:.55; } 50% { opacity:.85; } }
-        .au-bg { background: linear-gradient(180deg, #eef3f8 0%, #d8e4ee 55%, #c5d4e1 100%); }
+        @keyframes au-sun { 0%,100% { transform: translateY(0) scale(1); filter: blur(0px);} 50% { transform: translateY(-6px) scale(1.03); filter: blur(.5px);} }
+        @keyframes au-glow { 0%,100% { opacity:.55;} 50% { opacity:.85;} }
+        .au-bg { background: linear-gradient(180deg, #fff4e6 0%, #ffe6d0 18%, #e9eef5 48%, #c5d4e1 100%); }
+        .au-sun { position:absolute; top:8%; left:50%; transform:translateX(-50%); width:180px; height:180px; border-radius:9999px; background: radial-gradient(circle at 50% 50%, #ffd27a 0%, #ffb55a 45%, rgba(255,181,90,0) 72%); animation: au-sun 7s ease-in-out infinite; }
+        .au-sun-glow { position:absolute; top:-2%; left:50%; transform:translateX(-50%); width:520px; height:380px; border-radius:9999px; background: radial-gradient(circle, rgba(255,210,140,0.55), rgba(255,210,140,0) 65%); animation: au-glow 6s ease-in-out infinite; }
         .au-wave { position:absolute; left:0; width:200%; height:140px; will-change: transform; }
         .au-wave-a { animation: au-wave-a 14s linear infinite; }
         .au-wave-b { animation: au-wave-b 22s linear infinite; opacity:.6; }
@@ -2009,6 +2030,8 @@ function AboutUs() {
 
       {/* Animated sea background */}
       <div className="absolute inset-0 au-bg" aria-hidden />
+      <div className="au-sun-glow" aria-hidden />
+      <div className="au-sun" aria-hidden />
       <div className="absolute inset-x-0 bottom-0 h-[55%] overflow-hidden" aria-hidden>
         <svg className="au-wave au-wave-c" style={{ bottom: 90 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
           <path d="M0,70 C360,20 720,120 1440,70 C2160,20 2520,120 2880,70 L2880,140 L0,140 Z" fill="#b9cad9" />
@@ -2037,9 +2060,18 @@ function AboutUs() {
           <h2 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-left text-slate-900">About Us</h2>
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
             {cards.map(({ Icon, label }, i) => (
-              <div key={i} className="bg-white/90 backdrop-blur rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
-                <div className="w-14 h-14 rounded-full bg-white shadow-inner border border-slate-200 flex items-center justify-center mb-4">
-                  <Icon className="w-6 h-6 text-[#77DDFF]" />
+              <div key={i} className="relative bg-white/70 backdrop-blur-md rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center mb-4 border"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(119,221,255,0.35))",
+                    borderColor: "rgba(255,255,255,0.8)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 24px -12px rgba(15,23,42,0.25)",
+                  }}
+                >
+                  <Icon className="w-6 h-6 text-[#3aa9e6]" />
                 </div>
                 <div className="text-sm text-slate-700 leading-snug">{label}</div>
               </div>
