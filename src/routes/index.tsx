@@ -688,20 +688,21 @@ function BuildingCard({
 
   const panelPos = activeInfo
     ? activeInfo.focus.x < 50
-      ? { left: `min(${activeInfo.focus.x + 18}%, calc(100% - 19rem))`, top: `${Math.min(Math.max(activeInfo.focus.y, 18), 78)}%`, transform: "translateY(-50%)" }
-      : { left: `max(${activeInfo.focus.x - 18}%, 1rem)`, top: `${Math.min(Math.max(activeInfo.focus.y, 18), 78)}%`, transform: "translate(-100%, -50%)" }
+      ? { left: `calc(${activeInfo.focus.x}% + 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))` }
+      : { left: `calc(${activeInfo.focus.x}% - 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))`, transform: "translateX(-100%)" }
     : null;
 
   return (
     <div
       ref={cardRef}
-      className={`ibs-card relative overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_30px_80px_-40px_rgba(15,30,80,0.35)] ${visible ? "in" : ""} ${active ? "has-active" : ""}`}
+      className={`ibs-card relative rounded-3xl border border-border/70 bg-card shadow-[0_30px_80px_-40px_rgba(15,30,80,0.35)] ${visible ? "in" : ""} ${active ? "has-active" : ""}`}
       style={{ animationDelay: visible ? `${delay}ms` : undefined }}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
       {/* Aspect box to keep the card a stable height */}
       <div className="relative aspect-[688/768]">
+        <div className="absolute inset-0 overflow-hidden rounded-3xl">
         <div
           ref={bgRef}
           className="ibs-card-bg"
@@ -717,6 +718,7 @@ function BuildingCard({
             <FeatureEffect feature={active} focus={activeInfo.focus} />
           </div>
         ) : null}
+        </div>
 
         {/* Header */}
         <div className="absolute left-6 top-6 z-10 flex items-center gap-4">
@@ -786,15 +788,15 @@ function BuildingCard({
         {activeInfo && panelPos ? (
           <div
             key={`panel-${active}`}
-            className="ibs-panel absolute z-30 w-[18rem] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
+            className="ibs-panel absolute z-30 w-[19rem] max-w-[calc(100vw-2rem)] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
             style={panelPos}
           >
             <span
               className="ibs-panel-arrow"
               style={
                 activeInfo.focus.x < 50
-                  ? { left: "-7px", top: "50%", marginTop: "-7px", borderRight: "none", borderTop: "none" }
-                  : { right: "-7px", top: "50%", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }
+                  ? { left: "-7px", top: "11rem", marginTop: "-7px", borderRight: "none", borderTop: "none" }
+                  : { right: "-7px", top: "11rem", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }
               }
             />
             <div className="flex items-start gap-3">
