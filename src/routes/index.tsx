@@ -824,6 +824,8 @@ function BuildingCard({
   pinned,
   onPin,
   onClose,
+  imageUrl,
+  bgMode = "split",
 }: {
   side: "office" | "residence";
   title: string;
@@ -835,6 +837,8 @@ function BuildingCard({
   pinned: FeatureKey | null;
   onPin: (k: FeatureKey) => void;
   onClose: () => void;
+  imageUrl?: string;
+  bgMode?: "split" | "cover";
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
@@ -860,7 +864,9 @@ function BuildingCard({
   }, []);
 
   // Half of the composite image to show
-  const bgPos = side === "office" ? "0% center" : "100% center";
+  const bgPos = bgMode === "cover" ? "center" : side === "office" ? "0% center" : "100% center";
+  const bgSize = bgMode === "cover" ? "cover" : "200% auto";
+  const bgImg = imageUrl ?? buildingsCleanAsset.url;
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
   // Place the panel near the active feature, but always fully inside the card
@@ -887,14 +893,15 @@ function BuildingCard({
           className="ibs-card-bg"
           style={{
             // @ts-expect-error css var
-            "--ibs-img": `url('${buildingsCleanAsset.url}')`,
+            "--ibs-img": `url('${bgImg}')`,
             backgroundPosition: bgPos,
+            backgroundSize: bgSize,
           }}
         />
 
         {activeInfo && active ? (
           <div className="ibs-fx" key={active}>
-            <FeatureEffect feature={active} focus={activeInfo.focus} />
+            <FeatureEffect feature={activeInfo.effect ?? active} focus={activeInfo.focus} />
           </div>
         ) : null}
         </div>
