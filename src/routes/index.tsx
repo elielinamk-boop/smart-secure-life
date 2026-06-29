@@ -594,6 +594,28 @@ const RESIDENCE_LABELS: LabelDef[] = [
   { key: "integrations",  x: 64, y: 82 },
 ];
 
+const HOTEL_LABELS: LabelDef[] = [
+  { key: "keyless-checkin",      x: 52, y: 27 },
+  { key: "personalized-service", x: 66, y: 40 },
+  { key: "room-automation",      x: 64, y: 55 },
+  { key: "ai-concierge",         x: 22, y: 50 },
+  { key: "hotel-temperature",    x: 18, y: 62 },
+  { key: "hotel-lighting",       x: 36, y: 74 },
+  { key: "energy-management",    x: 30, y: 86 },
+  { key: "housekeeping",         x: 62, y: 84 },
+];
+
+const CRE_LABELS: LabelDef[] = [
+  { key: "analytics",           x: 42, y: 22 },
+  { key: "office-lighting",     x: 82, y: 30 },
+  { key: "temp-access",         x: 18, y: 38 },
+  { key: "access-management",   x: 48, y: 44 },
+  { key: "office-temperature",  x: 24, y: 53 },
+  { key: "occupancy",           x: 42, y: 64 },
+  { key: "meeting-rooms",       x: 82, y: 66 },
+  { key: "energy-optimization", x: 50, y: 80 },
+];
+
 function BuildingsShowcase() {
   const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [pinned, setPinned] = useState<{ side: "office" | "residence"; key: FeatureKey } | null>(null);
