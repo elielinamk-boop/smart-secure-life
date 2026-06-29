@@ -686,9 +686,8 @@ function BuildingCard({
   const bgPos = side === "office" ? "0% center" : "100% center";
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
-  // Place panel on the side that doesn't overlap the neighbouring card:
-  // office card -> panel to the LEFT of the focus point; residence card -> RIGHT.
-  const panelOnLeft = side === "office";
+  // Always place the panel on the LEFT side of the building image.
+  const panelOnLeft = true;
   const panelPos = activeInfo
     ? panelOnLeft
       ? { left: `calc(${activeInfo.focus.x}% - 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))`, transform: "translateX(-100%)" }
