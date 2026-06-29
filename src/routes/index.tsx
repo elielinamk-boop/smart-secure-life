@@ -901,8 +901,8 @@ function ProductGallery() {
           100%      { opacity: 0; }
         }
         .pg4-dim {
-          position: absolute; inset: 0;
-          background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.85) 80%);
+          position: absolute; left: 10%; right: 10%; top: 0; height: 55%;
+          background: radial-gradient(ellipse at 50% 25%, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0) 75%);
           animation: pg4-lights 5s ease-in-out infinite;
         }
         /* motion detect box */
