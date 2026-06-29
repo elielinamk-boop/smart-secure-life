@@ -2016,7 +2016,11 @@ function AboutUs() {
         @keyframes au-wave-a { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes au-wave-b { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
         @keyframes au-shimmer { 0%,100% { opacity:.55; } 50% { opacity:.85; } }
-        .au-bg { background: linear-gradient(180deg, #eef3f8 0%, #d8e4ee 55%, #c5d4e1 100%); }
+        @keyframes au-sun { 0%,100% { transform: translateY(0) scale(1); filter: blur(0px);} 50% { transform: translateY(-6px) scale(1.03); filter: blur(.5px);} }
+        @keyframes au-glow { 0%,100% { opacity:.55;} 50% { opacity:.85;} }
+        .au-bg { background: linear-gradient(180deg, #fff4e6 0%, #ffe6d0 18%, #e9eef5 48%, #c5d4e1 100%); }
+        .au-sun { position:absolute; top:8%; left:50%; transform:translateX(-50%); width:180px; height:180px; border-radius:9999px; background: radial-gradient(circle at 50% 50%, #ffd27a 0%, #ffb55a 45%, rgba(255,181,90,0) 72%); animation: au-sun 7s ease-in-out infinite; }
+        .au-sun-glow { position:absolute; top:-2%; left:50%; transform:translateX(-50%); width:520px; height:380px; border-radius:9999px; background: radial-gradient(circle, rgba(255,210,140,0.55), rgba(255,210,140,0) 65%); animation: au-glow 6s ease-in-out infinite; }
         .au-wave { position:absolute; left:0; width:200%; height:140px; will-change: transform; }
         .au-wave-a { animation: au-wave-a 14s linear infinite; }
         .au-wave-b { animation: au-wave-b 22s linear infinite; opacity:.6; }
