@@ -419,7 +419,7 @@ const RESIDENCE_LABELS: LabelDef[] = [
 
 function BuildingsShowcase() {
   const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
-  const [active, setActive] = useState<{ side: "office" | "residence"; key: FeatureKey } | null>(null);
+  const [pinned, setPinned] = useState<{ side: "office" | "residence"; key: FeatureKey } | null>(null);
 
   return (
     <section className="relative pb-24">
@@ -455,47 +455,116 @@ function BuildingsShowcase() {
         }
         .ibs-label.float-a .ibs-label-inner { animation: ibs-float-a 4.8s ease-in-out infinite; }
         .ibs-label.float-b .ibs-label-inner { animation: ibs-float-b 5.6s ease-in-out infinite; }
-        .ibs-label:hover {
+        .ibs-label.is-hot {
           transform: translate(-50%, calc(-50% - 2px)) scale(1.06);
           box-shadow: 0 14px 38px rgba(15,30,80,0.22);
         }
-        .ibs-label:hover .ibs-icon { filter: drop-shadow(0 0 6px rgba(37,99,235,0.7)); transform: scale(1.08); }
-        .ibs-label.active {
+        .ibs-label.is-hot .ibs-icon { filter: drop-shadow(0 0 6px rgba(37,99,235,0.7)); transform: scale(1.08); }
+        .ibs-label.is-active {
           background: #0f172a; color: #fff;
           box-shadow: 0 16px 42px rgba(15,30,80,0.32), 0 0 0 2px rgba(37,99,235,0.45);
         }
-        .ibs-label.active .ibs-icon { color: #93c5fd; filter: drop-shadow(0 0 8px rgba(147,197,253,0.9)); }
+        .ibs-label.is-active .ibs-icon { color: #93c5fd; filter: drop-shadow(0 0 8px rgba(147,197,253,0.9)); }
+
+        .ibs-hot {
+          position: absolute; border-radius: 50%;
+          transform: translate(-50%, -50%);
+          background: transparent; cursor: pointer;
+          transition: background 260ms ease, box-shadow 260ms ease;
+        }
+        .ibs-hot.is-hot {
+          background: radial-gradient(circle, rgba(147,197,253,0.18) 0%, rgba(147,197,253,0) 70%);
+          box-shadow: inset 0 0 0 1px rgba(147,197,253,0.35);
+        }
 
         @keyframes ibs-tint-in {
           0%   { opacity: 0; }
           100% { opacity: 1; }
         }
-        @keyframes ibs-pulse {
-          0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.85; }
-          50%      { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
-        }
-        @keyframes ibs-ring {
-          0%   { transform: translate(-50%, -50%) scale(0.4); opacity: 0.7; }
-          100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
-        }
         .ibs-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
-        .ibs-fx-tint {
-          position: absolute; inset: 0;
-          animation: ibs-tint-in 0.45s ease-out both;
+        .ibs-fx > * { animation: ibs-tint-in 0.35s ease-out both; }
+
+        @keyframes ibs-warm-pulse {
+          0%,100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.9); }
+          50%     { opacity: 0.95; transform: translate(-50%, -50%) scale(1.08); }
+        }
+        @keyframes ibs-spark { 0%,100% { opacity: 0.2; } 50% { opacity: 1; } }
+        .ibs-warm {
+          position: absolute; width: 55%; aspect-ratio: 1/1; border-radius: 50%;
+          background: radial-gradient(circle, rgba(255,196,90,0.55) 0%, rgba(255,196,90,0.25) 35%, transparent 70%);
           mix-blend-mode: screen;
+          animation: ibs-warm-pulse 2.6s ease-in-out infinite;
         }
-        .ibs-fx-pulse {
-          position: absolute;
-          width: 28%; aspect-ratio: 1/1;
-          border-radius: 50%;
-          animation: ibs-pulse 2.4s ease-in-out infinite;
+        @keyframes ibs-airflow {
+          0%   { stroke-dashoffset: 80; opacity: 0; }
+          20%  { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 0; }
         }
-        .ibs-fx-ring {
-          position: absolute;
-          width: 20%; aspect-ratio: 1/1;
-          border-radius: 50%;
-          border: 2px solid currentColor;
-          animation: ibs-ring 2.4s ease-out infinite;
+        .ibs-airflow path { animation: ibs-airflow 2.4s ease-in-out infinite; }
+        @keyframes ibs-sweep { 0%,100% { transform: rotate(-25deg);} 50% { transform: rotate(25deg);} }
+        .ibs-cone-wrap { position: absolute; transform: translate(-50%, -50%); transform-origin: center; }
+        .ibs-cone { transform-origin: 50% 0%; animation: ibs-sweep 3.6s ease-in-out infinite; }
+        @keyframes ibs-node { 0%,100% { r: 3; opacity: 0.5; } 50% { r: 5; opacity: 1; } }
+        .ibs-net circle.node { animation: ibs-node 1.8s ease-in-out infinite; }
+        @keyframes ibs-door-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+        @keyframes ibs-check-pop {
+          0% { transform: translate(-50%,-50%) scale(0.6); opacity: 0;}
+          60% { transform: translate(-50%,-50%) scale(1.1); opacity: 1;}
+          100% { transform: translate(-50%,-50%) scale(1); opacity: 0.9;}
+        }
+        .ibs-door {
+          position: absolute; transform: translate(-50%,-50%);
+          width: 12%; aspect-ratio: 3/5;
+          border: 2px solid rgba(96,165,250,0.85);
+          border-radius: 6px;
+          box-shadow: 0 0 24px rgba(96,165,250,0.55), inset 0 0 18px rgba(96,165,250,0.35);
+          animation: ibs-door-pulse 1.8s ease-in-out infinite;
+        }
+        .ibs-check {
+          position: absolute; width: 36px; height: 36px; border-radius: 50%;
+          background: rgba(74,222,128,0.9); color: #fff;
+          display: flex; align-items: center; justify-content: center;
+          animation: ibs-check-pop 1.6s ease-out infinite;
+        }
+        @keyframes ibs-ripple {
+          0% { transform: translate(-50%,-50%) scale(0.4); opacity: 0.8;}
+          100% { transform: translate(-50%,-50%) scale(1.8); opacity: 0;}
+        }
+        .ibs-pipe { stroke: rgba(56,189,248,0.9); stroke-width: 3; fill: none; filter: drop-shadow(0 0 6px rgba(56,189,248,0.8)); }
+        .ibs-ripple {
+          position: absolute; width: 22%; aspect-ratio: 1/1; border-radius: 50%;
+          border: 2px solid rgba(56,189,248,0.7);
+          animation: ibs-ripple 2.2s ease-out infinite;
+        }
+        @keyframes ibs-park-glow { 0%,100% { opacity: 0.5;} 50% { opacity: 1;} }
+        .ibs-park rect { animation: ibs-park-glow 2s ease-in-out infinite; }
+        @keyframes ibs-path { from { stroke-dashoffset: 60; } to { stroke-dashoffset: 0; } }
+        .ibs-park path.route { stroke-dasharray: 6 6; animation: ibs-path 1.2s linear infinite; }
+        @keyframes ibs-web { 0% { stroke-dashoffset: 200; opacity: 0;} 30% { opacity: 1;} 100% { stroke-dashoffset: 0; opacity: 0.9;} }
+        .ibs-web path { stroke-dasharray: 200; animation: ibs-web 2.6s ease-in-out infinite; }
+        @keyframes ibs-lock-pulse {
+          0%,100% { transform: translate(-50%,-50%) scale(1); opacity:0.7;}
+          50% { transform: translate(-50%,-50%) scale(1.15); opacity:1;}
+        }
+        .ibs-lock {
+          position: absolute; transform: translate(-50%,-50%);
+          width: 44px; height: 44px; border-radius: 50%;
+          background: rgba(74,222,128,0.2);
+          border: 2px solid rgba(74,222,128,0.9);
+          display:flex; align-items:center; justify-content:center;
+          color: #16a34a;
+          animation: ibs-lock-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes ibs-arrow {
+          0% { transform: translate(-150%, -50%); opacity: 0;}
+          30% { opacity:1;}
+          100% { transform: translate(0%, -50%); opacity:0;}
+        }
+        .ibs-arrow {
+          position: absolute; left: 0; top: 50%;
+          width: 100%; height: 4px;
+          background: linear-gradient(90deg, transparent, rgba(74,222,128,0.85));
+          animation: ibs-arrow 2s ease-in-out infinite;
         }
 
         .ibs-card-bg {
@@ -507,12 +576,19 @@ function BuildingsShowcase() {
           transition: filter 400ms ease, transform 200ms linear;
         }
         .ibs-card:hover .ibs-card-bg { filter: brightness(1.04) saturate(1.05); }
+        .ibs-card.has-active .ibs-card-bg { filter: brightness(0.85) saturate(0.95); }
 
         @keyframes ibs-panel-in {
           0%   { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.98); }
           100% { opacity: 1; transform: translate3d(0, 0, 0)    scale(1); }
         }
-        .ibs-panel { animation: ibs-panel-in 0.45s cubic-bezier(0.22,0.61,0.36,1) both; }
+        .ibs-panel { animation: ibs-panel-in 0.35s cubic-bezier(0.22,0.61,0.36,1) both; }
+        .ibs-panel-arrow {
+          position: absolute; width: 14px; height: 14px;
+          background: rgba(255,255,255,0.95);
+          border: 1px solid hsl(var(--border) / 0.6);
+          transform: rotate(45deg);
+        }
       `}</style>
 
       <div className="px-4 md:px-8">
@@ -538,9 +614,9 @@ function BuildingsShowcase() {
             labels={OFFICE_LABELS}
             visible={reveal.inView}
             delay={0}
-            active={active && active.side === "office" ? active.key : null}
-            onSelect={(key) => setActive({ side: "office", key })}
-            onClose={() => setActive(null)}
+            pinned={pinned && pinned.side === "office" ? pinned.key : null}
+            onPin={(key) => setPinned((p) => (p && p.side === "office" && p.key === key ? null : { side: "office", key }))}
+            onClose={() => setPinned(null)}
           />
           <BuildingCard
             side="residence"
@@ -550,9 +626,9 @@ function BuildingsShowcase() {
             labels={RESIDENCE_LABELS}
             visible={reveal.inView}
             delay={250}
-            active={active && active.side === "residence" ? active.key : null}
-            onSelect={(key) => setActive({ side: "residence", key })}
-            onClose={() => setActive(null)}
+            pinned={pinned && pinned.side === "residence" ? pinned.key : null}
+            onPin={(key) => setPinned((p) => (p && p.side === "residence" && p.key === key ? null : { side: "residence", key }))}
+            onClose={() => setPinned(null)}
           />
         </div>
       </div>
@@ -568,8 +644,8 @@ function BuildingCard({
   labels,
   visible,
   delay,
-  active,
-  onSelect,
+  pinned,
+  onPin,
   onClose,
 }: {
   side: "office" | "residence";
@@ -579,13 +655,16 @@ function BuildingCard({
   labels: LabelDef[];
   visible: boolean;
   delay: number;
-  active: FeatureKey | null;
-  onSelect: (k: FeatureKey) => void;
+  pinned: FeatureKey | null;
+  onPin: (k: FeatureKey) => void;
   onClose: () => void;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState<FeatureKey | null>(null);
+
+  const active: FeatureKey | null = hovered ?? pinned;
 
   // Mouse parallax on the building + labels
   const onMouseMove = useCallback((e: React.MouseEvent) => {
@@ -600,16 +679,23 @@ function BuildingCard({
   const onMouseLeave = useCallback(() => {
     if (bgRef.current) bgRef.current.style.transform = "";
     if (labelsRef.current) labelsRef.current.style.transform = "";
+    setHovered(null);
   }, []);
 
   // Half of the composite image to show
   const bgPos = side === "office" ? "0% center" : "100% center";
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
+  const panelPos = activeInfo
+    ? activeInfo.focus.x < 50
+      ? { left: `min(${activeInfo.focus.x + 18}%, calc(100% - 19rem))`, top: `${Math.min(Math.max(activeInfo.focus.y, 18), 78)}%`, transform: "translateY(-50%)" }
+      : { left: `max(${activeInfo.focus.x - 18}%, 1rem)`, top: `${Math.min(Math.max(activeInfo.focus.y, 18), 78)}%`, transform: "translate(-100%, -50%)" }
+    : null;
+
   return (
     <div
       ref={cardRef}
-      className={`ibs-card relative overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_30px_80px_-40px_rgba(15,30,80,0.35)] ${visible ? "in" : ""}`}
+      className={`ibs-card relative overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_30px_80px_-40px_rgba(15,30,80,0.35)] ${visible ? "in" : ""} ${active ? "has-active" : ""}`}
       style={{ animationDelay: visible ? `${delay}ms` : undefined }}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
@@ -626,31 +712,9 @@ function BuildingCard({
           }}
         />
 
-        {/* Feature overlay (per-feature tint + pulse) */}
-        {activeInfo ? (
+        {activeInfo && active ? (
           <div className="ibs-fx" key={active}>
-            <div
-              className="ibs-fx-tint"
-              style={{
-                background: `radial-gradient(circle at ${activeInfo.focus.x}% ${activeInfo.focus.y}%, ${activeInfo.tint} 0%, transparent ${activeInfo.focus.r}%)`,
-              }}
-            />
-            <div
-              className="ibs-fx-pulse"
-              style={{
-                left: `${activeInfo.focus.x}%`,
-                top: `${activeInfo.focus.y}%`,
-                background: `radial-gradient(circle, ${activeInfo.tint} 0%, transparent 70%)`,
-              }}
-            />
-            <div
-              className="ibs-fx-ring"
-              style={{
-                left: `${activeInfo.focus.x}%`,
-                top: `${activeInfo.focus.y}%`,
-                color: activeInfo.tint,
-              }}
-            />
+            <FeatureEffect feature={active} focus={activeInfo.focus} />
           </div>
         ) : null}
 
@@ -667,19 +731,46 @@ function BuildingCard({
           </div>
         </div>
 
+        {/* Invisible hotspots over building regions */}
+        <div className="absolute inset-0 z-10">
+          {labels.map((l) => {
+            const info = FEATURE_INFO[l.key];
+            const isHot = active === l.key;
+            const size = Math.max(info.focus.r * 0.7, 14);
+            return (
+              <div
+                key={`hot-${l.key}`}
+                className={`ibs-hot ${isHot ? "is-hot" : ""}`}
+                style={{
+                  left: `${info.focus.x}%`,
+                  top: `${info.focus.y}%`,
+                  width: `${size}%`,
+                  height: `${size}%`,
+                }}
+                onMouseEnter={() => setHovered(l.key)}
+                onClick={() => onPin(l.key)}
+                role="button"
+                aria-label={`${info.name} hotspot`}
+              />
+            );
+          })}
+        </div>
+
         {/* Floating labels */}
         <div ref={labelsRef} className="absolute inset-0 z-20" style={{ transition: "transform 200ms linear" }}>
           {labels.map((l, i) => {
             const info = FEATURE_INFO[l.key];
             const I = info.icon;
-            const isActive = active === l.key;
+            const isHot = active === l.key;
+            const isPinned = pinned === l.key;
             return (
               <button
                 key={`${l.key}-${i}`}
                 type="button"
-                aria-pressed={isActive}
-                onClick={() => onSelect(l.key)}
-                className={`ibs-label ${i % 2 ? "float-a" : "float-b"} ${isActive ? "active" : ""}`}
+                aria-pressed={isPinned}
+                onMouseEnter={() => setHovered(l.key)}
+                onClick={() => onPin(l.key)}
+                className={`ibs-label ${i % 2 ? "float-a" : "float-b"} ${isHot ? "is-hot" : ""} ${isPinned ? "is-active" : ""}`}
                 style={{ left: `${l.x}%`, top: `${l.y}%`, animationDelay: `${(i % 4) * 0.4}s` }}
               >
                 <span className="ibs-label-inner">
@@ -691,14 +782,21 @@ function BuildingCard({
           })}
         </div>
 
-        {/* Info panel */}
-        {activeInfo ? (
+        {/* Info panel with arrow pointing at hotspot */}
+        {activeInfo && panelPos ? (
           <div
             key={`panel-${active}`}
-            className={`ibs-panel absolute z-30 max-w-[18rem] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur ${
-              side === "office" ? "right-6 top-1/2 -translate-y-1/2" : "left-6 top-1/2 -translate-y-1/2"
-            }`}
+            className="ibs-panel absolute z-30 w-[18rem] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
+            style={panelPos}
           >
+            <span
+              className="ibs-panel-arrow"
+              style={
+                activeInfo.focus.x < 50
+                  ? { left: "-7px", top: "50%", marginTop: "-7px", borderRight: "none", borderTop: "none" }
+                  : { right: "-7px", top: "50%", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }
+              }
+            />
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a]/5">
                 <activeInfo.icon className="h-5 w-5 text-[#2563eb]" />
@@ -709,14 +807,16 @@ function BuildingCard({
                   {activeInfo.name}
                 </h4>
               </div>
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label="Close"
-                className="rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
-              >
-                <XIcon className="h-4 w-4" />
-              </button>
+              {pinned ? (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Close"
+                  className="rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                >
+                  <XIcon className="h-4 w-4" />
+                </button>
+              ) : null}
             </div>
             <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{activeInfo.short}</p>
             <ul className="mt-3 space-y-1.5">
@@ -735,6 +835,172 @@ function BuildingCard({
       </div>
     </div>
   );
+}
+
+/* Per-feature animated overlay positioned at the hotspot focus point */
+function FeatureEffect({ feature, focus }: { feature: FeatureKey; focus: { x: number; y: number; r: number } }) {
+  const cx = `${focus.x}%`;
+  const cy = `${focus.y}%`;
+
+  switch (feature) {
+    case "lighting":
+      return (
+        <>
+          <div className="ibs-warm" style={{ left: cx, top: cy, transform: "translate(-50%,-50%)" }} />
+          {[0, 1, 2, 3, 4].map((i) => (
+            <span
+              key={i}
+              className="absolute h-1 w-1 rounded-full bg-[#fde68a]"
+              style={{
+                left: `calc(${cx} + ${(i - 2) * 22}px)`,
+                top: `calc(${cy} + ${(i % 2 ? -1 : 1) * 18}px)`,
+                boxShadow: "0 0 10px rgba(253,230,138,0.95)",
+                animation: `ibs-spark ${1.2 + i * 0.2}s ease-in-out ${i * 0.15}s infinite`,
+              }}
+            />
+          ))}
+        </>
+      );
+
+    case "climate":
+      return (
+        <svg className="ibs-airflow absolute inset-0 h-full w-full" preserveAspectRatio="none">
+          {[0, 1, 2].map((i) => (
+            <path
+              key={i}
+              d={`M ${focus.x - 14}% ${focus.y - 8 + i * 8}% Q ${focus.x}% ${focus.y - 14 + i * 8}% ${focus.x + 14}% ${focus.y - 8 + i * 8}%`}
+              stroke="rgba(96,165,250,0.9)"
+              strokeWidth={2}
+              fill="none"
+              strokeLinecap="round"
+              strokeDasharray="10 70"
+              style={{ animationDelay: `${i * 0.4}s`, filter: "drop-shadow(0 0 4px rgba(96,165,250,0.6))" }}
+            />
+          ))}
+        </svg>
+      );
+
+    case "cameras":
+      return (
+        <div className="ibs-cone-wrap" style={{ left: cx, top: cy, width: "30%", aspectRatio: "1/1" }}>
+          <svg viewBox="0 0 100 100" className="h-full w-full">
+            <defs>
+              <radialGradient id="coneG" cx="50%" cy="0%" r="100%">
+                <stop offset="0%" stopColor="rgba(96,165,250,0.55)" />
+                <stop offset="100%" stopColor="rgba(96,165,250,0)" />
+              </radialGradient>
+            </defs>
+            <g className="ibs-cone">
+              <path d="M 50 0 L 18 90 L 82 90 Z" fill="url(#coneG)" />
+              <path d="M 50 0 L 18 90 L 82 90 Z" fill="none" stroke="rgba(147,197,253,0.7)" strokeWidth="0.6" />
+            </g>
+            <circle cx="50" cy="0" r="3" fill="#60a5fa" />
+          </svg>
+        </div>
+      );
+
+    case "internet": {
+      const nodes = [
+        { x: focus.x - 14, y: focus.y - 6 },
+        { x: focus.x + 12, y: focus.y - 10 },
+        { x: focus.x - 8, y: focus.y + 10 },
+        { x: focus.x + 14, y: focus.y + 6 },
+        { x: focus.x, y: focus.y },
+      ];
+      return (
+        <svg className="ibs-net absolute inset-0 h-full w-full" preserveAspectRatio="none">
+          {nodes.slice(0, -1).map((n, i) => (
+            <line
+              key={i}
+              x1={`${n.x}%`} y1={`${n.y}%`}
+              x2={`${nodes[4].x}%`} y2={`${nodes[4].y}%`}
+              stroke="rgba(59,130,246,0.55)" strokeWidth={1}
+              strokeDasharray="4 4"
+            />
+          ))}
+          {nodes.map((n, i) => (
+            <circle key={`n${i}`} className="node" cx={`${n.x}%`} cy={`${n.y}%`} r={3} fill="#3b82f6"
+              style={{ filter: "drop-shadow(0 0 6px rgba(59,130,246,0.9))", animationDelay: `${i * 0.2}s` }} />
+          ))}
+        </svg>
+      );
+    }
+
+    case "access":
+      return (
+        <>
+          <div className="ibs-door" style={{ left: cx, top: cy }} />
+          <div className="ibs-check" style={{ left: `calc(${cx} + 60px)`, top: cy }}>
+            <Check className="h-4 w-4" />
+          </div>
+        </>
+      );
+
+    case "leak":
+      return (
+        <>
+          <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="none">
+            <path className="ibs-pipe" d={`M ${focus.x - 18}% ${focus.y + 6}% L ${focus.x}% ${focus.y + 6}% L ${focus.x}% ${focus.y - 8}% L ${focus.x + 16}% ${focus.y - 8}%`} />
+          </svg>
+          <div className="ibs-ripple" style={{ left: cx, top: cy }} />
+          <div className="ibs-ripple" style={{ left: cx, top: cy, animationDelay: "0.7s" }} />
+        </>
+      );
+
+    case "parking":
+      return (
+        <svg className="ibs-park absolute inset-0 h-full w-full" preserveAspectRatio="none">
+          {[0, 1, 2, 3].map((i) => (
+            <rect
+              key={i}
+              x={`${focus.x - 12 + i * 6}%`} y={`${focus.y + 2}%`}
+              width="5%" height="6%"
+              fill="rgba(74,222,128,0.45)"
+              stroke="rgba(74,222,128,0.9)" strokeWidth="0.5"
+              style={{ animationDelay: `${i * 0.2}s` }}
+            />
+          ))}
+          <path className="route" d={`M ${focus.x - 18}% ${focus.y - 6}% Q ${focus.x}% ${focus.y - 12}% ${focus.x - 4}% ${focus.y + 5}%`}
+            stroke="rgba(74,222,128,0.95)" strokeWidth="2" fill="none" />
+        </svg>
+      );
+
+    case "integrations":
+      return (
+        <svg className="ibs-web absolute inset-0 h-full w-full" preserveAspectRatio="none">
+          {[
+            { x: 22, y: 28 }, { x: 78, y: 24 }, { x: 18, y: 70 }, { x: 82, y: 72 }, { x: 50, y: 50 },
+          ].flatMap((n, i, arr) =>
+            arr.slice(i + 1).map((m, j) => (
+              <path
+                key={`${i}-${j}`}
+                d={`M ${n.x}% ${n.y}% L ${m.x}% ${m.y}%`}
+                stroke="rgba(168,85,247,0.7)" strokeWidth={1} fill="none"
+                style={{ animationDelay: `${(i + j) * 0.15}s`, filter: "drop-shadow(0 0 4px rgba(168,85,247,0.6))" }}
+              />
+            ))
+          )}
+        </svg>
+      );
+
+    case "smart-locks":
+      return (
+        <div className="ibs-lock" style={{ left: cx, top: cy }}>
+          <Lock className="h-5 w-5" />
+        </div>
+      );
+
+    case "garage":
+      return (
+        <div className="absolute" style={{ left: `${focus.x - 18}%`, top: cy, width: "36%", height: "8%", transform: "translateY(-50%)" }}>
+          <div className="ibs-arrow" />
+          <div className="ibs-arrow" style={{ animationDelay: "0.6s" }} />
+        </div>
+      );
+
+    default:
+      return null;
+  }
 }
 
 function Solutions() {
