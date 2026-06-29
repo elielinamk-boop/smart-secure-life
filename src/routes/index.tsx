@@ -36,6 +36,10 @@ import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
 import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
 import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
 import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
+import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
+import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
+import gallery2EntryAsset from "@/assets/gallery2-entry.jpg.asset.json";
+import gallery2ControlAsset from "@/assets/gallery2-control.jpg.asset.json";
 import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
@@ -111,6 +115,7 @@ function Landing() {
       <Solutions />
       <MeetEyecid />
       <ProductGallery />
+      <ProductGallery2 />
       <VideoShowcase />
       <AISection />
       <BuildingsShowcase />
