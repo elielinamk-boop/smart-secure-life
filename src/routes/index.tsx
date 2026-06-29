@@ -485,7 +485,6 @@ function GlassSphere({ children, index }: { children: ReactNode; index: number }
 }
 
 function MeetEyecid() {
-function MeetEyecid() {
   const section = useInView<HTMLElement>({ threshold: 0.18 });
   const deviceWrap = useRef<HTMLDivElement | null>(null);
   const deviceInner = useRef<HTMLDivElement | null>(null);
