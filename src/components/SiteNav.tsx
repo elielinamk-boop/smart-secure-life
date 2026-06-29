@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Globe, Menu, X, ArrowRight } from "lucide-react";
 import { Logo } from "./Logo";
 
@@ -18,10 +18,24 @@ export function SiteNav() {
   const [lang, setLang] = useState("EN");
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="glass mx-auto mt-3 max-w-7xl rounded-2xl px-4 md:px-6 h-16 flex items-center justify-between gap-3">
+      <div
+        className={`mx-auto mt-3 max-w-7xl rounded-2xl px-4 md:px-6 h-16 flex items-center justify-between gap-3 transition-all duration-500 ${
+          scrolled
+            ? "backdrop-blur-xl bg-background/70 border border-white/40 shadow-[0_10px_40px_-20px_rgba(0,40,120,0.25)]"
+            : "glass"
+        }`}
+      >
         <Logo />
 
         <nav className="hidden lg:flex items-center gap-2 text-[0.82rem] tracking-[0.18em] font-semibold text-foreground/80">
