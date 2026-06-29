@@ -686,10 +686,13 @@ function BuildingCard({
   const bgPos = side === "office" ? "0% center" : "100% center";
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
+  // Place panel on the side that doesn't overlap the neighbouring card:
+  // office card -> panel to the LEFT of the focus point; residence card -> RIGHT.
+  const panelOnLeft = side === "office";
   const panelPos = activeInfo
-    ? activeInfo.focus.x < 50
-      ? { left: `calc(${activeInfo.focus.x}% + 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))` }
-      : { left: `calc(${activeInfo.focus.x}% - 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))`, transform: "translateX(-100%)" }
+    ? panelOnLeft
+      ? { left: `calc(${activeInfo.focus.x}% - 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))`, transform: "translateX(-100%)" }
+      : { left: `calc(${activeInfo.focus.x}% + 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))` }
     : null;
 
   return (
@@ -794,9 +797,9 @@ function BuildingCard({
             <span
               className="ibs-panel-arrow"
               style={
-                activeInfo.focus.x < 50
-                  ? { left: "-7px", top: "11rem", marginTop: "-7px", borderRight: "none", borderTop: "none" }
-                  : { right: "-7px", top: "11rem", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }
+                panelOnLeft
+                  ? { right: "-7px", top: "11rem", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }
+                  : { left: "-7px", top: "11rem", marginTop: "-7px", borderRight: "none", borderTop: "none" }
               }
             />
             <div className="flex items-start gap-3">
