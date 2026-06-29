@@ -29,7 +29,6 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
-import meetAsset from "@/assets/meet-talesso.png.asset.json";
 import collageAsset from "@/assets/solutions-collage.png.asset.json";
 import buildingsAsset from "@/assets/buildings-map.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
