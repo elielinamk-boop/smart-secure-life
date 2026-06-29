@@ -817,7 +817,7 @@ function ProductGallery() {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transform: translate3d(0, var(--py, 0px), 0) scale(1.06);
+          transform: translate3d(0, var(--py, 0px), 0) scale(1.2);
           transition: transform 200ms linear;
           will-change: transform;
         }
