@@ -920,7 +920,7 @@ function ProductGallery() {
 
       <div ref={reveal.ref} className="px-4 md:px-8">
         <div className="mx-auto mb-10 max-w-7xl">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">AI in action</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{"\n"}</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
             Intelligence you can see.
           </h2>
