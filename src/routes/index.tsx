@@ -1728,10 +1728,12 @@ function ConnectedExperience() {
         @keyframes cx-typing { 0%,60%,100% { transform: translateY(0); opacity:.35;} 30% { transform: translateY(-3px); opacity:1;} }
         @keyframes cx-ripple { 0% { transform: translate(-50%,-50%) scale(.3); opacity:.7;} 100% { transform: translate(-50%,-50%) scale(2.4); opacity:0;} }
         .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
-        .cx-card { background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
-        .cx-card:hover { transform: translateY(-4px); border-color:#77DDFF; box-shadow: 0 24px 60px -28px rgba(119,221,255,.65); }
-        .cx-card:hover .cx-card-icon { color:#0f172a; background:#77DDFF; }
-        .cx-card-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s; }
+        .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; overflow:hidden; }
+        .cx-card::before { content:""; position:absolute; inset:0; background: radial-gradient(120% 80% at 50% 0%, rgba(119,221,255,0.28), rgba(119,221,255,0) 60%); opacity:0; transition: opacity .4s ease; pointer-events:none; }
+        .cx-card:hover { transform: translateY(-4px); border-color:#77DDFF; background:#eaf9ff; box-shadow: 0 24px 60px -28px rgba(119,221,255,.65); }
+        .cx-card:hover::before { opacity:1; }
+        .cx-card:hover .cx-card-icon { color:#0a4a5e; background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(119,221,255,0.85)); border-color: rgba(119,221,255,0.9); box-shadow: 0 10px 30px -10px rgba(119,221,255,0.6), inset 0 1px 0 rgba(255,255,255,0.9); }
+        .cx-card-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s, box-shadow .3s, border-color .3s; background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(226,232,240,0.55)); border:1px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px -14px rgba(15,23,42,0.25); }
         .cx-extra { max-height:0; opacity:0; overflow:hidden; transition: max-height .4s ease, opacity .3s ease, margin-top .3s ease; font-size:12.5px; color:#64748b; }
         .cx-card:hover .cx-extra { max-height:60px; opacity:1; margin-top:12px; }
         .cx-typing { display:inline-flex; gap:3px; padding:6px 9px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
