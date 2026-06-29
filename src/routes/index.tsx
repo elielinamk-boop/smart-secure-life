@@ -124,7 +124,6 @@ function Landing() {
       <ProductGallery />
       <ProductGallery2 />
       <VideoShowcase />
-      <AISection />
       <BuildingsShowcase />
       <Channels />
       <CTA />
