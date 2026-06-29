@@ -2030,6 +2030,8 @@ function AboutUs() {
 
       {/* Animated sea background */}
       <div className="absolute inset-0 au-bg" aria-hidden />
+      <div className="au-sun-glow" aria-hidden />
+      <div className="au-sun" aria-hidden />
       <div className="absolute inset-x-0 bottom-0 h-[55%] overflow-hidden" aria-hidden>
         <svg className="au-wave au-wave-c" style={{ bottom: 90 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
           <path d="M0,70 C360,20 720,120 1440,70 C2160,20 2520,120 2880,70 L2880,140 L0,140 Z" fill="#b9cad9" />
@@ -2058,9 +2060,18 @@ function AboutUs() {
           <h2 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-left text-slate-900">About Us</h2>
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
             {cards.map(({ Icon, label }, i) => (
-              <div key={i} className="bg-white/90 backdrop-blur rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
-                <div className="w-14 h-14 rounded-full bg-white shadow-inner border border-slate-200 flex items-center justify-center mb-4">
-                  <Icon className="w-6 h-6 text-[#77DDFF]" />
+              <div key={i} className="relative bg-white/70 backdrop-blur-md rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center mb-4 border"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(119,221,255,0.35))",
+                    borderColor: "rgba(255,255,255,0.8)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 24px -12px rgba(15,23,42,0.25)",
+                  }}
+                >
+                  <Icon className="w-6 h-6 text-[#3aa9e6]" />
                 </div>
                 <div className="text-sm text-slate-700 leading-snug">{label}</div>
               </div>
