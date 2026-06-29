@@ -791,22 +791,106 @@ const galleryTiles: { src: string; alt: string }[] = [
 ];
 
 function ProductGallery() {
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
   return (
-    <section className="relative w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full">
-        {galleryTiles.map((t) => (
-          <img
+    <section className="relative w-full overflow-hidden">
+      <style>{`
+        @keyframes pg4-fade-up {
+          0%   { opacity: 0; transform: translate3d(0, 36px, 0) scale(1.03); filter: blur(10px); }
+          100% { opacity: 1; transform: translate3d(0, 0, 0)    scale(1);    filter: blur(0); }
+        }
+        .pg4-tile {
+          opacity: 0;
+          will-change: transform, opacity, filter;
+          overflow: hidden;
+        }
+        .pg4-tile.in {
+          animation: pg4-fade-up 1s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+        }
+        .pg4-img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transform: translate3d(0, var(--py, 0px), 0) scale(1.06);
+          transition: transform 200ms linear;
+          will-change: transform;
+        }
+      `}</style>
+      <div
+        ref={reveal.ref}
+        className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full"
+      >
+        {galleryTiles.map((t, i) => (
+          <GalleryTile
             key={t.src}
             src={t.src}
             alt={t.alt}
-            loading="lazy"
-            width={960}
-            height={488}
-            className="block w-full h-auto select-none"
-            draggable={false}
+            index={i}
+            visible={reveal.inView}
           />
         ))}
       </div>
     </section>
+  );
+}
+
+function GalleryTile({
+  src,
+  alt,
+  index,
+  visible,
+}: {
+  src: string;
+  alt: string;
+  index: number;
+  visible: boolean;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    let raf = 0;
+    const speed = 0.08 + (index % 2) * 0.04; // subtle parallax, alternating
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const el = wrapRef.current;
+        const img = imgRef.current;
+        if (!el || !img) return;
+        const r = el.getBoundingClientRect();
+        const center = r.top + r.height / 2 - window.innerHeight / 2;
+        const py = Math.max(-40, Math.min(40, -center * speed));
+        img.style.setProperty("--py", `${py.toFixed(2)}px`);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [index]);
+
+  return (
+    <div
+      ref={wrapRef}
+      className={`pg4-tile relative aspect-[16/9] ${visible ? "in" : ""}`}
+      style={{ animationDelay: visible ? `${index * 0.15}s` : undefined }}
+    >
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        loading="lazy"
+        width={1512}
+        height={850}
+        className="pg4-img select-none"
+        draggable={false}
+      />
+    </div>
   );
 }
