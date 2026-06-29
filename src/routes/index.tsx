@@ -1698,116 +1698,231 @@ function Channels() {
   return <ConnectedExperience />;
 }
 
-/* ---------------- Connected Experience (image + overlay-only) ---------------- */
+/* ---------------- Connected Experience (independent components) ---------------- */
 
-type CxHotspot = { id: string; left: string; top: string; width: string; height: string; round?: boolean; label?: string };
+type FeatureKey = "mobile" | "telegram" | "dashboard" | "support";
 
-const CX_HOTSPOTS: CxHotspot[] = [
-  { id: "mobile",    left: "25.5%", top: "36.5%", width: "24.5%", height: "30%", label: "Mobile App" },
-  { id: "telegram",  left: "53.5%", top: "36.5%", width: "24.5%", height: "30%", label: "Telegram Bot" },
-  { id: "dashboard", left: "25.5%", top: "68.5%", width: "24.5%", height: "28%", label: "Web Dashboard" },
-  { id: "support",   left: "53.5%", top: "68.5%", width: "24.5%", height: "28%", label: "24/7 Support" },
-  { id: "tg-logo",   left: "3.2%",  top: "37.5%", width: "4%",   height: "6.5%", round: true, label: "Telegram" },
-  { id: "qr",        left: "82%",   top: "17%",   width: "11%",  height: "20%", label: "Guest QR" },
-  { id: "badge",     left: "79.5%", top: "37%",   width: "4.2%", height: "7.5%", round: true, label: "24/7" },
-  { id: "thumb",     left: "87.5%", top: "73%",   width: "9%",   height: "13%", label: "Touch" },
+const CX_FEATURES: { id: FeatureKey; title: string; desc: string; Icon: LucideIcon; extra: string }[] = [
+  { id: "mobile",    title: "Mobile App",    desc: "Full control in your pocket — iOS & Android.", Icon: Smartphone, extra: "Remote unlock · Push alerts · Live monitoring" },
+  { id: "telegram",  title: "Telegram Bot",  desc: "Quick commands and alerts in chat.",            Icon: Send,       extra: "Unlock door · Camera snapshot · Status" },
+  { id: "dashboard", title: "Web Dashboard", desc: "Manage buildings, users and analytics from any browser.", Icon: Monitor, extra: "Occupancy · Access events · Live charts" },
+  { id: "support",   title: "24/7 Support",  desc: "Real humans, anytime — alongside the AI.",      Icon: Headphones, extra: "AI assistant + on-call humans" },
 ];
 
 function ConnectedExperience() {
-  const [active, setActive] = useState<string | null>(null);
-  const [autoActive, setAutoActive] = useState<string>("mobile");
-
-  useEffect(() => {
-    const cycle = ["mobile", "telegram", "dashboard", "support"];
-    let i = 0;
-    const id = window.setInterval(() => {
-      i = (i + 1) % cycle.length;
-      setAutoActive(cycle[i]);
-    }, 2800);
-    return () => window.clearInterval(id);
-  }, []);
-
-  const shown = active ?? autoActive;
+  const [hovered, setHovered] = useState<FeatureKey | null>(null);
 
   return (
-    <section id="channels" className="relative py-12 md:py-20 overflow-hidden">
+    <section id="channels" className="relative py-20 md:py-28 overflow-hidden">
       <style>{`
-        @keyframes cx-fade-up { from { opacity:0; transform: translateY(18px);} to { opacity:1; transform: translateY(0);} }
-        @keyframes cx-ripple { 0% { transform: translate(-50%,-50%) scale(.4); opacity:.85; } 100% { transform: translate(-50%,-50%) scale(2.6); opacity:0; } }
-        @keyframes cx-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(119,221,255,.55); } 50% { box-shadow: 0 0 0 14px rgba(119,221,255,0); } }
-        @keyframes cx-scan { 0% { transform: translateY(-100%); opacity:0; } 20% { opacity:1; } 80% { opacity:1; } 100% { transform: translateY(100%); opacity:0; } }
-        @keyframes cx-typing { 0%,60%,100% { transform: translateY(0); opacity:.3; } 30% { transform: translateY(-3px); opacity:1; } }
-        @keyframes cx-float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-4px);} }
-        .cx-enter { opacity:0; animation: cx-fade-up .8s ease-out forwards; }
-        .cx-hot { position:absolute; cursor:pointer; transition: background-color .25s, box-shadow .35s; border-radius: 14px; background: transparent; border: none; padding: 0; }
-        .cx-hot.is-round { border-radius: 9999px; }
-        .cx-hot:hover, .cx-hot.is-active { background-color: rgba(119,221,255,0.22); box-shadow: 0 0 0 2px rgba(119,221,255,.55), 0 18px 50px -18px rgba(119,221,255,.55); }
-        .cx-ripple { position:absolute; left:50%; top:50%; width:50%; height:50%; border-radius:9999px; background: radial-gradient(circle, rgba(119,221,255,.6), rgba(119,221,255,0) 70%); animation: cx-ripple 1.6s ease-out infinite; pointer-events:none; }
-        .cx-pulse { animation: cx-pulse 2.6s ease-out infinite; }
-        .cx-scan { position:absolute; inset:0; overflow:hidden; pointer-events:none; border-radius:inherit; }
-        .cx-scan::before { content:""; position:absolute; left:0; right:0; height:40%; background: linear-gradient(180deg, transparent, rgba(119,221,255,.55), transparent); animation: cx-scan 3s ease-in-out infinite; }
-        .cx-typing { position:absolute; display:flex; gap:3px; padding:6px 8px; background:#fff; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,.12); }
+        @keyframes cx-fadeup { from { opacity:0; transform: translateY(18px);} to { opacity:1; transform: translateY(0);} }
+        @keyframes cx-float-a { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }
+        @keyframes cx-float-b { 0%,100% { transform: translateY(0) rotate(-2deg);} 50% { transform: translateY(-5px) rotate(-2deg);} }
+        @keyframes cx-float-c { 0%,100% { transform: translateY(0) rotate(3deg);} 50% { transform: translateY(-4px) rotate(3deg);} }
+        @keyframes cx-spin-slow { from { transform: rotate(0);} to { transform: rotate(360deg);} }
+        @keyframes cx-pulse-dot { 0%,100% { opacity:.4; transform: scale(1);} 50% { opacity:1; transform: scale(1.25);} }
+        @keyframes cx-scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(220%); } }
+        @keyframes cx-msg { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
+        @keyframes cx-typing { 0%,60%,100% { transform: translateY(0); opacity:.35;} 30% { transform: translateY(-3px); opacity:1;} }
+        @keyframes cx-ripple { 0% { transform: translate(-50%,-50%) scale(.3); opacity:.7;} 100% { transform: translate(-50%,-50%) scale(2.4); opacity:0;} }
+        .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
+        .cx-card { background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+        .cx-card:hover { transform: translateY(-4px); border-color:#77DDFF; box-shadow: 0 24px 60px -28px rgba(119,221,255,.65); }
+        .cx-card:hover .cx-card-icon { color:#0f172a; background:#77DDFF; }
+        .cx-card-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s; }
+        .cx-extra { max-height:0; opacity:0; overflow:hidden; transition: max-height .4s ease, opacity .3s ease, margin-top .3s ease; font-size:12.5px; color:#64748b; }
+        .cx-card:hover .cx-extra { max-height:60px; opacity:1; margin-top:12px; }
+        .cx-typing { display:inline-flex; gap:3px; padding:6px 9px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
         .cx-typing span { width:5px; height:5px; border-radius:9999px; background:#0f172a; opacity:.4; animation: cx-typing 1.2s infinite ease-in-out; }
         .cx-typing span:nth-child(2){ animation-delay:.15s; }
         .cx-typing span:nth-child(3){ animation-delay:.3s; }
-        .cx-float { animation: cx-float 4.5s ease-in-out infinite; }
-        .cx-info { position:absolute; left:50%; bottom:4%; transform: translateX(-50%); background: rgba(15,23,42,.92); color:#fff; padding:10px 16px; border-radius: 9999px; font-size: 13px; backdrop-filter: blur(6px); box-shadow: 0 14px 40px rgba(0,0,0,.35); display:flex; align-items:center; gap:8px; white-space: nowrap; }
-        .cx-info-dot { width:8px; height:8px; border-radius:9999px; background:#77DDFF; box-shadow:0 0 10px #77DDFF; }
+        .cx-phone { background:#0b0b0b; border-radius:38px; padding:7px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.35); }
+        .cx-phone-inner { background:#eaf3ea; border-radius:32px; overflow:hidden; position:relative; }
+        .cx-notch { position:absolute; top:8px; left:50%; transform:translateX(-50%); width:80px; height:18px; background:#0b0b0b; border-radius:9999px; z-index:2; }
+        .cx-msg-in { animation: cx-msg .6s ease-out both; }
+        .cx-qr-scan { position:absolute; left:0; right:0; height:18%; background: linear-gradient(180deg, transparent, rgba(119,221,255,.55), transparent); animation: cx-scan 2.6s ease-in-out infinite; }
+        .cx-pulse-dot { animation: cx-pulse-dot 1.6s ease-in-out infinite; }
+        .cx-ripple { position:absolute; left:50%; top:50%; width:60px; height:60px; border-radius:9999px; border:2px solid #77DDFF; animation: cx-ripple 1.8s ease-out infinite; pointer-events:none; }
       `}</style>
 
-      <div className="mx-auto max-w-[110rem] px-2 md:px-4 relative">
-        <div className="relative cx-enter">
-          <img
-            src={connectedExperienceAsset.url}
-            alt="Connected experience"
-            className="block w-full h-auto select-none"
-            draggable={false}
-          />
+      <div className="mx-auto max-w-7xl px-6">
+        {/* Header */}
+        <div className="text-center cx-enter" style={{ animationDelay: "0ms" }}>
+          <div className="text-xs tracking-[0.4em] text-muted-foreground uppercase mb-4">Connected Experience</div>
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
+            Instant interaction. Full management.
+          </h2>
+          <p className="mt-5 text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
+            Talesso meets your team where they already work — phone, chat, or browser.
+          </p>
+        </div>
 
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute" style={{ left: "82.5%", top: "20.5%", width: "10%", height: "10%", borderRadius: 6, overflow: "hidden" }}>
-              <div className="cx-scan" />
+        {/* Stage */}
+        <div className="relative mt-16 grid grid-cols-12 gap-6 items-start">
+          {/* LEFT column */}
+          <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
+            {/* Welcome message card */}
+            <div className="cx-enter w-full bg-white rounded-2xl p-4 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "120ms" }}>
+              <div className="text-sm font-semibold">👋 Welcome to Eyecid</div>
+              <div className="text-xs mt-2 text-slate-700">🔒 Access Control System<br />Your role: Administrator</div>
+              <div className="text-xs mt-2 text-slate-600">Use the buttons below or <span className="text-sky-600">/help</span> for a list of commands.</div>
+              <div className="text-[10px] text-right text-slate-400 mt-1">12:30</div>
             </div>
-            <div className="cx-typing cx-float" style={{ left: "11%", top: "61%" }}>
-              <span /><span /><span />
+
+            {/* Telegram logo */}
+            <div className="cx-enter self-start ml-2" style={{ animationDelay: "260ms", animation: "cx-float-a 5s ease-in-out infinite" }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{ background: "linear-gradient(135deg,#3aa9e6,#1f8fd1)" }}>
+                <Send className="w-5 h-5 text-white -translate-x-[1px]" />
+              </div>
             </div>
-            <div className="absolute cx-pulse" style={{ left: "15.5%", top: "84%", width: 12, height: 12, borderRadius: 9999, background: "#77DDFF" }} />
-            <div className="absolute rounded-full cx-pulse" style={{ left: "3.2%", top: "37.5%", width: "4%", height: "6.5%" }} />
-            <div className="absolute" style={{ left: "92%", top: "79%", width: 0, height: 0 }}>
-              <div className="cx-ripple" />
+
+            {/* Telegram phone */}
+            <div className="cx-enter w-[210px]" style={{ animationDelay: "320ms", animation: "cx-float-b 6s ease-in-out infinite" }}>
+              <div className="cx-phone">
+                <div className="cx-phone-inner" style={{ height: 340 }}>
+                  <div className="cx-notch" />
+                  <div className="px-3 pt-7 pb-2 bg-white flex items-center gap-2 border-b border-black/5">
+                    <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center text-[9px] font-bold text-sky-700">E</div>
+                    <div className="text-[11px] font-semibold">EYECID <span className="text-slate-400 font-normal">bot</span></div>
+                  </div>
+                  <div className="p-3 space-y-2">
+                    <div className="cx-msg-in bg-white rounded-lg p-2 text-[10px] shadow-sm" style={{ animationDelay: "500ms" }}>
+                      <div className="font-semibold">👋 Welcome to Eyecid</div>
+                      <div className="text-slate-600 mt-1">Smart Building Access Control</div>
+                    </div>
+                    <div className="cx-msg-in flex justify-end" style={{ animationDelay: "900ms" }}>
+                      <div className="bg-emerald-100 rounded-lg px-2 py-1 text-[10px]">/start</div>
+                    </div>
+                    <div className="cx-msg-in" style={{ animationDelay: "1300ms" }}>
+                      <div className="cx-typing"><span/><span/><span/></div>
+                    </div>
+                    <div className="cx-msg-in grid grid-cols-2 gap-1 pt-1" style={{ animationDelay: "1700ms" }}>
+                      {["Alerts","Tickets","Events","Access","Parking","Smart Home"].map(l => (
+                        <div key={l} className="bg-white rounded px-2 py-1 text-[9px] text-slate-700 shadow-sm text-center">{l}</div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="cx-info" key={shown}>
-              <span className="cx-info-dot" />
-              {shown === "mobile" && "Mobile App — Remote unlock · Push alerts · Live monitoring"}
-              {shown === "telegram" && "Telegram Bot — Unlock door · Camera snapshot · Status"}
-              {shown === "dashboard" && "Web Dashboard — Occupancy · Access events · Live charts"}
-              {shown === "support" && "24/7 Support — AI assistant + real humans on standby"}
-              {shown === "qr" && "Guest QR — Time-limited access · PIN fallback"}
-              {shown === "tg-logo" && "Open the Talesso Telegram bot"}
-              {shown === "badge" && "24/7 — Always-on monitoring"}
-              {shown === "thumb" && "Tap detected — opening selected module"}
+
+            {/* Mini dashboard chip card */}
+            <div className="cx-enter w-[210px] bg-white rounded-xl p-2.5 border border-black/5 shadow-sm" style={{ animationDelay: "420ms" }}>
+              <div className="grid grid-cols-2 gap-1.5">
+                {["Open Eyecid","Alerts","Tickets","Events","Access","Parking","Smart Home","Settings"].map(l => (
+                  <div key={l} className="flex items-center gap-1.5 bg-slate-50 rounded px-2 py-1 text-[9px] text-slate-700">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#77DDFF] cx-pulse-dot" />{l}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="absolute inset-0">
-            {CX_HOTSPOTS.map((h) => {
-              const isActive = shown === h.id;
-              return (
-                <button
-                  key={h.id}
-                  type="button"
-                  aria-label={h.label}
-                  className={`cx-hot ${h.round ? "is-round" : ""} ${isActive ? "is-active" : ""}`}
-                  style={{ left: h.left, top: h.top, width: h.width, height: h.height }}
-                  onMouseEnter={() => setActive(h.id)}
-                  onMouseLeave={() => setActive(null)}
-                  onFocus={() => setActive(h.id)}
-                  onBlur={() => setActive(null)}
+          {/* CENTER - feature cards */}
+          <div className="col-span-12 lg:col-span-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {CX_FEATURES.map((f, i) => (
+                <div
+                  key={f.id}
+                  className="cx-card cx-enter"
+                  style={{ animationDelay: `${180 + i * 120}ms` }}
+                  onMouseEnter={() => setHovered(f.id)}
+                  onMouseLeave={() => setHovered(null)}
                 >
-                  {isActive ? <span className="cx-ripple" /> : null}
-                </button>
-              );
-            })}
+                  <div className="cx-card-icon">
+                    <f.Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="mt-20 text-xl font-semibold">{f.title}</h3>
+                  <p className="mt-3 text-sm text-slate-600">{f.desc}</p>
+                  <div className="cx-extra">{f.extra}</div>
+                  {hovered === f.id && (
+                    <div className="mt-3 inline-flex items-center gap-2 text-[11px] text-[#0a8fb8]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#77DDFF]" /> Live
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT column */}
+          <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
+            {/* QR card */}
+            <div className="cx-enter relative w-[180px] bg-white rounded-2xl p-3 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "200ms", animation: "cx-float-c 5.5s ease-in-out infinite" }}>
+              <div className="text-[10px] text-slate-500 mb-1">Guest Access</div>
+              <div className="relative overflow-hidden rounded">
+                <div className="grid grid-cols-8 gap-[2px] bg-white p-1">
+                  {Array.from({ length: 64 }).map((_, i) => (
+                    <div key={i} className="aspect-square" style={{ background: (i * 37) % 5 < 2 ? "#0b0b0b" : "transparent" }} />
+                  ))}
+                </div>
+                <div className="cx-qr-scan" />
+              </div>
+              <div className="mt-2 text-[10px] text-slate-500">PIN Code</div>
+              <div className="text-lg font-bold tracking-wider">1234</div>
+            </div>
+
+            {/* NFC Smart Home card */}
+            <div className="cx-enter self-end mr-2 w-[120px] rounded-xl p-3 text-white shadow-lg" style={{ animationDelay: "320ms", background: "linear-gradient(135deg,#1f5d3a,#0e3a23)", animation: "cx-float-a 4.8s ease-in-out infinite" }}>
+              <ArrowUp className="w-4 h-4" />
+              <div className="text-[10px] mt-2 font-semibold">Smart Home</div>
+              <div className="text-[8px] opacity-70">KNX Devices</div>
+            </div>
+
+            {/* 24/7 badge */}
+            <div className="cx-enter self-start ml-4" style={{ animationDelay: "380ms" }}>
+              <div className="w-14 h-14 rounded-full flex items-center justify-center border-2 border-dashed border-rose-400 text-rose-500 text-xs font-bold" style={{ animation: "cx-spin-slow 18s linear infinite" }}>
+                24/7
+              </div>
+            </div>
+
+            {/* Right phone with hand */}
+            <div className="cx-enter relative" style={{ animationDelay: "260ms", animation: "cx-float-a 6s ease-in-out infinite" }}>
+              <div className="cx-phone w-[200px]">
+                <div className="cx-phone-inner bg-white" style={{ height: 360 }}>
+                  <div className="cx-notch" />
+                  <div className="pt-8 px-3 pb-2 flex items-center justify-between text-[10px] text-slate-500">
+                    <span>12:36</span>
+                    <div className="flex gap-1"><Wifi className="w-3 h-3" /></div>
+                  </div>
+                  <div className="px-3 flex items-center justify-between border-b border-slate-100 pb-2">
+                    <XIcon className="w-3.5 h-3.5 text-slate-500" />
+                    <div className="text-[10px] font-semibold tracking-wider">EYECID</div>
+                    <div className="text-slate-400 text-[10px]">⋮</div>
+                  </div>
+                  <div className="text-center pt-3">
+                    <div className="font-display text-lg font-bold tracking-tight">EYE<span style={{ color: "#77DDFF" }}>C</span>ID</div>
+                    <div className="text-[8px] text-slate-500">Smart Building Access Control</div>
+                    <div className="text-[8px] text-slate-400">Dev mode</div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 p-3">
+                    {[
+                      { l: "Alerts", I: Lightbulb, c: "#ef4444", n: 2 },
+                      { l: "Tickets", I: Settings, c: "#0f172a", n: 5 },
+                      { l: "Access Events", I: DoorOpen, c: "#0f172a" },
+                      { l: "Access Control", I: Lock, c: "#0f172a" },
+                      { l: "Parking", I: ParkingSquare, c: "#2563eb" },
+                      { l: "Smart Home", I: HomeIcon, c: "#ef4444" },
+                      { l: "People", I: ScanFace, c: "#0f172a" },
+                      { l: "Settings", I: Settings, c: "#0f172a" },
+                    ].map((m, i) => (
+                      <div key={i} className="bg-slate-50 rounded-lg py-2 flex flex-col items-center gap-1 relative">
+                        <m.I className="w-4 h-4" style={{ color: m.c }} />
+                        <div className="text-[8px] text-slate-600">{m.l}</div>
+                        {m.n ? <div className="absolute top-1 right-2 bg-red-500 text-white text-[7px] rounded-full w-3 h-3 flex items-center justify-center">{m.n}</div> : null}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-center text-[7px] text-slate-400">EYECID · MVPFR © 2026</div>
+                </div>
+              </div>
+              {/* Touch ripple */}
+              <div className="absolute" style={{ right: 30, bottom: 80 }}>
+                <div className="cx-ripple" />
+              </div>
+              {/* Hand silhouette */}
+              <div className="absolute -bottom-6 -right-8 w-28 h-40 rounded-t-[60%] bg-gradient-to-b from-amber-100 to-amber-200/70 opacity-60 blur-[2px] -z-10" />
+            </div>
           </div>
         </div>
       </div>
