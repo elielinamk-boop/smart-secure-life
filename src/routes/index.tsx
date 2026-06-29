@@ -686,12 +686,9 @@ function BuildingCard({
   const bgPos = side === "office" ? "0% center" : "100% center";
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
-  // Always place the panel on the LEFT side of the building image.
-  const panelOnLeft = true;
+  // Always place the panel inside the left side of the building image.
   const panelPos = activeInfo
-    ? panelOnLeft
-      ? { left: `calc(${activeInfo.focus.x}% - 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))`, transform: "translateX(-100%)" }
-      : { left: `calc(${activeInfo.focus.x}% + 16px)`, top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))` }
+    ? { left: "clamp(0.75rem, 2.5vw, 1.25rem)", top: `clamp(0.75rem, ${activeInfo.focus.y}% - 11rem, calc(100% - 22rem))` }
     : null;
 
   return (
@@ -790,16 +787,12 @@ function BuildingCard({
         {activeInfo && panelPos ? (
           <div
             key={`panel-${active}`}
-            className="ibs-panel absolute z-30 w-[19rem] max-w-[calc(100vw-2rem)] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
+            className="ibs-panel absolute z-30 w-[min(19rem,calc(100%-1.5rem))] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
             style={panelPos}
           >
             <span
               className="ibs-panel-arrow"
-              style={
-                panelOnLeft
-                  ? { right: "-7px", top: "11rem", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }
-                  : { left: "-7px", top: "11rem", marginTop: "-7px", borderRight: "none", borderTop: "none" }
-              }
+              style={{ right: "-7px", top: "11rem", marginTop: "-7px", borderLeft: "none", borderBottom: "none" }}
             />
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a]/5">
