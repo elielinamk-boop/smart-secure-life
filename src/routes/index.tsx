@@ -701,7 +701,7 @@ function BuildingCard({
       onMouseLeave={onMouseLeave}
     >
       {/* Aspect box to keep the card a stable height */}
-      <div className="relative aspect-[16/11]">
+      <div className="relative aspect-[688/768]">
         <div
           ref={bgRef}
           className="ibs-card-bg"
