@@ -1140,7 +1140,10 @@ function TileOverlay({ kind }: { kind: TileKind }) {
       return (
         <div className="pg4-fx" aria-hidden>
           <span className="pg4-platepop">
-            <span className="pg4-platepop-eu">EU</span>
+            <span className="pg4-platepop-eu">
+              <span className="pg4-platepop-stars">★★</span>
+              <span>EU</span>
+            </span>
             <span className="pg4-platepop-num">AB 123 CD</span>
           </span>
         </div>
