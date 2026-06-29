@@ -649,7 +649,7 @@ function BuildingsShowcase() {
         }
         .ibs-label > .ibs-label-inner { display: inline-flex; align-items: center; gap: 8px; }
         .ibs-label .ibs-icon {
-          display: inline-flex; color: #2563eb;
+          display: inline-flex; color: #77DDFF;
           transition: filter 240ms ease, transform 240ms ease;
         }
         .ibs-label.float-a .ibs-label-inner { animation: ibs-float-a 4.8s ease-in-out infinite; }
@@ -1059,7 +1059,7 @@ function BuildingCard({
             {/* arrow removed — panel is centered, no longer pointing at the hotspot */}
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a]/5">
-                <activeInfo.icon className="h-5 w-5 text-[#2563eb]" />
+                <activeInfo.icon className="h-5 w-5 text-[#77DDFF]" />
               </span>
               <div className="flex-1">
                 <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Feature</p>
@@ -1082,7 +1082,7 @@ function BuildingCard({
             <ul className="mt-3 space-y-1.5">
               {activeInfo.benefits.map((b) => (
                 <li key={b} className="flex items-start gap-2 text-xs text-foreground/70">
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2563eb]" />
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#77DDFF]" />
                   <span>{b}</span>
                 </li>
               ))}
