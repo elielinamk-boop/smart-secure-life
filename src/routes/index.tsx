@@ -653,7 +653,6 @@ function MeetEyecid() {
           {/* Right: stats */}
           <div className="space-y-8">
             <StatRow accent={1} label="Platform" inView={section.inView} delay={0} />
-            <StatRow accent={1} label="Platform" hidden delay={0} inView={false} />
             <StatRow accent={1} label="Interface" inView={section.inView} delay={300} />
             <StatRow accent="FULL" label="Control" inView={section.inView} delay={600} />
           </div>
