@@ -2014,7 +2014,7 @@ function AboutUs() {
         @keyframes au-wave-a { 0% { transform: translateX(0) translateY(0); } 50% { transform: translateX(-25%) translateY(-6px);} 100% { transform: translateX(-50%) translateY(0); } }
         @keyframes au-wave-b { 0% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-25%) translateY(5px);} 100% { transform: translateX(0) translateY(0); } }
         @keyframes au-shimmer { 0%,100% { opacity:.65; } 50% { opacity:.95; } }
-        .au-bg { background: linear-gradient(180deg, #cfe4f1 0%, #a9cee0 35%, #7fb3cc 70%, #4f8db0 100%); }
+        .au-bg { background: linear-gradient(180deg, #fafbfc 0%, #f0f4f7 40%, #e3ecf1 70%, #d3dfe6 100%); }
         .au-wave { position:absolute; left:0; width:200%; height:140px; will-change: transform; }
         .au-wave-a { animation: au-wave-a 8s ease-in-out infinite; }
         .au-wave-b { animation: au-wave-b 11s ease-in-out infinite; opacity:.7; }
