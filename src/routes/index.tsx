@@ -918,8 +918,6 @@ function ProductGallery() {
           content: "★"; font-size: 10px;
         }
         .pg4-platepop-num { padding: 10px 14px; }
-      `}</style>
-      <style>{`
         /* tv now playing */
         @keyframes pg4-tv-on {
           0%, 100% { opacity: 0.85; }
