@@ -324,7 +324,9 @@ function Solutions() {
           className={`mt-4 max-w-md text-sm text-foreground/55 leading-relaxed transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
           style={{ transitionDelay: "500ms" }}
         >
-          From the front gate to indoor air quality — a unified system that sees, decides, and acts.
+          From the front gate to indoor air quality —{"\u00a0"}
+          <br />
+          a unified system that sees, decides, and acts.
         </p>
 
         <div ref={grid.ref} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
