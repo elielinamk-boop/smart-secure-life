@@ -538,7 +538,7 @@ function MeetEyecid() {
                 <img
                   src={eyecidLogoAsset.url}
                   alt="EYECID"
-                  className="inline-block h-[0.85em] w-auto align-baseline select-none"
+                  className="inline-block h-[1.15em] w-auto align-baseline select-none"
                   draggable={false}
                 />
                 {/* one-shot light sweep across EYECID */}
