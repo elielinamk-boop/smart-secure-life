@@ -278,16 +278,6 @@ function PhotoShowcase() {
           </h2>
         </div>
         <div
-          ref={meet.ref}
-          className={`transition-all duration-1000 ease-out ${meet.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-md"}`}
-        >
-          <img
-            src={meetAsset.url}
-            alt="Meet Talesso — the all-in-one smart building platform"
-            className="w-full h-auto rounded-3xl border border-border/70"
-          />
-        </div>
-        <div
           ref={coll.ref}
           className={`mt-6 transition-all duration-1000 delay-150 ease-out ${coll.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-12 blur-md"}`}
         >
