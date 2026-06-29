@@ -131,7 +131,9 @@ function Landing() {
       <BuildingsShowcase />
       <ScenesShowcase />
       <Channels />
-      <CTA />
+      <Partners />
+      <AboutUs />
+      <ContactSection />
       <SiteFooter />
     </div>
   );
