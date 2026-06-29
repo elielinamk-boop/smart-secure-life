@@ -47,6 +47,7 @@ import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
 import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
 import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
 import clientsLogosAsset from "@/assets/clients-logos.png.asset.json";
+import clientsLogosWhiteAsset from "@/assets/clients-logos-white.png.asset.json";
 import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
 import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
 import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
@@ -1984,7 +1985,7 @@ function Partners() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <img
                   key={i}
-                  src={clientsLogosAsset.url}
+                  src={clientsLogosWhiteAsset.url}
                   alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
                   className="h-20 md:h-24 w-auto max-w-none shrink-0"
                   loading="lazy"
