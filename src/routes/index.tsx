@@ -868,7 +868,7 @@ function GalleryTile({
         if (!el || !img) return;
         const r = el.getBoundingClientRect();
         const center = r.top + r.height / 2 - window.innerHeight / 2;
-        const py = Math.max(-40, Math.min(40, -center * speed));
+        const py = Math.max(-24, Math.min(24, -center * speed));
         img.style.setProperty("--py", `${py.toFixed(2)}px`);
       });
     };
