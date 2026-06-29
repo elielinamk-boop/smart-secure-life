@@ -550,9 +550,9 @@ function MeetEyecid() {
               </span>
             </h2>
             <h3 className="mt-6 font-display text-2xl md:text-4xl font-extrabold tracking-tight leading-[1.1]">
-              <span className={`block ${lineCls("")}`} style={{ animationDelay: "0.45s" }}>THE ALL-IN-ONE</span>
-              <span className={`block ${lineCls("")}`} style={{ animationDelay: "0.6s" }}>SMART BUILDING</span>
-              <span className={`block ${lineCls("")}`} style={{ animationDelay: "0.75s" }}>PLATFORM</span>
+              <span className={lineCls("")} style={{ animationDelay: "0.45s" }}>THE{"\u00A0"}</span>
+              <span className={lineCls("")} style={{ animationDelay: "0.60s" }}>SMART BUILDING</span>{" "}
+              <span className={lineCls("")} style={{ animationDelay: "0.75s" }}>PLATFORM</span>
             </h3>
           </div>
 
