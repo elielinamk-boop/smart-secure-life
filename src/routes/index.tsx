@@ -1985,26 +1985,26 @@ function ProductGallery() {
           100% { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.95); }
         }
         .pg4-platepop {
-          position: absolute; left: 60%; top: 60%;
+          position: absolute; left: 50%; top: 32%;
           display: inline-flex; align-items: stretch;
-          background: #fff; color: #111;
-          border: 2px solid #111; border-radius: 8px;
+          background: #f3f4f6; color: #0b0b0b;
+          border: 4px solid #0b0b0b; border-radius: 10px;
           font: 800 26px/1 ui-monospace, "SF Mono", Menlo, monospace;
           letter-spacing: 0.12em;
-          box-shadow: 0 16px 40px rgba(0,0,0,0.55);
+          box-shadow: 0 18px 44px rgba(0,0,0,0.55), inset 0 0 0 2px #f3f4f6;
           overflow: hidden;
           animation: pg4-platepop 3.2s ease-in-out infinite;
         }
         .pg4-platepop-eu {
-          background: #003399; color: #ffcc00;
-          font: 700 11px/1.05 ui-sans-serif, system-ui;
-          padding: 10px 8px;
+          background: #0b3aa8; color: #ffcc00;
+          font: 700 9px/1.05 ui-sans-serif, system-ui;
+          padding: 6px 6px;
           display: flex; flex-direction: column; align-items: center; justify-content: center;
-          gap: 4px;
-          min-width: 28px;
+          gap: 3px;
+          min-width: 22px;
         }
-        .pg4-platepop-stars { font-size: 12px; line-height: 1; letter-spacing: -1px; }
-        .pg4-platepop-num { padding: 12px 18px; }
+        .pg4-platepop-stars { font-size: 10px; line-height: 1; letter-spacing: -1px; }
+        .pg4-platepop-num { padding: 10px 16px; background: #f3f4f6; }
         /* tv now playing */
         @keyframes pg4-tv-on {
           0%, 100% { opacity: 0.85; }
