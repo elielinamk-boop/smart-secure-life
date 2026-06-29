@@ -1815,8 +1815,6 @@ function ConnectedExperience() {
   );
 }
 
-}
-
 function CTA() {
   return (
     <section id="contact" className="relative pb-32">
