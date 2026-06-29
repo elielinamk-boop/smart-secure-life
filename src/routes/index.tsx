@@ -570,7 +570,7 @@ function MeetEyecid() {
               }`}
               style={{ transform: "translateY(var(--py, 0px))" }}
             >
-              <div ref={deviceInner} className="relative animate-eyecid-float will-change-transform -scale-x-100" style={{ transformStyle: "preserve-3d" }}>
+              <div ref={deviceInner} className="relative animate-eyecid-float will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <img
                   src={eyecidAsset.url}
                   alt="EYECID — face recognition access terminal"
