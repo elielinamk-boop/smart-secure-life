@@ -1700,9 +1700,9 @@ function Channels() {
 
 /* ---------------- Connected Experience (independent components) ---------------- */
 
-type FeatureKey = "mobile" | "telegram" | "dashboard" | "support";
+type CxFeatureKey = "mobile" | "telegram" | "dashboard" | "support";
 
-const CX_FEATURES: { id: FeatureKey; title: string; desc: string; Icon: LucideIcon; extra: string }[] = [
+const CX_FEATURES: { id: CxFeatureKey; title: string; desc: string; Icon: LucideIcon; extra: string }[] = [
   { id: "mobile",    title: "Mobile App",    desc: "Full control in your pocket — iOS & Android.", Icon: Smartphone, extra: "Remote unlock · Push alerts · Live monitoring" },
   { id: "telegram",  title: "Telegram Bot",  desc: "Quick commands and alerts in chat.",            Icon: Send,       extra: "Unlock door · Camera snapshot · Status" },
   { id: "dashboard", title: "Web Dashboard", desc: "Manage buildings, users and analytics from any browser.", Icon: Monitor, extra: "Occupancy · Access events · Live charts" },
@@ -1710,7 +1710,7 @@ const CX_FEATURES: { id: FeatureKey; title: string; desc: string; Icon: LucideIc
 ];
 
 function ConnectedExperience() {
-  const [hovered, setHovered] = useState<FeatureKey | null>(null);
+  const [hovered, setHovered] = useState<CxFeatureKey | null>(null);
 
   return (
     <section id="channels" className="relative py-20 md:py-28 overflow-hidden">
