@@ -899,3 +899,36 @@ function GalleryTile({
     </div>
   );
 }
+
+/* ============================================================
+   Section 5 — Smart Living Gallery (2x2, scroll effects)
+   ============================================================ */
+
+const gallery2Tiles: { src: string; alt: string }[] = [
+  { src: gallery2TvAsset.url,      alt: "Smart living room with EYECID hub" },
+  { src: gallery2PanelAsset.url,   alt: "EYECID smart home control panel and thermostat" },
+  { src: gallery2EntryAsset.url,   alt: "Outdoor security camera, keypad and modern home entrance" },
+  { src: gallery2ControlAsset.url, alt: "Security operator monitoring multi-screen video wall" },
+];
+
+function ProductGallery2() {
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
+  return (
+    <section className="relative w-full overflow-hidden">
+      <div
+        ref={reveal.ref}
+        className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full"
+      >
+        {gallery2Tiles.map((t, i) => (
+          <GalleryTile
+            key={t.src}
+            src={t.src}
+            alt={t.alt}
+            index={i}
+            visible={reveal.inView}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
