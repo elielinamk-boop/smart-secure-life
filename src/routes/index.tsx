@@ -1937,7 +1937,16 @@ function ConnectedExperience() {
 /* ---------------- Partners ---------------- */
 
 const PARTNER_MANUFACTURERS = ["Ajax Systems", "2N", "Dahua", "Hikvision", "ZKTeco", "Suprema", "Telpo"];
-const PARTNER_CLIENTS = ["FUN CORP", "SVG", "DEPCON", "JBG", "mena aerospace", "{evest}", "Св. Николая"];
+type PartnerLogo = { name: string; sub?: string; color: string; bg: string; font?: string; shape?: "circle" | "pill" };
+const PARTNER_CLIENTS: PartnerLogo[] = [
+  { name: "FUN CORP",      color: "#0b0b0b", bg: "#ffffff", font: "900" },
+  { name: "SVG",           color: "#ffffff", bg: "linear-gradient(135deg,#3a6f8f,#0e3a5a)", shape: "circle", font: "900" },
+  { name: "DEPCON",        sub: "Construction LTD", color: "#1659b8", bg: "#ffffff", font: "900" },
+  { name: "JBG",           color: "#ffffff", bg: "#c8202c", shape: "circle", font: "900" },
+  { name: "mena aero",     color: "#c0202c", bg: "#ffffff", font: "700" },
+  { name: "{evest}",       sub: "Numbers Rule",     color: "#1fb6a8", bg: "#ffffff", font: "800" },
+  { name: "Cathedral",     sub: "Limassol",         color: "#7a5a2b", bg: "#fbf6ec", font: "700" },
+];
 
 function Partners() {
   return (
@@ -1971,10 +1980,16 @@ function Partners() {
           </div>
           <div className="pt-mask overflow-hidden">
             <div className="pt-track pt-track-slow">
-              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((name, i) => (
-                <div key={i} className="flex items-center gap-14 shrink-0">
-                  <div className="h-20 w-44 rounded-2xl bg-white border border-black/5 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.25)] flex items-center justify-center text-slate-700 font-semibold text-base px-4 text-center">
-                    {name}
+              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((c, i) => (
+                <div key={i} className="shrink-0 px-6 flex items-center justify-center">
+                  <div
+                    className={`flex items-center justify-center text-center shadow-[0_12px_30px_-18px_rgba(0,0,0,0.35)] ${c.shape === "circle" ? "rounded-full w-24 h-24" : "rounded-2xl px-6 py-4 min-w-[180px] h-24"}`}
+                    style={{ background: c.bg, color: c.color }}
+                  >
+                    <div className="leading-tight">
+                      <div style={{ fontWeight: Number(c.font ?? 700), fontSize: c.shape === "circle" ? 22 : 22, letterSpacing: "0.02em" }}>{c.name}</div>
+                      {c.sub && <div className="text-[10px] mt-1 opacity-80">{c.sub}</div>}
+                    </div>
                   </div>
                 </div>
               ))}
