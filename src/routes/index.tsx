@@ -450,16 +450,31 @@ function SolutionCard({
 function GlassSphere({ children, index }: { children: ReactNode; index: number }) {
   const tinted = index % 2 === 1;
   return (
-    <div className="relative mx-auto h-20 w-20">
+    <div
+      className="relative mx-auto h-20 w-20"
+      style={{
+        animation: `icon-float ${6 + (index % 3)}s ease-in-out ${index * 0.3}s infinite`,
+      }}
+    >
       <div
         className={`absolute inset-0 rounded-full ${
           tinted
             ? "bg-gradient-to-br from-[#cfe6ff] via-white to-[#bcd9ff]"
             : "bg-gradient-to-br from-white via-[#f3f6fb] to-[#dfe6ef]"
         } shadow-[inset_0_2px_8px_rgba(255,255,255,0.9),inset_0_-6px_12px_rgba(80,110,150,0.25),0_10px_24px_-12px_rgba(40,60,100,0.35)]`}
+        style={{
+          animation: `sphere-breath ${5 + (index % 2)}s ease-in-out ${index * 0.4}s infinite`,
+        }}
       />
       <div className="absolute inset-[3px] rounded-full border border-white/70" />
       <div className="absolute left-2 top-1.5 h-4 w-6 rounded-full bg-white/80 blur-[2px]" />
+      {/* One-shot light sweep after entrance */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+        <div
+          className="absolute -inset-1 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,0.85)_50%,transparent_65%)]"
+          style={{ animation: `sphere-sheen 1.2s ease-out ${1.0 + index * 0.1}s 1 both` }}
+        />
+      </div>
       <div className="relative z-10 flex h-full w-full items-center justify-center">{children}</div>
     </div>
   );
