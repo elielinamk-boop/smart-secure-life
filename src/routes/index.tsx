@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import {
   ShieldCheck,
   Sparkles,
@@ -26,10 +26,17 @@ import {
   Thermometer,
   Lock,
   Home as HomeIcon,
+  Camera,
+  Droplet,
+  RefreshCw,
+  ParkingSquare,
+  DoorOpen,
+  X as XIcon,
+  type LucideIcon,
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
-import buildingsAsset from "@/assets/buildings-map.png.asset.json";
+import buildingsCleanAsset from "@/assets/buildings-clean.png.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
@@ -273,9 +280,242 @@ function VideoShowcase() {
   );
 }
 
+/* ============================================================
+   Section — Interactive Smart Building Demonstration
+   ============================================================ */
+
+type FeatureKey =
+  | "internet" | "lighting" | "climate" | "cameras" | "access"
+  | "leak" | "integrations" | "parking"
+  | "smart-locks" | "garage";
+
+type FeatureInfo = {
+  name: string;
+  short: string;
+  benefits: string[];
+  example: string;
+  icon: LucideIcon;
+  /* tinted overlay color */
+  tint: string;
+  /* overlay focal point inside the card (% of card box) */
+  focus: { x: number; y: number; r: number };
+};
+
+const FEATURE_INFO: Record<FeatureKey, FeatureInfo> = {
+  internet: {
+    name: "Internet",
+    short: "A dedicated, secure mesh network connects every device in the building.",
+    benefits: ["Whole-building Wi-Fi coverage", "Isolated IoT VLAN", "Auto-failover backbone"],
+    example: "Tenants roam from lobby to rooftop without ever dropping a video call.",
+    icon: Wifi,
+    tint: "rgba(59,130,246,0.55)",
+    focus: { x: 50, y: 28, r: 42 },
+  },
+  lighting: {
+    name: "Lighting",
+    short: "Control every light in the building remotely. Create schedules, automate scenes and reduce energy consumption.",
+    benefits: ["Per-room scenes", "Sunrise / sunset automation", "Up to 40% energy saved"],
+    example: "At 7pm the lobby dims and the workspace lights warm — automatically.",
+    icon: Lightbulb,
+    tint: "rgba(255,196,90,0.55)",
+    focus: { x: 50, y: 45, r: 40 },
+  },
+  climate: {
+    name: "Climate",
+    short: "Smart HVAC keeps every room at the perfect temperature and air quality.",
+    benefits: ["Per-zone thermostats", "Indoor air-quality sensing", "Predictive scheduling"],
+    example: "Conference rooms cool down 10 minutes before a meeting begins.",
+    icon: Thermometer,
+    tint: "rgba(96,165,250,0.55)",
+    focus: { x: 50, y: 50, r: 42 },
+  },
+  cameras: {
+    name: "Security Cameras",
+    short: "AI-powered cameras watch every entry point and recognise events in real time.",
+    benefits: ["Person / vehicle detection", "License plate recognition", "Cloud + edge recording"],
+    example: "An unknown person at the side door triggers an instant alert to security.",
+    icon: Camera,
+    tint: "rgba(96,165,250,0.5)",
+    focus: { x: 35, y: 55, r: 32 },
+  },
+  access: {
+    name: "Access Control",
+    short: "Biometric, mobile and PIN access on every door — fully audited.",
+    benefits: ["Face + QR + plate", "Time-based permissions", "Full audit trail"],
+    example: "Cleaners get access between 6am–9am only, no keys required.",
+    icon: Lock,
+    tint: "rgba(74,222,128,0.5)",
+    focus: { x: 50, y: 60, r: 28 },
+  },
+  leak: {
+    name: "Leak Detection",
+    short: "Sensors near plumbing instantly catch leaks before they cause damage.",
+    benefits: ["Per-pipe monitoring", "Auto shut-off valve", "Push alerts"],
+    example: "A burst pipe under the sink shuts itself off in under 4 seconds.",
+    icon: Droplet,
+    tint: "rgba(56,189,248,0.5)",
+    focus: { x: 30, y: 70, r: 30 },
+  },
+  integrations: {
+    name: "Integrations",
+    short: "Every system speaks the same language — lighting, climate, security and access connect into one platform.",
+    benefits: ["Open API", "1000+ device drivers", "One mobile app"],
+    example: "Tapping ‘leave home’ arms cameras, locks doors and turns off lights.",
+    icon: RefreshCw,
+    tint: "rgba(168,85,247,0.45)",
+    focus: { x: 50, y: 78, r: 38 },
+  },
+  parking: {
+    name: "Parking Management",
+    short: "License-plate driven access and live spot availability.",
+    benefits: ["Plate-based entry", "Live occupancy map", "Reserved-spot routing"],
+    example: "A visitor’s plate is recognised and the gate opens to their reserved spot.",
+    icon: ParkingSquare,
+    tint: "rgba(74,222,128,0.5)",
+    focus: { x: 70, y: 85, r: 28 },
+  },
+  "smart-locks": {
+    name: "Smart Locks",
+    short: "Keyless entry on every door — mobile, biometric or temporary codes.",
+    benefits: ["Mobile unlock", "Time-limited guest codes", "Tamper alerts"],
+    example: "Send a one-time code to a delivery courier that expires in 10 minutes.",
+    icon: Lock,
+    tint: "rgba(74,222,128,0.55)",
+    focus: { x: 85, y: 50, r: 26 },
+  },
+  garage: {
+    name: "Garage Access",
+    short: "License-plate recognition opens the garage automatically as you approach.",
+    benefits: ["Hands-free entry", "Vehicle whitelist", "Visitor pre-approval"],
+    example: "The garage opens 5 metres before you reach it — no remote needed.",
+    icon: DoorOpen,
+    tint: "rgba(74,222,128,0.5)",
+    focus: { x: 82, y: 70, r: 26 },
+  },
+};
+
+type LabelDef = { key: FeatureKey; x: number; y: number };
+
+const OFFICE_LABELS: LabelDef[] = [
+  { key: "internet",     x: 52, y: 16 },
+  { key: "lighting",     x: 18, y: 30 },
+  { key: "climate",      x: 66, y: 38 },
+  { key: "cameras",      x: 16, y: 50 },
+  { key: "access",       x: 50, y: 58 },
+  { key: "leak",         x: 18, y: 70 },
+  { key: "integrations", x: 45, y: 80 },
+  { key: "parking",      x: 75, y: 82 },
+];
+
+const RESIDENCE_LABELS: LabelDef[] = [
+  { key: "internet",      x: 30, y: 18 },
+  { key: "lighting",      x: 82, y: 32 },
+  { key: "climate",       x: 14, y: 40 },
+  { key: "cameras",       x: 14, y: 52 },
+  { key: "smart-locks",   x: 84, y: 50 },
+  { key: "garage",        x: 84, y: 64 },
+  { key: "leak",          x: 30, y: 72 },
+  { key: "integrations",  x: 64, y: 82 },
+];
+
 function BuildingsShowcase() {
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
+  const [active, setActive] = useState<{ side: "office" | "residence"; key: FeatureKey } | null>(null);
+
   return (
     <section className="relative pb-24">
+      <style>{`
+        @keyframes ibs-card-in {
+          0%   { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.98); filter: blur(8px); }
+          100% { opacity: 1; transform: translate3d(0, 0, 0)    scale(1);    filter: blur(0); }
+        }
+        .ibs-card { opacity: 0; will-change: transform, opacity, filter; }
+        .ibs-card.in { animation: ibs-card-in 0.8s cubic-bezier(0.22,0.61,0.36,1) both; }
+
+        @keyframes ibs-float-a { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(0,-3px,0); } }
+        @keyframes ibs-float-b { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(0,-2px,0); } }
+        .ibs-label {
+          position: absolute;
+          transform: translate(-50%, -50%);
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 8px 14px;
+          background: #fff;
+          border-radius: 999px;
+          box-shadow: 0 8px 24px rgba(15,30,80,0.12), 0 1px 0 rgba(255,255,255,0.7) inset;
+          font: 600 13px/1 var(--font-sans);
+          color: #0f172a;
+          white-space: nowrap;
+          cursor: pointer;
+          transition: transform 240ms cubic-bezier(0.16,1,0.3,1), box-shadow 240ms ease, background 240ms ease;
+          will-change: transform;
+        }
+        .ibs-label > .ibs-label-inner { display: inline-flex; align-items: center; gap: 8px; }
+        .ibs-label .ibs-icon {
+          display: inline-flex; color: #2563eb;
+          transition: filter 240ms ease, transform 240ms ease;
+        }
+        .ibs-label.float-a .ibs-label-inner { animation: ibs-float-a 4.8s ease-in-out infinite; }
+        .ibs-label.float-b .ibs-label-inner { animation: ibs-float-b 5.6s ease-in-out infinite; }
+        .ibs-label:hover {
+          transform: translate(-50%, calc(-50% - 2px)) scale(1.06);
+          box-shadow: 0 14px 38px rgba(15,30,80,0.22);
+        }
+        .ibs-label:hover .ibs-icon { filter: drop-shadow(0 0 6px rgba(37,99,235,0.7)); transform: scale(1.08); }
+        .ibs-label.active {
+          background: #0f172a; color: #fff;
+          box-shadow: 0 16px 42px rgba(15,30,80,0.32), 0 0 0 2px rgba(37,99,235,0.45);
+        }
+        .ibs-label.active .ibs-icon { color: #93c5fd; filter: drop-shadow(0 0 8px rgba(147,197,253,0.9)); }
+
+        @keyframes ibs-tint-in {
+          0%   { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        @keyframes ibs-pulse {
+          0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.85; }
+          50%      { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+        }
+        @keyframes ibs-ring {
+          0%   { transform: translate(-50%, -50%) scale(0.4); opacity: 0.7; }
+          100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+        }
+        .ibs-fx { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
+        .ibs-fx-tint {
+          position: absolute; inset: 0;
+          animation: ibs-tint-in 0.45s ease-out both;
+          mix-blend-mode: screen;
+        }
+        .ibs-fx-pulse {
+          position: absolute;
+          width: 28%; aspect-ratio: 1/1;
+          border-radius: 50%;
+          animation: ibs-pulse 2.4s ease-in-out infinite;
+        }
+        .ibs-fx-ring {
+          position: absolute;
+          width: 20%; aspect-ratio: 1/1;
+          border-radius: 50%;
+          border: 2px solid currentColor;
+          animation: ibs-ring 2.4s ease-out infinite;
+        }
+
+        .ibs-card-bg {
+          position: absolute; inset: 0;
+          background-image: var(--ibs-img);
+          background-size: 200% auto;
+          background-repeat: no-repeat;
+          will-change: transform;
+          transition: filter 400ms ease, transform 200ms linear;
+        }
+        .ibs-card:hover .ibs-card-bg { filter: brightness(1.04) saturate(1.05); }
+
+        @keyframes ibs-panel-in {
+          0%   { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.98); }
+          100% { opacity: 1; transform: translate3d(0, 0, 0)    scale(1); }
+        }
+        .ibs-panel { animation: ibs-panel-in 0.45s cubic-bezier(0.22,0.61,0.36,1) both; }
+      `}</style>
+
       <div className="px-4 md:px-8">
         <div className="mx-auto mb-10 max-w-7xl">
           <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Where Talesso lives</p>
@@ -283,19 +523,218 @@ function BuildingsShowcase() {
             Offices &amp; Residences.
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            One AI platform — two environments.{" "}
-            <Link to="/clients" className="underline underline-offset-4">
-              Open the interactive map →
-            </Link>
+            One AI platform — two environments. Tap any feature to see how it works.
           </p>
         </div>
-        <img
-          src={buildingsAsset.url}
-          alt="Talesso for Offices and Residences — smart device control across the building"
-          className="w-full h-auto rounded-3xl border border-border/70"
-        />
+
+        <div
+          ref={reveal.ref}
+          className="mx-auto grid max-w-[88rem] grid-cols-1 gap-6 md:grid-cols-2"
+        >
+          <BuildingCard
+            side="office"
+            title="Offices"
+            subtitle="Intelligent spaces for productivity"
+            Icon={Building2}
+            labels={OFFICE_LABELS}
+            visible={reveal.inView}
+            delay={0}
+            active={active && active.side === "office" ? active.key : null}
+            onSelect={(key) => setActive({ side: "office", key })}
+            onClose={() => setActive(null)}
+          />
+          <BuildingCard
+            side="residence"
+            title="Residences"
+            subtitle="Smart living, connected and secure"
+            Icon={HomeIcon}
+            labels={RESIDENCE_LABELS}
+            visible={reveal.inView}
+            delay={250}
+            active={active && active.side === "residence" ? active.key : null}
+            onSelect={(key) => setActive({ side: "residence", key })}
+            onClose={() => setActive(null)}
+          />
+        </div>
       </div>
     </section>
+  );
+}
+
+function BuildingCard({
+  side,
+  title,
+  subtitle,
+  Icon,
+  labels,
+  visible,
+  delay,
+  active,
+  onSelect,
+  onClose,
+}: {
+  side: "office" | "residence";
+  title: string;
+  subtitle: string;
+  Icon: LucideIcon;
+  labels: LabelDef[];
+  visible: boolean;
+  delay: number;
+  active: FeatureKey | null;
+  onSelect: (k: FeatureKey) => void;
+  onClose: () => void;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const labelsRef = useRef<HTMLDivElement>(null);
+
+  // Mouse parallax on the building + labels
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const dx = ((e.clientX - r.left) / r.width - 0.5) * 2;  // -1..1
+    const dy = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    if (bgRef.current) bgRef.current.style.transform = `translate3d(${dx * 8}px, ${dy * 8}px, 0)`;
+    if (labelsRef.current) labelsRef.current.style.transform = `translate3d(${dx * 4}px, ${dy * 4}px, 0)`;
+  }, []);
+  const onMouseLeave = useCallback(() => {
+    if (bgRef.current) bgRef.current.style.transform = "";
+    if (labelsRef.current) labelsRef.current.style.transform = "";
+  }, []);
+
+  // Half of the composite image to show
+  const bgPos = side === "office" ? "0% center" : "100% center";
+  const activeInfo = active ? FEATURE_INFO[active] : null;
+
+  return (
+    <div
+      ref={cardRef}
+      className={`ibs-card relative overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_30px_80px_-40px_rgba(15,30,80,0.35)] ${visible ? "in" : ""}`}
+      style={{ animationDelay: visible ? `${delay}ms` : undefined }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+    >
+      {/* Aspect box to keep the card a stable height */}
+      <div className="relative aspect-[16/11]">
+        <div
+          ref={bgRef}
+          className="ibs-card-bg"
+          style={{
+            // @ts-expect-error css var
+            "--ibs-img": `url('${buildingsCleanAsset.url}')`,
+            backgroundPosition: bgPos,
+          }}
+        />
+
+        {/* Feature overlay (per-feature tint + pulse) */}
+        {activeInfo ? (
+          <div className="ibs-fx" key={active}>
+            <div
+              className="ibs-fx-tint"
+              style={{
+                background: `radial-gradient(circle at ${activeInfo.focus.x}% ${activeInfo.focus.y}%, ${activeInfo.tint} 0%, transparent ${activeInfo.focus.r}%)`,
+              }}
+            />
+            <div
+              className="ibs-fx-pulse"
+              style={{
+                left: `${activeInfo.focus.x}%`,
+                top: `${activeInfo.focus.y}%`,
+                background: `radial-gradient(circle, ${activeInfo.tint} 0%, transparent 70%)`,
+              }}
+            />
+            <div
+              className="ibs-fx-ring"
+              style={{
+                left: `${activeInfo.focus.x}%`,
+                top: `${activeInfo.focus.y}%`,
+                color: activeInfo.tint,
+              }}
+            />
+          </div>
+        ) : null}
+
+        {/* Header */}
+        <div className="absolute left-6 top-6 z-10 flex items-center gap-4">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur">
+            <Icon className="h-6 w-6 text-[#0f172a]" />
+          </span>
+          <div>
+            <h3 className="font-display text-2xl md:text-3xl font-bold tracking-[-0.02em] text-[#0f172a]">
+              {title}
+            </h3>
+            <p className="text-sm text-muted-foreground">{subtitle}</p>
+          </div>
+        </div>
+
+        {/* Floating labels */}
+        <div ref={labelsRef} className="absolute inset-0 z-20" style={{ transition: "transform 200ms linear" }}>
+          {labels.map((l, i) => {
+            const info = FEATURE_INFO[l.key];
+            const I = info.icon;
+            const isActive = active === l.key;
+            return (
+              <button
+                key={`${l.key}-${i}`}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => onSelect(l.key)}
+                className={`ibs-label ${i % 2 ? "float-a" : "float-b"} ${isActive ? "active" : ""}`}
+                style={{ left: `${l.x}%`, top: `${l.y}%`, animationDelay: `${(i % 4) * 0.4}s` }}
+              >
+                <span className="ibs-label-inner">
+                  <span className="ibs-icon"><I className="h-4 w-4" /></span>
+                  <span>{info.name}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Info panel */}
+        {activeInfo ? (
+          <div
+            key={`panel-${active}`}
+            className={`ibs-panel absolute z-30 max-w-[18rem] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur ${
+              side === "office" ? "right-6 top-1/2 -translate-y-1/2" : "left-6 top-1/2 -translate-y-1/2"
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0f172a]/5">
+                <activeInfo.icon className="h-5 w-5 text-[#2563eb]" />
+              </span>
+              <div className="flex-1">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Feature</p>
+                <h4 className="font-display text-lg font-bold tracking-[-0.01em] text-[#0f172a]">
+                  {activeInfo.name}
+                </h4>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+              >
+                <XIcon className="h-4 w-4" />
+              </button>
+            </div>
+            <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{activeInfo.short}</p>
+            <ul className="mt-3 space-y-1.5">
+              {activeInfo.benefits.map((b) => (
+                <li key={b} className="flex items-start gap-2 text-xs text-foreground/70">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2563eb]" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3 rounded-lg bg-[#0f172a]/5 px-3 py-2 text-xs text-foreground/70 italic">
+              {activeInfo.example}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
   );
 }
 
