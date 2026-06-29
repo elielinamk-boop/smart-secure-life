@@ -254,7 +254,7 @@ function Hero() {
 
 function VideoShowcase() {
   return (
-    <section className="relative pb-10">
+    <section className="relative pt-24 pb-16">
       <div className="mx-auto max-w-3xl px-6">
         <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-[0_40px_120px_-40px_rgba(0,40,120,0.4)]">
           <iframe
