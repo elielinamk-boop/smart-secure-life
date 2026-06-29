@@ -1979,22 +1979,13 @@ function Partners() {
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
             Trusted by Leading Clients
           </div>
-          <div className="pt-mask overflow-hidden">
-            <div className="pt-track pt-track-slow">
-              {[...PARTNER_CLIENTS, ...PARTNER_CLIENTS].map((c, i) => (
-                <div key={i} className="shrink-0 px-6 flex items-center justify-center">
-                  <div
-                    className={`flex items-center justify-center text-center shadow-[0_12px_30px_-18px_rgba(0,0,0,0.35)] ${c.shape === "circle" ? "rounded-full w-24 h-24" : "rounded-2xl px-6 py-4 min-w-[180px] h-24"}`}
-                    style={{ background: c.bg, color: c.color }}
-                  >
-                    <div className="leading-tight">
-                      <div style={{ fontWeight: Number(c.font ?? 700), fontSize: c.shape === "circle" ? 22 : 22, letterSpacing: "0.02em" }}>{c.name}</div>
-                      {c.sub && <div className="text-[10px] mt-1 opacity-80">{c.sub}</div>}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="flex justify-center">
+            <img
+              src={clientsLogosAsset.url}
+              alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
+              className="w-full max-w-6xl h-auto object-contain"
+              loading="lazy"
+            />
           </div>
         </div>
       </div>
