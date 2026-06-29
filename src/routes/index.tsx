@@ -37,6 +37,8 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import buildingsCleanAsset from "@/assets/buildings-clean.png.asset.json";
+import hotelSceneAsset from "@/assets/hotel-scene.jpg.asset.json";
+import officeSceneAsset from "@/assets/office-scene.jpg.asset.json";
 import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
 import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
@@ -125,6 +127,7 @@ function Landing() {
       <ProductGallery2 />
       <VideoShowcase />
       <BuildingsShowcase />
+      <ScenesShowcase />
       <Channels />
       <CTA />
       <SiteFooter />
@@ -286,7 +289,15 @@ function VideoShowcase() {
 type FeatureKey =
   | "internet" | "lighting" | "climate" | "cameras" | "access"
   | "leak" | "integrations" | "parking"
-  | "smart-locks" | "garage";
+  | "smart-locks" | "garage"
+  // Hotel scene
+  | "ai-concierge" | "keyless-checkin" | "personalized-service"
+  | "room-automation" | "hotel-temperature" | "hotel-lighting"
+  | "energy-management" | "housekeeping"
+  // Commercial real estate scene
+  | "analytics" | "temp-access" | "office-lighting"
+  | "access-management" | "office-temperature" | "occupancy"
+  | "energy-optimization" | "meeting-rooms";
 
 type FeatureInfo = {
   name: string;
@@ -298,6 +309,8 @@ type FeatureInfo = {
   tint: string;
   /* overlay focal point inside the card (% of card box) */
   focus: { x: number; y: number; r: number };
+  /* which visual effect to render — defaults to feature key */
+  effect?: FeatureKey;
 };
 
 const FEATURE_INFO: Record<FeatureKey, FeatureInfo> = {
@@ -391,6 +404,170 @@ const FEATURE_INFO: Record<FeatureKey, FeatureInfo> = {
     tint: "rgba(74,222,128,0.5)",
     focus: { x: 82, y: 70, r: 26 },
   },
+
+  /* ---------- Hotel scene ---------- */
+  "ai-concierge": {
+    name: "AI Concierge",
+    short: "Multilingual AI assistant that answers guest questions, gives recommendations, and handles requests 24/7.",
+    benefits: ["24/7 multilingual chat", "Personalised recommendations", "Instant request handling"],
+    example: "A late-arriving guest asks for a nearby restaurant in Japanese — and gets a 90-second answer.",
+    icon: MessageSquare,
+    tint: "rgba(59,130,246,0.5)",
+    focus: { x: 40, y: 80, r: 28 },
+    effect: "integrations",
+  },
+  "keyless-checkin": {
+    name: "Keyless Check-In",
+    short: "Guests check in using mobile credentials without waiting at reception.",
+    benefits: ["Mobile key on arrival", "Skip the front-desk queue", "Secure remote check-out"],
+    example: "A guest walks straight from the taxi to their suite — phone in hand, no key card.",
+    icon: Smartphone,
+    tint: "rgba(96,165,250,0.5)",
+    focus: { x: 44, y: 80, r: 22 },
+    effect: "access",
+  },
+  "personalized-service": {
+    name: "Personalized Service",
+    short: "The platform remembers guest preferences — lighting, temperature, and room settings.",
+    benefits: ["Saved guest profiles", "Auto-applied room scenes", "Preference-based upgrades"],
+    example: "Returning guests find their preferred temperature, lighting and curtain position already set.",
+    icon: Heart,
+    tint: "rgba(244,114,182,0.45)",
+    focus: { x: 50, y: 50, r: 30 },
+    effect: "internet",
+  },
+  "room-automation": {
+    name: "Room Automation",
+    short: "Rooms automatically adjust lighting, temperature, and devices based on occupancy or preferences.",
+    benefits: ["Occupancy-aware scenes", "Voice & app control", "Energy-saving standby"],
+    example: "When a guest leaves the room, lights dim, curtains close, and the AC steps down by 2°C.",
+    icon: Settings,
+    tint: "rgba(168,85,247,0.45)",
+    focus: { x: 50, y: 45, r: 30 },
+    effect: "lighting",
+  },
+  "hotel-temperature": {
+    name: "Temperature Control",
+    short: "Automatically maintains ideal room temperature while reducing energy consumption.",
+    benefits: ["Per-room thermostats", "Predictive scheduling", "Up to 30% HVAC savings"],
+    example: "Empty floors quietly drop a few degrees overnight — and warm back up before sunrise.",
+    icon: Thermometer,
+    tint: "rgba(96,165,250,0.55)",
+    focus: { x: 35, y: 50, r: 28 },
+    effect: "climate",
+  },
+  "hotel-lighting": {
+    name: "Smart Lighting",
+    short: "Warm, layered lighting across exterior, lobby, rooms and gardens — fully automated.",
+    benefits: ["Sunset-based scenes", "Per-zone control", "Hospitality-grade dimming"],
+    example: "At dusk the gardens, lobby and façade glow into life — all on one scene.",
+    icon: Lightbulb,
+    tint: "rgba(255,196,90,0.6)",
+    focus: { x: 50, y: 70, r: 50 },
+    effect: "lighting",
+  },
+  "energy-management": {
+    name: "Energy Management",
+    short: "Optimise HVAC, lighting and utilities automatically to reduce operating costs.",
+    benefits: ["Live consumption dashboard", "Anomaly alerts", "Up to 35% lower bills"],
+    example: "A leaking chiller is flagged the moment its energy draw drifts outside normal range.",
+    icon: BarChart3,
+    tint: "rgba(74,222,128,0.45)",
+    focus: { x: 50, y: 60, r: 38 },
+    effect: "integrations",
+  },
+  housekeeping: {
+    name: "Housekeeping Notifications",
+    short: "Automatically notify housekeeping when rooms become available for service.",
+    benefits: ["Live room status", "Optimised cleaning routes", "Guest-do-not-disturb aware"],
+    example: "The moment a guest checks out, housekeeping gets the room added to their route.",
+    icon: Send,
+    tint: "rgba(56,189,248,0.45)",
+    focus: { x: 60, y: 45, r: 28 },
+    effect: "internet",
+  },
+
+  /* ---------- Commercial real estate scene ---------- */
+  analytics: {
+    name: "Analytics & Insights",
+    short: "Real-time analytics for occupancy, energy, security and building performance.",
+    benefits: ["Live KPI dashboards", "Trend & anomaly detection", "Exportable reports"],
+    example: "Facility managers see which floors are underused this week — and re-plan in minutes.",
+    icon: BarChart3,
+    tint: "rgba(59,130,246,0.5)",
+    focus: { x: 45, y: 28, r: 30 },
+    effect: "internet",
+  },
+  "temp-access": {
+    name: "Temporary Access Passes",
+    short: "Issue secure visitor credentials instantly — from a single screen.",
+    benefits: ["QR or mobile passes", "Time-bound permissions", "Full audit trail"],
+    example: "A contractor receives a 4-hour QR pass that unlocks only the floors they need.",
+    icon: QrCode,
+    tint: "rgba(96,165,250,0.55)",
+    focus: { x: 55, y: 50, r: 28 },
+    effect: "access",
+  },
+  "office-lighting": {
+    name: "Smart Lighting",
+    short: "Automated lighting based on occupancy and schedules across the entire workspace.",
+    benefits: ["Per-zone scenes", "Daylight harvesting", "Up to 45% energy saved"],
+    example: "Empty meeting rooms dim automatically — corridors stay softly lit for walk-throughs.",
+    icon: Lightbulb,
+    tint: "rgba(255,196,90,0.55)",
+    focus: { x: 38, y: 32, r: 36 },
+    effect: "lighting",
+  },
+  "access-management": {
+    name: "Access Management",
+    short: "Control employee and visitor access from one unified platform.",
+    benefits: ["Role-based permissions", "Face + mobile + QR", "Real-time revocation"],
+    example: "A departing employee's badge stops working on every door the moment HR confirms exit.",
+    icon: ShieldCheck,
+    tint: "rgba(74,222,128,0.5)",
+    focus: { x: 78, y: 48, r: 26 },
+    effect: "access",
+  },
+  "office-temperature": {
+    name: "Temperature Control",
+    short: "Maintain comfortable indoor conditions while minimising energy use.",
+    benefits: ["Per-zone HVAC", "Schedule-aware climate", "CO₂-based ventilation"],
+    example: "Conference rooms cool down ten minutes before the calendar says a meeting begins.",
+    icon: Thermometer,
+    tint: "rgba(96,165,250,0.55)",
+    focus: { x: 30, y: 30, r: 28 },
+    effect: "climate",
+  },
+  occupancy: {
+    name: "Occupancy Monitoring",
+    short: "Monitor workspace usage to optimise layouts and improve efficiency.",
+    benefits: ["Live desk & room counts", "Weekly heatmaps", "Layout suggestions"],
+    example: "Two underused desk pods are merged into a quiet zone — based on a month of data.",
+    icon: ScanFace,
+    tint: "rgba(168,85,247,0.45)",
+    focus: { x: 36, y: 68, r: 34 },
+    effect: "internet",
+  },
+  "energy-optimization": {
+    name: "Energy Optimization",
+    short: "AI automatically optimises energy usage across all building systems.",
+    benefits: ["HVAC + lighting sync", "Off-hours auto-shutdown", "Carbon-aware scheduling"],
+    example: "On a sunny afternoon, lights dim and the AC tunes back — without anyone lifting a finger.",
+    icon: Cpu,
+    tint: "rgba(74,222,128,0.5)",
+    focus: { x: 50, y: 45, r: 36 },
+    effect: "integrations",
+  },
+  "meeting-rooms": {
+    name: "Meeting Room Booking",
+    short: "Employees reserve meeting rooms instantly with automatic scheduling.",
+    benefits: ["One-tap booking", "Calendar sync", "Auto-release if no-show"],
+    example: "An unused booking auto-releases after 10 minutes, freeing the room for a walk-in team.",
+    icon: DoorOpen,
+    tint: "rgba(96,165,250,0.5)",
+    focus: { x: 80, y: 60, r: 24 },
+    effect: "access",
+  },
 };
 
 type LabelDef = { key: FeatureKey; x: number; y: number };
@@ -415,6 +592,28 @@ const RESIDENCE_LABELS: LabelDef[] = [
   { key: "garage",        x: 84, y: 64 },
   { key: "leak",          x: 30, y: 72 },
   { key: "integrations",  x: 64, y: 82 },
+];
+
+const HOTEL_LABELS: LabelDef[] = [
+  { key: "keyless-checkin",      x: 52, y: 27 },
+  { key: "personalized-service", x: 66, y: 40 },
+  { key: "room-automation",      x: 64, y: 55 },
+  { key: "ai-concierge",         x: 22, y: 50 },
+  { key: "hotel-temperature",    x: 18, y: 62 },
+  { key: "hotel-lighting",       x: 36, y: 74 },
+  { key: "energy-management",    x: 30, y: 86 },
+  { key: "housekeeping",         x: 62, y: 84 },
+];
+
+const CRE_LABELS: LabelDef[] = [
+  { key: "analytics",           x: 42, y: 22 },
+  { key: "office-lighting",     x: 82, y: 30 },
+  { key: "temp-access",         x: 18, y: 38 },
+  { key: "access-management",   x: 48, y: 44 },
+  { key: "office-temperature",  x: 24, y: 53 },
+  { key: "occupancy",           x: 42, y: 64 },
+  { key: "meeting-rooms",       x: 82, y: 66 },
+  { key: "energy-optimization", x: 50, y: 80 },
 ];
 
 function BuildingsShowcase() {
@@ -636,6 +835,63 @@ function BuildingsShowcase() {
   );
 }
 
+function ScenesShowcase() {
+  const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
+  const [pinned, setPinned] = useState<{ side: "hotel" | "cre"; key: FeatureKey } | null>(null);
+
+  return (
+    <section className="relative pb-24">
+      <div className="px-4 md:px-8">
+        <div className="mx-auto mb-10 max-w-7xl">
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
+            Talesso for hospitality &amp; workplace
+          </p>
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
+            Hotels &amp; Commercial Real Estate.
+          </h2>
+          <p className="mt-3 text-muted-foreground text-sm">
+            Tap any feature to see how it works inside each building.
+          </p>
+        </div>
+
+        <div
+          ref={reveal.ref}
+          className="mx-auto grid max-w-[88rem] grid-cols-1 gap-6 md:grid-cols-2"
+        >
+          <BuildingCard
+            side="office"
+            title="Hotels"
+            subtitle="Exceptional stays, intelligently managed"
+            Icon={Building2}
+            labels={HOTEL_LABELS}
+            visible={reveal.inView}
+            delay={0}
+            pinned={pinned && pinned.side === "hotel" ? pinned.key : null}
+            onPin={(key) => setPinned((p) => (p && p.side === "hotel" && p.key === key ? null : { side: "hotel", key }))}
+            onClose={() => setPinned(null)}
+            imageUrl={hotelSceneAsset.url}
+            bgMode="cover"
+          />
+          <BuildingCard
+            side="residence"
+            title="Commercial Real Estates"
+            subtitle="Smarter spaces, better experiences"
+            Icon={Building2}
+            labels={CRE_LABELS}
+            visible={reveal.inView}
+            delay={250}
+            pinned={pinned && pinned.side === "cre" ? pinned.key : null}
+            onPin={(key) => setPinned((p) => (p && p.side === "cre" && p.key === key ? null : { side: "cre", key }))}
+            onClose={() => setPinned(null)}
+            imageUrl={officeSceneAsset.url}
+            bgMode="cover"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BuildingCard({
   side,
   title,
@@ -647,6 +903,8 @@ function BuildingCard({
   pinned,
   onPin,
   onClose,
+  imageUrl,
+  bgMode = "split",
 }: {
   side: "office" | "residence";
   title: string;
@@ -658,6 +916,8 @@ function BuildingCard({
   pinned: FeatureKey | null;
   onPin: (k: FeatureKey) => void;
   onClose: () => void;
+  imageUrl?: string;
+  bgMode?: "split" | "cover";
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
@@ -683,7 +943,9 @@ function BuildingCard({
   }, []);
 
   // Half of the composite image to show
-  const bgPos = side === "office" ? "0% center" : "100% center";
+  const bgPos = bgMode === "cover" ? "center" : side === "office" ? "0% center" : "100% center";
+  const bgSize = bgMode === "cover" ? "cover" : "200% auto";
+  const bgImg = imageUrl ?? buildingsCleanAsset.url;
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
   // Place the panel near the active feature, but always fully inside the card
@@ -710,14 +972,15 @@ function BuildingCard({
           className="ibs-card-bg"
           style={{
             // @ts-expect-error css var
-            "--ibs-img": `url('${buildingsCleanAsset.url}')`,
+            "--ibs-img": `url('${bgImg}')`,
             backgroundPosition: bgPos,
+            backgroundSize: bgSize,
           }}
         />
 
         {activeInfo && active ? (
           <div className="ibs-fx" key={active}>
-            <FeatureEffect feature={active} focus={activeInfo.focus} />
+            <FeatureEffect feature={activeInfo.effect ?? active} focus={activeInfo.focus} />
           </div>
         ) : null}
         </div>
