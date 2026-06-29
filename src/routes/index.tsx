@@ -266,7 +266,6 @@ function VideoShowcase() {
 }
 
 function PhotoShowcase() {
-  const meet = useInView<HTMLDivElement>();
   const coll = useInView<HTMLDivElement>();
   return (
     <section className="relative pb-24 pt-10">
