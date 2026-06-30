@@ -45,16 +45,11 @@ const SOLUTIONS = [
   },
 ];
 
-function GlassSphere({ children, index }: { children: ReactNode; index: number }) {
-  const tinted = index % 2 === 1;
+function GlassSphere({ children }: { children: ReactNode; index?: number }) {
   return (
     <div className="relative mx-auto h-20 w-20">
       <div
-        className={`absolute inset-0 rounded-full ${
-          tinted
-            ? "bg-gradient-to-br from-[#cfe6ff] via-white to-[#bcd9ff]"
-            : "bg-gradient-to-br from-white via-[#f3f6fb] to-[#dfe6ef]"
-        } shadow-[inset_0_2px_8px_rgba(255,255,255,0.9),inset_0_-6px_12px_rgba(80,110,150,0.25),0_10px_24px_-12px_rgba(40,60,100,0.35)]`}
+        className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-[#f3f6fb] to-[#dfe6ef] shadow-[inset_0_2px_8px_rgba(255,255,255,0.9),inset_0_-6px_12px_rgba(80,110,150,0.25),0_10px_24px_-12px_rgba(40,60,100,0.35)]"
       />
       <div className="absolute inset-[3px] rounded-full border border-white/70" />
       <div className="absolute left-2 top-1.5 h-4 w-6 rounded-full bg-white/80 blur-[2px]" />
