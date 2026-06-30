@@ -49,10 +49,10 @@ function GlassSphere({ children }: { children: ReactNode; index?: number }) {
   return (
     <div className="relative mx-auto h-20 w-20">
       <div
-        className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-[#f3f6fb] to-[#dfe6ef] shadow-[inset_0_2px_8px_rgba(255,255,255,0.9),inset_0_-6px_12px_rgba(80,110,150,0.25),0_10px_24px_-12px_rgba(40,60,100,0.35)]"
+        className="absolute inset-0 rounded-full bg-gradient-to-br from-[#eef1f5] via-[#e3e7ed] to-[#cfd6de] shadow-[inset_0_2px_6px_rgba(255,255,255,0.7),inset_0_-6px_12px_rgba(80,110,150,0.22),0_10px_24px_-12px_rgba(40,60,100,0.3)]"
       />
-      <div className="absolute inset-[3px] rounded-full border border-white/70" />
-      <div className="absolute left-2 top-1.5 h-4 w-6 rounded-full bg-white/80 blur-[2px]" />
+      <div className="absolute inset-[3px] rounded-full border border-white/50" />
+      <div className="absolute left-2 top-1.5 h-3 w-5 rounded-full bg-white/50 blur-[2px]" />
       <div className="relative z-10 flex h-full w-full items-center justify-center">{children}</div>
     </div>
   );
