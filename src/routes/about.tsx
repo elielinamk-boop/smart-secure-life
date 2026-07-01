@@ -1,14 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Sparkles, Cpu, Settings, MessageSquare } from "lucide-react";
+import i18n from "@/i18n";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Talesso" },
-      { name: "description", content: "Talesso builds AI-powered smart access, automation and analytics for modern buildings." },
-      { property: "og:title", content: "About — Talesso" },
+      { title: i18n.t("meta.about.title") },
+      { name: "description", content: i18n.t("meta.about.description") },
+      { property: "og:title", content: i18n.t("meta.about.ogTitle") },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
@@ -17,11 +19,12 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
+  const { t } = useTranslation();
   const cards = [
-    { Icon: Sparkles, label: "Proven Smart Home & Biometric Projects" },
-    { Icon: Cpu, label: "Own Software — Full Stack Control" },
-    { Icon: Settings, label: "Full Cycle: Design to Service" },
-    { Icon: MessageSquare, label: "AI Differentiation: LLM on Terminals" },
+    { Icon: Sparkles, label: t("aboutPage.cards.c1") },
+    { Icon: Cpu, label: t("aboutPage.cards.c2") },
+    { Icon: Settings, label: t("aboutPage.cards.c3") },
+    { Icon: MessageSquare, label: t("aboutPage.cards.c4") },
   ];
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -86,16 +89,16 @@ function AboutPage() {
 
         <div className="relative mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-5 bg-white/55 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)] text-[15px] leading-relaxed text-slate-700 space-y-4">
-            <p>Founded as a small company specializing in biometric access systems, we have grown into a comprehensive technology ecosystem encompassing access control, intelligent management platforms, AI-driven solutions, automation, and smart environments.</p>
-            <p>Based in the heart of the Mediterranean, Cyprus, we design and develop our own products with a clear mission: to create technology that makes everyday life simpler, safer, and more connected.</p>
-            <p>We believe that our environment affects how we feel, what we wish and what we think about. So we decided to design and develop technology that transforms the way people interact with their spaces.</p>
-            <p>By seamlessly integrating technology into homes, workplaces, and commercial environments, we create intelligent spaces that work for people.</p>
-            <p>At the core of everything we build is a commitment to improving the way people experience their environment —</p>
-            <p className="font-semibold text-slate-900">one smart solution at a time.</p>
+            <p>{t("aboutPage.p1")}</p>
+            <p>{t("aboutPage.p2")}</p>
+            <p>{t("aboutPage.p3")}</p>
+            <p>{t("aboutPage.p4")}</p>
+            <p>{t("aboutPage.p5")}</p>
+            <p className="font-semibold text-slate-900">{t("aboutPage.p6")}</p>
           </div>
 
           <div className="lg:col-span-7">
-            <h1 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-left text-slate-900">About Us</h1>
+            <h1 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-start text-slate-900">{t("aboutPage.title")}</h1>
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
               {cards.map(({ Icon, label }, i) => (
                 <div key={i} className="au-card group relative bg-white/70 backdrop-blur-md rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
