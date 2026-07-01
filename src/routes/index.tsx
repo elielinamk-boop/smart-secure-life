@@ -41,6 +41,7 @@ import buildingsCleanAsset from "@/assets/buildings-clean.png";
 import hotelSceneAsset from "@/assets/hotel-scene.jpg";
 import connectedExperienceAsset from "@/assets/connected-experience.png";
 import mobilePhoneHandAsset from "@/assets/mobile-phone-hand.png";
+import telegramPhoneHandAsset from "@/assets/telegram-phone-hand.png";
 import officeSceneAsset from "@/assets/office-scene.jpg";
 import eyecidAsset from "@/assets/eyecid-device.png";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png";
