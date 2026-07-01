@@ -617,7 +617,7 @@ const CRE_LABELS: LabelDef[] = [
   { key: "access-management",   x: 48, y: 44 },
   { key: "office-temperature",  x: 24, y: 53 },
   { key: "occupancy",           x: 42, y: 64 },
-  { key: "meeting-rooms",       x: 82, y: 66 },
+  { key: "meeting-rooms",       x: 82, y: 72 },
   { key: "energy-optimization", x: 50, y: 80 },
 ];
 
