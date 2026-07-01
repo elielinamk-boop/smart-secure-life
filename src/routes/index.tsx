@@ -1973,8 +1973,8 @@ function ConnectedExperience() {
                       <f.Icon className="w-7 h-7" strokeWidth={1.5} />
                     </div>
                   </div>
-                  <h3 className="mt-16 text-xl font-semibold tracking-tight">{f.title}</h3>
-                  <p className="mt-3 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                  <h3 className="mt-16 text-xl font-semibold tracking-tight">{t(`connected.cards.${f.id}.title`)}</h3>
+                  <p className="mt-3 text-sm text-slate-500 leading-relaxed">{t(`connected.cards.${f.id}.desc`)}</p>
                 </div>
               ))}
             </div>
