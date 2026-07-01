@@ -152,6 +152,7 @@ function Landing() {
 }
 
 function Hero() {
+  const { t } = useTranslation();
   const wrapRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -227,26 +228,22 @@ function Hero() {
         <div className="relative w-full px-6 py-20 md:py-28 text-center mx-auto max-w-5xl">
           <div ref={badgeRef} className="will-change-transform animate-line-in" style={{ animationDelay: "0.05s" }}>
             <span className="group inline-flex items-center rounded-full border border-accent-blue/60 bg-background/80 px-5 py-2 text-[0.72rem] font-medium tracking-[0.15em] text-foreground/70 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-10px_rgba(80,130,255,0.55)]">
-              TALESSO · AI-POWERED TECHNOLOGY
+              {t("hero.badge")}
             </span>
           </div>
           <h1
             ref={headRef}
             className="mt-8 font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.04em] leading-[0.95] will-change-transform"
           >
-            <span className="block animate-line-in" style={{ animationDelay: "0.25s" }}>AI Solutions for</span>
-            <span className="block animate-line-in" style={{ animationDelay: "0.40s" }}>Security, Access</span>
-            <span className="block animate-line-in" style={{ animationDelay: "0.55s" }}>and Smart Living</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.25s" }}>{t("hero.title1")}</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.40s" }}>{t("hero.title2")}</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.55s" }}>{t("hero.title3")}</span>
           </h1>
           <p
             className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-foreground/60 leading-relaxed animate-line-in"
             style={{ animationDelay: "0.85s" }}
           >
-            We provide intelligent biometric access control, smart home automation,{"\u00A0"}
-            <br />
-            video analytics, and building management —{"\u00A0"}
-            <br />
-            all powered by our proprietary AI platform.
+            {t("hero.subtitle")}
           </p>
           <div
             ref={ctaRef}
@@ -257,18 +254,18 @@ function Hero() {
               to="/contact"
               className="group inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-foreground hover:text-background hover:border-foreground hover:shadow-[0_18px_40px_-18px_rgba(80,130,255,0.7)] active:scale-[0.97]"
             >
-              Get a consultation
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              {t("hero.ctaPrimary")}
+              <ArrowRight className="h-4 w-4 rtl:-scale-x-100 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to="/solutions"
               className="group relative inline-flex items-center px-4 py-3.5 min-h-12 text-sm font-semibold text-foreground/85 hover:text-foreground transition-colors"
             >
               <span className="relative">
-                Our Solutions
+                {t("hero.ctaSecondary")}
                 <span className="absolute left-0 -bottom-0.5 h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-300 group-hover:scale-x-100" />
               </span>
-              <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className="ms-2 transition-transform duration-300 group-hover:translate-x-1 rtl:-scale-x-100">→</span>
             </Link>
           </div>
         </div>
@@ -278,6 +275,7 @@ function Hero() {
 }
 
 function VideoShowcase() {
+  const { t } = useTranslation();
   return (
     <section className="relative pt-24 pb-16">
       <div className="mx-auto max-w-3xl px-6">
@@ -285,13 +283,13 @@ function VideoShowcase() {
           <iframe
             className="absolute inset-0 h-full w-full"
             src="https://www.youtube.com/embed/sBGc4nlGZzY?rel=0&modestbranding=1"
-            title="Talesso — The Future of Smart Buildings"
+            title={t("videoShowcase.iframeTitle")}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
-          Talesso — The Future of Smart Buildings.
+          {t("videoShowcase.caption")}
         </p>
       </div>
     </section>
