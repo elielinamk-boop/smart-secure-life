@@ -42,6 +42,7 @@ import hotelSceneAsset from "@/assets/hotel-scene.jpg";
 import connectedExperienceAsset from "@/assets/connected-experience.png";
 import mobilePhoneHandAsset from "@/assets/mobile-phone-hand.png";
 import telegramPhoneHandAsset from "@/assets/telegram-phone-hand.png";
+import appStoreBadges from "@/assets/app-store-badges.png.asset.json";
 import officeSceneAsset from "@/assets/office-scene.jpg";
 import eyecidAsset from "@/assets/eyecid-device.png";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png";
@@ -1956,6 +1957,15 @@ function ConnectedExperience() {
                   <p className="mt-3 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-8 flex items-center justify-center cx-enter" style={{ animationDelay: "700ms" }}>
+              <img
+                id="ph-app-store-badges"
+                src={appStoreBadges.url}
+                alt="Download on the App Store and Get it on Google Play"
+                className="w-full max-w-md h-auto object-contain select-none"
+                draggable={false}
+              />
             </div>
           </div>
 
