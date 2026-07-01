@@ -1977,7 +1977,7 @@ function ConnectedExperience() {
             />
             <img
               id="ph-mobile-phone"
-              src={mobilePhoneHandAsset.url}
+              src={mobilePhoneHandAsset}
               alt="Talesso mobile app on iPhone"
               className="cx-enter cx-float-a w-[280px] h-auto object-contain select-none pointer-events-none"
               style={{ animationDelay: "260ms" }}
