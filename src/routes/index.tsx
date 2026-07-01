@@ -613,7 +613,7 @@ const HOTEL_LABELS: LabelDef[] = [
 const CRE_LABELS: LabelDef[] = [
   { key: "analytics",           x: 42, y: 22 },
   { key: "office-lighting",     x: 82, y: 30 },
-  { key: "temp-access",         x: 18, y: 38 },
+  { key: "temp-access",         x: 18, y: 32 },
   { key: "access-management",   x: 48, y: 44 },
   { key: "office-temperature",  x: 24, y: 53 },
   { key: "occupancy",           x: 42, y: 64 },
