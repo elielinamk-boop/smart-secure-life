@@ -1921,11 +1921,13 @@ function ConnectedExperience() {
               className="cx-ph cx-ph-round cx-enter cx-float-b self-start ml-2 w-12 h-12"
               style={{ animationDelay: "260ms" }}
             />
-            <div
+            <img
               id="ph-telegram-phone"
-              data-label="Telegram phone"
-              className="cx-ph cx-enter cx-float-c w-[210px] h-[360px]"
+              src={telegramPhoneHandAsset}
+              alt="Talesso Telegram mini app on iPhone"
+              className="cx-enter cx-float-c w-[280px] h-auto object-contain select-none pointer-events-none"
               style={{ animationDelay: "320ms" }}
+              draggable={false}
             />
             <div
               id="ph-command-panel"
