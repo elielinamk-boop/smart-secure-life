@@ -931,7 +931,16 @@ function BuildingCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState<FeatureKey | null>(null);
+  const [panelPos, setPanelPos] = useState<{
+    left: number;
+    top: number;
+    placement: "right" | "left" | "top" | "bottom";
+    anchorX: number;
+    anchorY: number;
+  } | null>(null);
 
   const active: FeatureKey | null = hovered ?? pinned;
 
@@ -957,13 +966,124 @@ function BuildingCard({
   const bgImg = imageUrl ?? buildingsCleanAsset;
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
-  // Place the panel near the active feature, but always fully inside the card
-  // and pulled toward the visual center of the image.
-  // Center the panel, then nudge it slightly toward the active feature so each
-  // hotspot's description sits in a subtly different spot — never cropped.
-  const panelPos = activeInfo
-    ? { left: "50%", top: "50%", transform: "translate(-50%, -50%)" }
-    : null;
+  // Dynamically place the panel next to the active feature with collision
+  // detection against the image bounds, the header title, and other pins.
+  useLayoutEffect(() => {
+    if (!activeInfo || !boxRef.current || !panelRef.current) {
+      setPanelPos(null);
+      return;
+    }
+    const compute = () => {
+      const box = boxRef.current;
+      const panel = panelRef.current;
+      if (!box || !panel || !activeInfo) return;
+      const bw = box.clientWidth;
+      const bh = box.clientHeight;
+      const pw = panel.offsetWidth;
+      const ph = panel.offsetHeight;
+      const gap = 16;
+      const pad = 12;
+      // Reserved title zone (top-left header). Roughly 60% wide, 88px tall.
+      const titleW = Math.min(bw * 0.62, 420);
+      const titleH = 96;
+      const fx = (activeInfo.focus.x / 100) * bw;
+      const fy = (activeInfo.focus.y / 100) * bh;
+      const fr = Math.max((activeInfo.focus.r / 100) * Math.min(bw, bh) * 0.5, 18);
+
+      const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+
+      type Cand = { left: number; top: number; placement: "right" | "left" | "top" | "bottom" };
+      const candidates: Cand[] = [];
+      // right
+      candidates.push({
+        placement: "right",
+        left: fx + fr + gap,
+        top: clamp(fy - ph / 2, pad, bh - ph - pad),
+      });
+      // left
+      candidates.push({
+        placement: "left",
+        left: fx - fr - gap - pw,
+        top: clamp(fy - ph / 2, pad, bh - ph - pad),
+      });
+      // above
+      candidates.push({
+        placement: "top",
+        left: clamp(fx - pw / 2, pad, bw - pw - pad),
+        top: fy - fr - gap - ph,
+      });
+      // below
+      candidates.push({
+        placement: "bottom",
+        left: clamp(fx - pw / 2, pad, bw - pw - pad),
+        top: fy + fr + gap,
+      });
+
+      const fitsInside = (c: Cand) =>
+        c.left >= pad &&
+        c.top >= pad &&
+        c.left + pw <= bw - pad &&
+        c.top + ph <= bh - pad;
+
+      const overlapsTitle = (c: Cand) => {
+        // Title box at (0..titleW, 0..titleH) with small margin
+        return c.left < titleW - 4 && c.top < titleH - 4;
+      };
+
+      const overlapsFeature = (c: Cand) => {
+        // ensure panel doesn't cover the selected feature
+        return (
+          fx >= c.left - 4 &&
+          fx <= c.left + pw + 4 &&
+          fy >= c.top - 4 &&
+          fy <= c.top + ph + 4
+        );
+      };
+
+      let chosen: Cand | null = null;
+      for (const c of candidates) {
+        if (fitsInside(c) && !overlapsTitle(c) && !overlapsFeature(c)) {
+          chosen = c;
+          break;
+        }
+      }
+      if (!chosen) {
+        // fall back: pick the candidate with smallest overflow, then shift into bounds
+        const shifted = candidates.map((c) => ({
+          ...c,
+          left: clamp(c.left, pad, bw - pw - pad),
+          top: clamp(c.top, pad, bh - ph - pad),
+        }));
+        // prefer one that doesn't cover title
+        chosen =
+          shifted.find((c) => !overlapsTitle(c) && !overlapsFeature(c)) ??
+          shifted.find((c) => !overlapsFeature(c)) ??
+          shifted[0];
+        // if still covering title, push it down
+        if (overlapsTitle(chosen)) {
+          chosen = { ...chosen, top: Math.max(chosen.top, titleH + pad) };
+          chosen.top = clamp(chosen.top, pad, bh - ph - pad);
+        }
+      }
+
+      setPanelPos({
+        left: chosen.left,
+        top: chosen.top,
+        placement: chosen.placement,
+        anchorX: fx,
+        anchorY: fy,
+      });
+    };
+
+    compute();
+    const ro = new ResizeObserver(compute);
+    if (boxRef.current) ro.observe(boxRef.current);
+    window.addEventListener("resize", compute);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", compute);
+    };
+  }, [active, activeInfo]);
 
   return (
     <div
@@ -974,7 +1094,7 @@ function BuildingCard({
       onMouseLeave={onMouseLeave}
     >
       {/* Aspect box to keep the card a stable height */}
-      <div className="relative aspect-[688/768]">
+      <div ref={boxRef} className="relative aspect-[688/768]">
         <div className="absolute inset-0 overflow-hidden rounded-3xl">
         <div
           ref={bgRef}
@@ -1058,12 +1178,47 @@ function BuildingCard({
           })}
         </div>
 
-        {/* Info panel with arrow pointing at hotspot */}
+        {/* Leader line from feature to panel */}
         {activeInfo && panelPos ? (
+          <svg
+            className="pointer-events-none absolute inset-0 z-20 h-full w-full"
+            aria-hidden
+          >
+            <line
+              x1={panelPos.anchorX}
+              y1={panelPos.anchorY}
+              x2={
+                panelPos.placement === "right"
+                  ? panelPos.left
+                  : panelPos.placement === "left"
+                  ? panelPos.left + (panelRef.current?.offsetWidth ?? 0)
+                  : panelPos.left + (panelRef.current?.offsetWidth ?? 0) / 2
+              }
+              y2={
+                panelPos.placement === "top"
+                  ? panelPos.top + (panelRef.current?.offsetHeight ?? 0)
+                  : panelPos.placement === "bottom"
+                  ? panelPos.top
+                  : panelPos.top + (panelRef.current?.offsetHeight ?? 0) / 2
+              }
+              stroke="rgba(15,30,80,0.35)"
+              strokeWidth="1"
+              strokeDasharray="3 3"
+            />
+          </svg>
+        ) : null}
+
+        {/* Info panel positioned next to the hotspot */}
+        {activeInfo ? (
           <div
             key={`panel-${active}`}
+            ref={panelRef}
             className="ibs-panel absolute z-30 w-[min(19rem,calc(100%-1.5rem))] rounded-2xl border border-border/60 bg-white/95 p-5 shadow-[0_24px_60px_-20px_rgba(15,30,80,0.35)] backdrop-blur"
-            style={panelPos}
+            style={
+              panelPos
+                ? { left: panelPos.left, top: panelPos.top }
+                : { left: -9999, top: -9999, visibility: "hidden" }
+            }
           >
             {/* arrow removed — panel is centered, no longer pointing at the hotspot */}
             <div className="flex items-start gap-3">
