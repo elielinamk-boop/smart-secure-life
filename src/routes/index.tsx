@@ -1974,11 +1974,13 @@ function ConnectedExperience() {
               className="cx-ph cx-ph-round cx-enter cx-float-a self-start ml-4 w-14 h-14"
               style={{ animationDelay: "380ms" }}
             />
-            <div
+            <img
               id="ph-mobile-phone"
-              data-label="Mobile phone"
-              className="cx-ph cx-enter cx-float-a w-[200px] h-[380px]"
+              src={mobilePhoneHandAsset.url}
+              alt="Talesso mobile app on iPhone"
+              className="cx-enter cx-float-a w-[280px] h-auto object-contain select-none pointer-events-none"
               style={{ animationDelay: "260ms" }}
+              draggable={false}
             />
           </div>
         </div>
