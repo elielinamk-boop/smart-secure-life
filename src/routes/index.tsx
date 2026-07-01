@@ -1963,7 +1963,7 @@ function ConnectedExperience() {
                 id="ph-app-store-badges"
                 src={appStoreBadges.url}
                 alt="Download on the App Store and Get it on Google Play"
-                className="w-full max-w-md h-auto object-contain select-none"
+                className="w-full max-w-[200px] h-auto object-contain select-none"
                 draggable={false}
               />
             </div>
