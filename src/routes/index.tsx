@@ -1879,10 +1879,11 @@ function ConnectedExperience() {
         @keyframes cx-float-c { 0%,100% { transform: translateY(0) rotate(2deg);} 50% { transform: translateY(-5px) rotate(2deg);} }
         @keyframes cx-icon-pop { 0% { transform: scale(1);} 50% { transform: scale(1.2);} 100% { transform: scale(1);} }
         .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
-        .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:20px; padding:32px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease; overflow:hidden; min-height:260px; display:flex; flex-direction:column; }
-        .cx-card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,0.14); box-shadow: 0 24px 60px -30px rgba(15,23,42,0.25); }
+        .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:20px; padding:32px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; overflow:hidden; min-height:260px; display:flex; flex-direction:column; }
+        .cx-card:hover { transform: translateY(-3px); border-color: #77DDFF; background: linear-gradient(180deg, rgba(119,221,255,0.18) 0%, rgba(119,221,255,0.06) 100%); box-shadow: 0 24px 60px -20px rgba(119,221,255,0.55), 0 0 0 1px rgba(119,221,255,0.35) inset; }
+        .cx-card:hover .cx-card-icon { color:#0891b2; }
         .cx-card:hover .cx-card-icon svg { animation: cx-icon-pop .5s ease-out; }
-        .cx-card-icon { color:#0f172a; }
+        .cx-card-icon { color:#0f172a; transition: color .35s ease; }
         .cx-ph { position:relative; border-radius:22px; background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(226,240,255,0.35)); border:1.5px dashed rgba(15,23,42,0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 12px 30px -18px rgba(15,23,42,0.18); transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease; overflow:hidden; }
         .cx-ph::after { content: attr(data-label); position:absolute; inset:auto 0 12px 0; text-align:center; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color: rgba(15,23,42,0.35); }
         .cx-ph:hover { transform: translateY(-4px); border-color: rgba(58,169,230,0.55); box-shadow: 0 24px 50px -22px rgba(58,169,230,0.35); }
