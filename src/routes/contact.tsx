@@ -95,9 +95,8 @@ function ContactPage() {
 }
 
 const ADDRESS = "Georgiou A', Germasogeia 4046, Limassol, Cyprus";
-const LAT = 34.7071;
-const LNG = 33.1010;
-const GMAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
+const LAT = 34.6987595;
+const LNG = 33.0951665;
 const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADDRESS)}`;
 
 function LocationSection() {
@@ -192,14 +191,6 @@ function LocationSection() {
             >
               <Maximize2 className="w-4 h-4" /> Fullscreen
             </button>
-            <a
-              href={GMAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white px-4 py-2 text-sm shadow-lg hover:bg-slate-800 transition"
-            >
-              <Navigation className="w-4 h-4" /> Open in Google Maps
-            </a>
           </div>
 
           {/* Info card */}
