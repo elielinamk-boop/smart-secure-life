@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import {
   ShieldCheck,
   Sparkles,
@@ -62,10 +64,10 @@ import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Talesso — AI Solutions for Security, Access and Smart Living" },
-      { name: "description", content: "Intelligent biometric access, smart home, video analytics, and building management — all powered by our proprietary AI platform." },
-      { property: "og:title", content: "Talesso — AI for Security & Smart Living" },
-      { property: "og:description", content: "Biometric access, smart home, video analytics, building management." },
+      { title: i18n.t("meta.home.title") },
+      { name: "description", content: i18n.t("meta.home.description") },
+      { property: "og:title", content: i18n.t("meta.home.ogTitle") },
+      { property: "og:description", content: i18n.t("meta.home.ogDescription") },
     ],
   }),
   component: Landing,
