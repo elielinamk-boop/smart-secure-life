@@ -1951,7 +1951,7 @@ const PARTNER_CLIENTS: PartnerLogo[] = [
 
 function Partners() {
   return (
-    <section id="clients" className="relative py-24 md:py-32">
+    <section id="clients" className="relative pt-8 pb-16 md:pt-10 md:pb-20">
       <style>{`
         @keyframes pt-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .pt-track { display:flex; gap:4rem; width:max-content; animation: pt-marquee 38s linear infinite; }
