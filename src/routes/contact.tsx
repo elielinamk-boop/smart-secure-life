@@ -213,14 +213,6 @@ function LocationSection() {
                 <div className="flex items-start gap-3"><Phone className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><a href="tel:+35797879940" className="hover:text-slate-900">+357 97 879 940</a></div>
                 <div className="flex items-start gap-3"><Mail className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><a href="mailto:Sales@Talesso.tech" className="hover:text-slate-900">Sales@Talesso.tech</a></div>
               </div>
-              <a
-                href={DIRECTIONS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 text-white py-3 text-sm font-medium hover:bg-slate-800 transition"
-              >
-                <Navigation className="w-4 h-4" /> Get Directions
-              </a>
             </div>
           </div>
         </div>
