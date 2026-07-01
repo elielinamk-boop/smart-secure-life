@@ -43,6 +43,7 @@ import connectedExperienceAsset from "@/assets/connected-experience.png";
 import mobilePhoneHandAsset from "@/assets/mobile-phone-hand.png";
 import telegramPhoneHandAsset from "@/assets/telegram-phone-hand.png";
 import appStoreBadges from "@/assets/app-store-badges.png.asset.json";
+import talessoMiniappPhone from "@/assets/talesso-miniapp-phone.png.asset.json";
 import officeSceneAsset from "@/assets/office-scene.jpg";
 import eyecidAsset from "@/assets/eyecid-device.png";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png";
@@ -1971,29 +1972,11 @@ function ConnectedExperience() {
 
           {/* RIGHT column */}
           <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
-            <div
-              id="ph-qr-card"
-              data-label="QR card"
-              className="cx-ph cx-enter cx-float-b w-[180px] h-[200px]"
-              style={{ animationDelay: "200ms" }}
-            />
-            <div
-              id="ph-nfc-card"
-              data-label="NFC card"
-              className="cx-ph cx-enter cx-float-c self-end mr-2 w-[120px] h-[80px]"
-              style={{ animationDelay: "320ms" }}
-            />
-            <div
-              id="ph-support-badge"
-              data-label=""
-              className="cx-ph cx-ph-round cx-enter cx-float-a self-start ml-4 w-14 h-14"
-              style={{ animationDelay: "380ms" }}
-            />
             <img
               id="ph-mobile-phone"
-              src={mobilePhoneHandAsset}
-              alt="Talesso mobile app on iPhone"
-              className="cx-enter cx-float-a w-[280px] h-auto object-contain select-none pointer-events-none"
+              src={talessoMiniappPhone.url}
+              alt="Talesso mini app on iPhone held in hand"
+              className="cx-enter cx-float-a w-full max-w-[320px] h-auto object-contain select-none pointer-events-none"
               style={{ animationDelay: "260ms" }}
               draggable={false}
             />
