@@ -1534,7 +1534,7 @@ function SolutionCard({
         >
           <GlassSphere index={index}>
             <Icon
-              className="h-7 w-7 text-foreground/45 transition-all duration-300 group-hover:text-[#77DDFF] group-hover:scale-110 group-hover:rotate-[6deg]"
+              className="h-7 w-7 text-slate-400 transition-all duration-300 group-hover:text-[#77DDFF] group-hover:scale-110 group-hover:rotate-[6deg]"
               strokeWidth={1.6}
             />
           </GlassSphere>
