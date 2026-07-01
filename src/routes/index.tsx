@@ -1607,6 +1607,7 @@ function GlassSphere({ children, index }: { children: ReactNode; index: number }
 }
 
 function MeetEyecid() {
+  const { t } = useTranslation();
   const section = useInView<HTMLElement>({ threshold: 0.18 });
   const deviceWrap = useRef<HTMLDivElement | null>(null);
   const deviceInner = useRef<HTMLDivElement | null>(null);
@@ -1682,16 +1683,16 @@ function MeetEyecid() {
     >
       <div className="mx-auto max-w-[88rem] px-6 md:px-10">
         <div className="mb-12 max-w-none">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Meet the platform</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{t("meetPlatform.eyebrow")}</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] whitespace-nowrap">
-            The all-in-one smart building platform.
+            {t("meetPlatform.title")}
           </h2>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_0.7fr] gap-10 lg:gap-8 items-center">
           {/* Left: heading */}
           <div>
             <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">
-              <span className={lineCls("")} style={{ animationDelay: "0.05s" }}>MEET</span>{" "}
+              <span className={lineCls("")} style={{ animationDelay: "0.05s" }}>{t("meetPlatform.meet")}</span>{" "}
               <span
                 className={`relative inline-flex items-baseline font-bold overflow-hidden ${lineCls("")}`}
                 style={{ animationDelay: "0.25s" }}
@@ -1711,9 +1712,9 @@ function MeetEyecid() {
               </span>
             </h2>
             <h3 className="mt-6 font-display text-2xl md:text-4xl font-extrabold tracking-tight leading-[1.1]">
-              <span className={lineCls("")} style={{ animationDelay: "0.45s" }}>THE{"\u00A0"}</span>
-              <span className={lineCls("")} style={{ animationDelay: "0.60s" }}>SMART BUILDING</span>{" "}
-              <span className={lineCls("")} style={{ animationDelay: "0.75s" }}>PLATFORM THAT UNIFIES EVERYTHING</span>
+              <span className={lineCls("")} style={{ animationDelay: "0.45s" }}>{t("meetPlatform.the")}{"\u00A0"}</span>
+              <span className={lineCls("")} style={{ animationDelay: "0.60s" }}>{t("meetPlatform.theSmartBuilding")}</span>{" "}
+              <span className={lineCls("")} style={{ animationDelay: "0.75s" }}>{t("meetPlatform.platformThatUnifies")}</span>
             </h3>
           </div>
 
@@ -1778,9 +1779,9 @@ function MeetEyecid() {
 
           {/* Right: stats */}
           <div className="space-y-8">
-            <StatRow accent={1} label="Platform" inView={section.inView} delay={0} />
-            <StatRow accent={1} label="Interface" inView={section.inView} delay={300} />
-            <StatRow accent="FULL" label="Control" inView={section.inView} delay={600} />
+            <StatRow accent={1} label={t("meetPlatform.stats.platform")} inView={section.inView} delay={0} />
+            <StatRow accent={1} label={t("meetPlatform.stats.interface")} inView={section.inView} delay={300} />
+            <StatRow accent={t("meetPlatform.stats.full")} label={t("meetPlatform.stats.control")} inView={section.inView} delay={600} />
           </div>
         </div>
       </div>
