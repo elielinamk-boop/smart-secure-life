@@ -1868,7 +1868,6 @@ const CX_FEATURES: { id: CxFeatureKey; title: string; desc: string; Icon: Lucide
 ];
 
 function ConnectedExperience() {
-  const [hovered, setHovered] = useState<CxFeatureKey | null>(null);
   const [activeApp, setActiveApp] = useState<string>("Access Control");
   const [screenKey, setScreenKey] = useState(0);
 
@@ -1889,15 +1888,10 @@ function ConnectedExperience() {
         @keyframes cx-slide-in { from { opacity:0; transform: translateX(14px);} to { opacity:1; transform: translateX(0);} }
         @keyframes cx-icon-pop { 0% { transform: scale(1);} 50% { transform: scale(1.25);} 100% { transform: scale(1);} }
         .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
-        .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; overflow:hidden; }
-        .cx-card::before { content:""; position:absolute; inset:0; background: radial-gradient(120% 80% at 50% 0%, rgba(119,221,255,0.28), rgba(119,221,255,0) 60%); opacity:0; transition: opacity .4s ease; pointer-events:none; }
-        .cx-card:hover { transform: translateY(-4px); border-color:#77DDFF; background:#eaf9ff; box-shadow: 0 24px 60px -28px rgba(119,221,255,.65); }
-        .cx-card:hover::before { opacity:1; }
-        .cx-card:hover .cx-card-icon { color:#0a4a5e; background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(119,221,255,0.85)); border-color: rgba(119,221,255,0.9); box-shadow: 0 10px 30px -10px rgba(119,221,255,0.6), inset 0 1px 0 rgba(255,255,255,0.9); }
-        .cx-card-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s, box-shadow .3s, border-color .3s; background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(226,232,240,0.55)); border:1px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px -14px rgba(15,23,42,0.25); }
+        .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:20px; padding:32px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease; overflow:hidden; min-height:260px; display:flex; flex-direction:column; }
+        .cx-card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,0.14); box-shadow: 0 24px 60px -30px rgba(15,23,42,0.25); }
         .cx-card:hover .cx-card-icon svg { animation: cx-icon-pop .5s ease-out; }
-        .cx-extra { max-height:0; opacity:0; overflow:hidden; transition: max-height .4s ease, opacity .3s ease, margin-top .3s ease; font-size:12.5px; color:#64748b; }
-        .cx-card:hover .cx-extra { max-height:60px; opacity:1; margin-top:12px; }
+        .cx-card-icon { color:#0f172a; }
         .cx-typing { display:inline-flex; gap:3px; padding:6px 9px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
         .cx-typing span { width:5px; height:5px; border-radius:9999px; background:#0f172a; opacity:.4; animation: cx-typing 1.2s infinite ease-in-out; }
         .cx-typing span:nth-child(2){ animation-delay:.15s; }
@@ -1918,6 +1912,9 @@ function ConnectedExperience() {
         .cx-app-tile.active { background:#eaf9ff; box-shadow: inset 0 0 0 1px #77DDFF; }
         .cx-app-tile.active svg { color:#77DDFF !important; }
         .cx-screen { animation: cx-slide-in .35s ease-out; }
+        .cx-store-badge { display:inline-flex; align-items:center; gap:6px; background:#0b0b0b; color:#fff; border-radius:8px; padding:6px 10px; font-size:9px; line-height:1.1; }
+        .cx-store-badge .cx-store-sub { font-size:7px; opacity:.75; letter-spacing:.05em; text-transform:uppercase; }
+        .cx-store-badge .cx-store-main { font-size:11px; font-weight:600; letter-spacing:.01em; }
       `}</style>
 
       <div className="mx-auto max-w-7xl px-6">
@@ -2001,20 +1998,37 @@ function ConnectedExperience() {
                   key={f.id}
                   className="cx-card cx-enter"
                   style={{ animationDelay: `${180 + i * 120}ms` }}
-                  onMouseEnter={() => setHovered(f.id)}
-                  onMouseLeave={() => setHovered(null)}
                 >
-                  <div className="cx-card-icon">
-                    <f.Icon className="w-6 h-6" />
-                  </div>
-                  <h3 className="mt-20 text-xl font-semibold">{f.title}</h3>
-                  <p className="mt-3 text-sm text-slate-600">{f.desc}</p>
-                  <div className="cx-extra">{f.extra}</div>
-                  {hovered === f.id && (
-                    <div className="mt-3 inline-flex items-center gap-2 text-[11px] text-[#0a8fb8]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#77DDFF]" /> Live
+                  <div className="flex items-start justify-between">
+                    <div className="cx-card-icon">
+                      <f.Icon className="w-7 h-7" strokeWidth={1.5} />
                     </div>
-                  )}
+                    {f.id === "mobile" && (
+                      <div className="flex flex-col gap-1.5 items-end">
+                        <div className="cx-store-badge">
+                          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none"><path d="M3 3.5v17l9-8.5-9-8.5z" fill="#4ade80"/><path d="M3 3.5l9 8.5 3.2-3L3 3.5z" fill="#f87171"/><path d="M3 20.5l12.2-5.5-3.2-3L3 20.5z" fill="#60a5fa"/><path d="M15.2 8l3 1.7c1.1.7 1.1 1.9 0 2.6l-3 1.7-3.2-3 3.2-3z" fill="#facc15"/></svg>
+                          <div className="flex flex-col leading-tight">
+                            <span className="cx-store-sub">Get it on</span>
+                            <span className="cx-store-main">Google Play</span>
+                          </div>
+                        </div>
+                        <div className="cx-store-badge">
+                          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#fff"><path d="M16.5 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.8-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.7 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.4 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.7-1-2.7-4zM14.3 5.5c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2-.5 2.7-1.3z"/></svg>
+                          <div className="flex flex-col leading-tight">
+                            <span className="cx-store-sub">Download on the</span>
+                            <span className="cx-store-main">App Store</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {f.id === "telegram" && (
+                      <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "linear-gradient(135deg,#3aa9e6,#1f8fd1)" }}>
+                        <Send className="w-4 h-4 text-white -translate-x-[1px]" />
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="mt-16 text-xl font-semibold tracking-tight">{f.title}</h3>
+                  <p className="mt-3 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -2042,13 +2056,6 @@ function ConnectedExperience() {
               <ArrowUp className="w-4 h-4" />
               <div className="text-[10px] mt-2 font-semibold">Smart Home</div>
               <div className="text-[8px] opacity-70">KNX Devices</div>
-            </div>
-
-            {/* 24/7 badge */}
-            <div className="cx-enter self-start ml-4" style={{ animationDelay: "380ms" }}>
-              <div className="w-14 h-14 rounded-full flex items-center justify-center border-2 border-dashed border-rose-400 text-rose-500 text-xs font-bold" style={{ animation: "cx-spin-slow 18s linear infinite" }}>
-                24/7
-              </div>
             </div>
 
             {/* Right phone with hand */}
