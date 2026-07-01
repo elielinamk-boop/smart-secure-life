@@ -1,15 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { ShieldCheck, Sofa, Building2, Settings, Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import i18n from "@/i18n";
 
 export const Route = createFileRoute("/solutions")({
   head: () => ({
     meta: [
-      { title: "Solutions — Talesso" },
-      { name: "description", content: "Face recognition, QR/PIN/BLE access, ALPR parking management, and video intercom — modular smart access from Talesso." },
-      { property: "og:title", content: "Solutions — Talesso" },
+      { title: i18n.t("meta.solutions.title") },
+      { name: "description", content: i18n.t("meta.solutions.description") },
+      { property: "og:title", content: i18n.t("meta.solutions.ogTitle") },
       { property: "og:url", content: "/solutions" },
     ],
     links: [{ rel: "canonical", href: "/solutions" }],
@@ -18,32 +20,12 @@ export const Route = createFileRoute("/solutions")({
 });
 
 const SOLUTIONS = [
-  {
-    icon: ShieldCheck,
-    title: "Security",
-    desc: "Face biometrics, liveness detection, video analytics, perimeter control, license plate recognition.",
-  },
-  {
-    icon: Sofa,
-    title: "Comfort",
-    desc: "Keyless access via BLE, NFC, Apple Wallet. Voice control. Auto-open parking.",
-  },
-  {
-    icon: Building2,
-    title: "Organization",
-    desc: "QR/PIN invitations, office & coworking booking, OCR registration, smart routing.",
-  },
-  {
-    icon: Settings,
-    title: "Automation",
-    desc: "KNX / Smart Home: lights, blinds, climate, doors — all by scenarios.",
-  },
-  {
-    icon: Heart,
-    title: "Health Care",
-    desc: "Air quality: CO₂, humidity, ventilation. Auto control. AI concierge.",
-  },
-];
+  { icon: ShieldCheck, key: "security" },
+  { icon: Sofa, key: "comfort" },
+  { icon: Building2, key: "organization" },
+  { icon: Settings, key: "automation" },
+  { icon: Heart, key: "healthCare" },
+] as const;
 
 function GlassSphere({ children }: { children: ReactNode; index?: number }) {
   return (
@@ -59,16 +41,17 @@ function GlassSphere({ children }: { children: ReactNode; index?: number }) {
 }
 
 function SolutionsPage() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
       <section className="mx-auto max-w-[88rem] px-6 md:px-10 pt-16 pb-10">
-        <p className="text-xs uppercase tracking-[0.28em] text-foreground/50">Solutions</p>
+        <p className="text-xs uppercase tracking-[0.28em] text-foreground/50">{t("solutions.eyebrow")}</p>
         <h1 className="mt-4 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] max-w-3xl">
-          One platform. Every layer of the building.
+          {t("solutions.pageTitle1")}
         </h1>
         <p className="mt-4 max-w-md text-sm text-foreground/55 leading-relaxed">
-          From the front gate to indoor air quality — a unified system that sees, decides, and acts.
+          {t("solutions.pageSubtitle")}
         </p>
       </section>
 
@@ -76,7 +59,7 @@ function SolutionsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {SOLUTIONS.map((s, i) => (
             <div
-              key={s.title}
+              key={s.key}
               className="group relative rounded-3xl border border-white/60 bg-gradient-to-b from-white/70 to-white/30 backdrop-blur-md p-7 text-center transition-all hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(0,40,120,0.25)]"
             >
               <GlassSphere index={i}>
@@ -85,8 +68,8 @@ function SolutionsPage() {
                   strokeWidth={1.6}
                 />
               </GlassSphere>
-              <h3 className="mt-8 font-display text-lg font-bold tracking-tight">{s.title}</h3>
-              <p className="mt-4 text-sm text-foreground/60 leading-relaxed">{s.desc}</p>
+              <h3 className="mt-8 font-display text-lg font-bold tracking-tight">{t(`solutions.items.${s.key}.title`)}</h3>
+              <p className="mt-4 text-sm text-foreground/60 leading-relaxed">{t(`solutions.items.${s.key}.desc`)}</p>
             </div>
           ))}
         </div>
