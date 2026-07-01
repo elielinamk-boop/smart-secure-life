@@ -2688,6 +2688,7 @@ function ProductGallery2() {
 /* ---------------- Ready CTA ---------------- */
 
 function ReadyCTA() {
+  const { t } = useTranslation();
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
@@ -2829,13 +2830,13 @@ function ReadyCTA() {
             <h2
               className={`rc-reveal rc-reveal-d1 ${visible ? "is-in" : ""} font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05] text-slate-900`}
             >
-              Ready to make your<br />building intelligent?
+              {t("readyCta.title1")}<br />{t("readyCta.title2")}
             </h2>
             <p
               className={`rc-reveal rc-reveal-d2 ${visible ? "is-in" : ""} mt-6 text-slate-700/80 text-base md:text-lg leading-relaxed`}
             >
-              Fell free to as questions and reach our Team<br />
-              for discussing all the details of your project
+              {t("readyCta.subtitle1")}<br />
+              {t("readyCta.subtitle2")}
             </p>
             <div className={`rc-reveal rc-reveal-d3 ${visible ? "is-in" : ""} mt-10 flex justify-center`}>
               <Link
@@ -2844,8 +2845,8 @@ function ReadyCTA() {
                 onClick={onClick}
                 className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-sky-300/70 bg-white/50 backdrop-blur px-8 py-4 text-base font-medium text-slate-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-foreground hover:text-background hover:border-foreground hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.45)] active:scale-[0.97]"
               >
-                <span className="relative z-10">Get started</span>
-                <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                <span className="relative z-10">{t("readyCta.button")}</span>
+                <ArrowRight className="relative z-10 h-4 w-4 rtl:-scale-x-100 transition-transform duration-300 group-hover:translate-x-1.5" />
                 {ripples.map((r) => (
                   <span
                     key={r.id}
