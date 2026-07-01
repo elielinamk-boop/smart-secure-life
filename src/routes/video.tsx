@@ -32,7 +32,7 @@ function VideoPage() {
         <div className="mt-10 relative aspect-video overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[0_30px_80px_-30px_rgba(0,40,120,0.35)]">
           <iframe
             className="absolute inset-0 h-full w-full"
-            src="https://www.youtube.com/embed/jfzARicSq_c?rel=0&modestbranding=1"
+            src="https://www.youtube.com/embed/sBGc4nlGZzY?rel=0&modestbranding=1"
             title="Talesso — The Future of Smart Buildings"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
