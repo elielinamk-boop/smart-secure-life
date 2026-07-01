@@ -585,7 +585,7 @@ const OFFICE_LABELS: LabelDef[] = [
   { key: "access",       x: 50, y: 58 },
   { key: "leak",         x: 18, y: 70 },
   { key: "integrations", x: 45, y: 80 },
-  { key: "parking",      x: 75, y: 82 },
+  { key: "parking",      x: 75, y: 74 },
 ];
 
 const RESIDENCE_LABELS: LabelDef[] = [
