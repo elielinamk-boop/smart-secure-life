@@ -607,7 +607,7 @@ const HOTEL_LABELS: LabelDef[] = [
   { key: "hotel-temperature",    x: 18, y: 62 },
   { key: "hotel-lighting",       x: 36, y: 74 },
   { key: "energy-management",    x: 30, y: 86 },
-  { key: "housekeeping",         x: 74, y: 76 },
+  { key: "housekeeping",         x: 74, y: 82 },
 ];
 
 const CRE_LABELS: LabelDef[] = [
