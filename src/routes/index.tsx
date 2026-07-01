@@ -2003,7 +2003,7 @@ const PARTNER_CLIENTS: PartnerLogo[] = [
 
 function Partners() {
   return (
-    <section id="clients" className="relative pt-8 pb-16 md:pt-10 md:pb-20">
+    <section id="clients" className="relative pt-0 pb-16 md:pt-0 md:pb-20 -mt-8 md:-mt-12">
       <style>{`
         @keyframes pt-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .pt-track { display:flex; gap:4rem; width:max-content; animation: pt-marquee 38s linear infinite; }
