@@ -631,6 +631,7 @@ const CRE_LABELS: LabelDef[] = [
 ];
 
 function BuildingsShowcase() {
+  const { t } = useTranslation();
   const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [pinned, setPinned] = useState<{ side: "office" | "residence"; key: FeatureKey } | null>(null);
 
@@ -806,12 +807,12 @@ function BuildingsShowcase() {
 
       <div className="px-4 md:px-8">
         <div className="mx-auto mb-10 max-w-7xl">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Where Talesso lives</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{t("buildings.eyebrow")}</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            Offices &amp; Residences.
+            {t("buildings.title")}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            Tap any feature to see how it works.
+            {t("buildings.subtitle")}
           </p>
         </div>
 
@@ -821,8 +822,8 @@ function BuildingsShowcase() {
         >
           <BuildingCard
             side="office"
-            title="Offices"
-            subtitle="Intelligent spaces for productivity"
+            title={t("buildings.offices")}
+            subtitle={t("buildings.officesSubtitle")}
             Icon={Building2}
             labels={OFFICE_LABELS}
             visible={reveal.inView}
@@ -833,8 +834,8 @@ function BuildingsShowcase() {
           />
           <BuildingCard
             side="residence"
-            title="Residences"
-            subtitle="Smart living, connected and secure"
+            title={t("buildings.residences")}
+            subtitle={t("buildings.residencesSubtitle")}
             Icon={HomeIcon}
             labels={RESIDENCE_LABELS}
             visible={reveal.inView}
@@ -850,6 +851,7 @@ function BuildingsShowcase() {
 }
 
 function ScenesShowcase() {
+  const { t } = useTranslation();
   const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [pinned, setPinned] = useState<{ side: "hotel" | "cre"; key: FeatureKey } | null>(null);
 
@@ -861,10 +863,10 @@ function ScenesShowcase() {
             {"\n"}
           </p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            Hotels &amp; Commercial Real Estate.
+            {t("scenes.title")}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            Tap any feature to see how it works inside each building.
+            {t("scenes.subtitle")}
           </p>
         </div>
 
@@ -874,8 +876,8 @@ function ScenesShowcase() {
         >
           <BuildingCard
             side="office"
-            title="Hotels"
-            subtitle="Exceptional stays, intelligently managed"
+            title={t("scenes.hotels")}
+            subtitle={t("scenes.hotelsSubtitle")}
             Icon={Building2}
             labels={HOTEL_LABELS}
             visible={reveal.inView}
@@ -889,8 +891,8 @@ function ScenesShowcase() {
           />
           <BuildingCard
             side="residence"
-            title="Commercial Real Estates"
-            subtitle="Smarter spaces, better experiences"
+            title={t("scenes.cre")}
+            subtitle={t("scenes.creSubtitle")}
             Icon={Building2}
             labels={CRE_LABELS}
             visible={reveal.inView}
