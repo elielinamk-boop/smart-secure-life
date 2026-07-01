@@ -1439,6 +1439,7 @@ function FeatureEffect({ feature, focus }: { feature: FeatureKey; focus: { x: nu
 }
 
 function Solutions() {
+  const { t } = useTranslation();
   const intro = useInView<HTMLDivElement>({ threshold: 0.2 });
   const grid = useInView<HTMLDivElement>({ threshold: 0.15 });
   return (
@@ -1453,39 +1454,37 @@ function Solutions() {
         <p
           className={`text-xs uppercase tracking-[0.28em] text-foreground/50 transition-all duration-500 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
-          Solutions
+          {t("solutions.eyebrow")}
         </p>
         <h2 className="mt-4 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] max-w-3xl">
           <span
             className={`block transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-md"}`}
             style={{ transitionDelay: "150ms" }}
           >
-            One platform.
+            {t("solutions.title1")}
           </span>
           <span
             className={`block transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-md"}`}
             style={{ transitionDelay: "300ms" }}
           >
-            Every layer of the building.
+            {t("solutions.title2")}
           </span>
         </h2>
         <p
           className={`mt-4 max-w-md text-sm text-foreground/55 leading-relaxed transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
           style={{ transitionDelay: "500ms" }}
         >
-          From the front gate to indoor air quality —{"\u00a0"}
-          <br />
-          a unified system that sees, decides, and acts.
+          {t("solutions.subtitle")}
         </p>
 
         <div ref={grid.ref} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {solutions.map((s, i) => (
             <SolutionCard
-              key={s.title}
+              key={s.key}
               index={i}
               icon={s.icon}
-              title={s.title}
-              desc={s.desc}
+              title={t(`solutions.items.${s.key}.title`)}
+              desc={t(`solutions.items.${s.key}.desc`)}
               inView={grid.inView}
             />
           ))}
