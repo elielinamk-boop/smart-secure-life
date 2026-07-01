@@ -28,27 +28,33 @@ function AboutPage() {
       <SiteNav />
       <section id="about" className="relative py-24 md:py-32 overflow-hidden">
         <style>{`
-          @keyframes au-wave-a { 0% { transform: translateX(0) translateY(0); } 25% { transform: translateX(-15%) translateY(-14px);} 50% { transform: translateX(-25%) translateY(-22px);} 75% { transform: translateX(-38%) translateY(-10px);} 100% { transform: translateX(-50%) translateY(0); } }
-          @keyframes au-wave-b { 0% { transform: translateX(-50%) translateY(0); } 25% { transform: translateX(-38%) translateY(18px);} 50% { transform: translateX(-25%) translateY(24px);} 75% { transform: translateX(-12%) translateY(12px);} 100% { transform: translateX(0) translateY(0); } }
+          @keyframes au-wave-a { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+          @keyframes au-wave-b { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
           @keyframes au-shimmer { 0%,100% { opacity:.7; } 50% { opacity:1; } }
           .au-bg { background: linear-gradient(180deg, #fafbfc 0%, #f0f4f7 40%, #e3ecf1 70%, #d3dfe6 100%); }
+          .au-sea-fill { position:absolute; left:0; right:0; bottom:0; background:#3f7997; }
           .au-wave { position:absolute; left:0; width:200%; height:260px; will-change: transform; }
-          .au-wave-a { animation: au-wave-a 5s ease-in-out infinite; }
-          .au-wave-b { animation: au-wave-b 7s ease-in-out infinite; opacity:.75; }
-          .au-wave-c { animation: au-wave-a 9s ease-in-out infinite; opacity:.55; }
+          .au-wave-a { animation: au-wave-a 9s linear infinite; }
+          .au-wave-b { animation: au-wave-b 13s linear infinite; opacity:.8; }
+          .au-wave-c { animation: au-wave-a 17s linear infinite; opacity:.6; }
           .au-shimmer { animation: au-shimmer 3s ease-in-out infinite; }
+          .au-icon-wrap { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(226,232,240,0.7)); transition: background .35s ease, box-shadow .35s ease; }
+          .au-icon-wrap svg { color: #94a3b8; transition: color .35s ease, transform .35s ease; }
+          .au-card:hover .au-icon-wrap { background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(119,221,255,0.55)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 14px 30px -12px rgba(119,221,255,0.6); }
+          .au-card:hover .au-icon-wrap svg { color: #77DDFF; transform: scale(1.08); }
         `}</style>
 
         <div className="absolute inset-0 au-bg" aria-hidden />
         <div className="absolute inset-x-0 bottom-0 h-[85%] overflow-hidden" aria-hidden>
+          <div className="au-sea-fill" style={{ height: 180 }} />
           <svg className="au-wave au-wave-c" style={{ bottom: 160 }} viewBox="0 0 2880 260" preserveAspectRatio="none">
-            <path d="M0,130 C360,20 720,240 1440,130 C2160,20 2520,240 2880,130 L2880,260 L0,260 Z" fill="#7aa9c4" />
+            <path d="M0,130 C240,40 480,220 720,130 C960,40 1200,220 1440,130 C1680,40 1920,220 2160,130 C2400,40 2640,220 2880,130 L2880,260 L0,260 Z" fill="#7aa9c4" />
           </svg>
           <svg className="au-wave au-wave-b" style={{ bottom: 70 }} viewBox="0 0 2880 260" preserveAspectRatio="none">
-            <path d="M0,120 C360,200 720,10 1440,120 C2160,230 2520,20 2880,120 L2880,260 L0,260 Z" fill="#5d92ae" />
+            <path d="M0,120 C240,200 480,40 720,120 C960,200 1200,40 1440,120 C1680,200 1920,40 2160,120 C2400,200 2640,40 2880,120 L2880,260 L0,260 Z" fill="#5d92ae" />
           </svg>
           <svg className="au-wave au-wave-a au-shimmer" style={{ bottom: 0 }} viewBox="0 0 2880 260" preserveAspectRatio="none">
-            <path d="M0,150 C360,40 720,250 1440,150 C2160,40 2520,250 2880,150 L2880,260 L0,260 Z" fill="#3f7997" />
+            <path d="M0,150 C240,60 480,240 720,150 C960,60 1200,240 1440,150 C1680,60 1920,240 2160,150 C2400,60 2640,240 2880,150 L2880,260 L0,260 Z" fill="#3f7997" />
           </svg>
         </div>
 
@@ -66,18 +72,17 @@ function AboutPage() {
             <h1 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-left text-slate-900">About Us</h1>
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
               {cards.map(({ Icon, label }, i) => (
-                <div key={i} className="relative bg-white/70 backdrop-blur-md rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
+                <div key={i} className="au-card group relative bg-white/70 backdrop-blur-md rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center mb-4 border"
+                    className="au-icon-wrap w-14 h-14 rounded-full flex items-center justify-center mb-4 border"
                     style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(119,221,255,0.35))",
                       borderColor: "rgba(255,255,255,0.8)",
                       backdropFilter: "blur(12px)",
                       WebkitBackdropFilter: "blur(12px)",
                       boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 24px -12px rgba(15,23,42,0.25)",
                     }}
                   >
-                    <Icon className="w-6 h-6 text-[#3aa9e6]" />
+                    <Icon className="w-6 h-6" />
                   </div>
                   <div className="text-sm text-slate-700 leading-snug">{label}</div>
                 </div>
