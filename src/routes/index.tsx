@@ -74,32 +74,12 @@ export const Route = createFileRoute("/")({
 });
 
 const solutions = [
-  {
-    icon: ShieldCheck,
-    title: "Security",
-    desc: "Face biometrics, liveness detection, video analytics, perimeter control, license plate recognition.",
-  },
-  {
-    icon: Sofa,
-    title: "Comfort",
-    desc: "Keyless access via BLE, NFC, Apple Wallet. Voice control. Auto-open parking.",
-  },
-  {
-    icon: Building2,
-    title: "Organization",
-    desc: "QR/PIN invitations, office & coworking booking, OCR registration, smart routing.",
-  },
-  {
-    icon: Settings,
-    title: "Automation",
-    desc: "KNX / Smart Home: lights, blinds, climate, doors — all by scenarios.",
-  },
-  {
-    icon: Heart,
-    title: "Health Care",
-    desc: "Air quality: CO₂, humidity, ventilation. Auto control. AI concierge.",
-  },
-];
+  { icon: ShieldCheck, key: "security" },
+  { icon: Sofa, key: "comfort" },
+  { icon: Building2, key: "organization" },
+  { icon: Settings, key: "automation" },
+  { icon: Heart, key: "healthCare" },
+] as const;
 
 const aiPillars = [
   {
@@ -119,12 +99,37 @@ const aiPillars = [
   },
 ];
 
-const channels = [
-  { icon: Smartphone, title: "Mobile App", desc: "Full control in your pocket — iOS & Android." },
-  { icon: Send, title: "Telegram Bot", desc: "Quick commands and alerts in chat." },
-  { icon: Monitor, title: "Web Dashboard", desc: "Manage buildings, users and analytics from any browser." },
-  { icon: Headphones, title: "24/7 Support", desc: "Real humans, anytime — alongside the AI." },
-];
+// Channels rendered via CX_FEATURES with i18n keys.
+
+// Maps FeatureKey -> i18n key under `features.*`
+const FEATURE_I18N: Record<FeatureKey, string> = {
+  internet: "internet",
+  lighting: "lighting",
+  climate: "climate",
+  cameras: "cameras",
+  access: "access",
+  leak: "leak",
+  integrations: "integrations",
+  parking: "parking",
+  "smart-locks": "smartLocks",
+  garage: "garage",
+  "ai-concierge": "aiConcierge",
+  "keyless-checkin": "keylessCheckin",
+  "personalized-service": "personalizedService",
+  "room-automation": "roomAutomation",
+  "hotel-temperature": "hotelTemperature",
+  "hotel-lighting": "hotelLighting",
+  "energy-management": "energyManagement",
+  housekeeping: "housekeeping",
+  analytics: "analytics",
+  "temp-access": "tempAccess",
+  "office-lighting": "officeLighting",
+  "access-management": "accessManagement",
+  "office-temperature": "officeTemperature",
+  occupancy: "occupancy",
+  "energy-optimization": "energyOptimization",
+  "meeting-rooms": "meetingRooms",
+};
 
 function Landing() {
   return (
