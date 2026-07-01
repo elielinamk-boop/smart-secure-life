@@ -1882,14 +1882,15 @@ function Channels() {
 
 type CxFeatureKey = "mobile" | "telegram" | "dashboard" | "support";
 
-const CX_FEATURES: { id: CxFeatureKey; title: string; desc: string; Icon: LucideIcon; extra: string }[] = [
-  { id: "mobile",    title: "Mobile App",    desc: "Full control in your pocket — iOS & Android.", Icon: Smartphone, extra: "Remote unlock · Push alerts · Live monitoring" },
-  { id: "telegram",  title: "Telegram Bot",  desc: "Quick commands and alerts in chat.",            Icon: Send,       extra: "Unlock door · Camera snapshot · Status" },
-  { id: "dashboard", title: "Web Dashboard", desc: "Manage buildings, users and analytics from any browser.", Icon: Monitor, extra: "Occupancy · Access events · Live charts" },
-  { id: "support",   title: "24/7 Support",  desc: "Real humans, anytime — alongside the AI.",      Icon: Headphones, extra: "AI assistant + on-call humans" },
+const CX_FEATURES: { id: CxFeatureKey; Icon: LucideIcon }[] = [
+  { id: "mobile", Icon: Smartphone },
+  { id: "telegram", Icon: Send },
+  { id: "dashboard", Icon: Monitor },
+  { id: "support", Icon: Headphones },
 ];
 
 function ConnectedExperience() {
+  const { t } = useTranslation();
   return (
     <section id="channels" className="relative py-20 md:py-28 overflow-hidden">
       <style>{`
@@ -1917,12 +1918,12 @@ function ConnectedExperience() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="text-center cx-enter" style={{ animationDelay: "0ms" }}>
-          <div className="text-xs tracking-[0.4em] text-muted-foreground uppercase mb-4">Connected Experience</div>
+          <div className="text-xs tracking-[0.4em] text-muted-foreground uppercase mb-4">{t("connected.eyebrow")}</div>
           <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
-            Instant interaction. Full management.
+            {t("connected.title")}
           </h2>
           <p className="mt-5 text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
-            Talesso meets your team where they already work — phone, chat, or browser.
+            {t("connected.subtitle")}
           </p>
         </div>
 
