@@ -40,6 +40,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import buildingsCleanAsset from "@/assets/buildings-clean.png";
 import hotelSceneAsset from "@/assets/hotel-scene.jpg";
 import connectedExperienceAsset from "@/assets/connected-experience.png";
+import mobilePhoneHandAsset from "@/assets/mobile-phone-hand.png";
 import officeSceneAsset from "@/assets/office-scene.jpg";
 import eyecidAsset from "@/assets/eyecid-device.png";
 import eyecidLogoAsset from "@/assets/eyecid-logo.png";
@@ -1974,11 +1975,13 @@ function ConnectedExperience() {
               className="cx-ph cx-ph-round cx-enter cx-float-a self-start ml-4 w-14 h-14"
               style={{ animationDelay: "380ms" }}
             />
-            <div
+            <img
               id="ph-mobile-phone"
-              data-label="Mobile phone"
-              className="cx-ph cx-enter cx-float-a w-[200px] h-[380px]"
+              src={mobilePhoneHandAsset}
+              alt="Talesso mobile app on iPhone"
+              className="cx-enter cx-float-a w-[280px] h-auto object-contain select-none pointer-events-none"
               style={{ animationDelay: "260ms" }}
+              draggable={false}
             />
           </div>
         </div>
