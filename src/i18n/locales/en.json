@@ -1,0 +1,484 @@
+{
+  "common": {
+    "getStarted": "Get started",
+    "close": "Close",
+    "goHome": "Go home",
+    "tryAgain": "Try again"
+  },
+  "nav": {
+    "home": "HOME",
+    "solutions": "SOLUTIONS",
+    "clients": "CLIENTS",
+    "about": "ABOUT",
+    "contact": "CONTACT",
+    "menu": "Menu"
+  },
+  "footer": {
+    "rights": "© {{year}} Talesso. All rights reserved."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "The page you're looking for doesn't exist or has been moved."
+  },
+  "error": {
+    "title": "This page didn't load",
+    "message": "Something went wrong on our end. You can try refreshing or head back home."
+  },
+  "meta": {
+    "home": {
+      "title": "Talesso — AI Solutions for Security, Access and Smart Living",
+      "description": "Intelligent biometric access, smart home, video analytics, and building management — all powered by our proprietary AI platform.",
+      "ogTitle": "Talesso — AI for Security & Smart Living",
+      "ogDescription": "Biometric access, smart home, video analytics, building management."
+    },
+    "about": {
+      "title": "About — Talesso",
+      "description": "Talesso builds AI-powered smart access, automation and analytics for modern buildings.",
+      "ogTitle": "About — Talesso"
+    },
+    "solutions": {
+      "title": "Solutions — Talesso",
+      "description": "Face recognition, QR/PIN/BLE access, ALPR parking management, and video intercom — modular smart access from Talesso.",
+      "ogTitle": "Solutions — Talesso"
+    },
+    "clients": {
+      "title": "Clients — Talesso for Offices & Residences",
+      "description": "Interactive overview of Talesso features for offices and residences — click any pin to explore.",
+      "ogTitle": "Clients — Talesso"
+    },
+    "contact": {
+      "title": "Contact — Talesso",
+      "description": "Get in touch with the Talesso team to design the AI stack for your building.",
+      "ogTitle": "Contact — Talesso"
+    },
+    "video": {
+      "title": "Watch — Talesso. The Future of Smart Buildings.",
+      "description": "Watch a high-performance biometric system in action — Talesso, the future of smart buildings.",
+      "ogTitle": "Talesso — The Future of Smart Buildings"
+    }
+  },
+  "hero": {
+    "badge": "TALESSO · AI-POWERED TECHNOLOGY",
+    "title1": "AI Solutions for",
+    "title2": "Security, Access",
+    "title3": "and Smart Living",
+    "subtitle": "We provide intelligent biometric access control, smart home automation, video analytics, and building management — all powered by our proprietary AI platform.",
+    "ctaPrimary": "Get a consultation",
+    "ctaSecondary": "Our Solutions"
+  },
+  "videoShowcase": {
+    "caption": "Talesso — The Future of Smart Buildings.",
+    "iframeTitle": "Talesso — The Future of Smart Buildings"
+  },
+  "solutions": {
+    "eyebrow": "Solutions",
+    "title1": "One platform.",
+    "title2": "Every layer of the building.",
+    "subtitle": "From the front gate to indoor air quality — a unified system that sees, decides, and acts.",
+    "pageTitle1": "One platform. Every layer of the building.",
+    "pageSubtitle": "From the front gate to indoor air quality — a unified system that sees, decides, and acts.",
+    "items": {
+      "security": {
+        "title": "Security",
+        "desc": "Face biometrics, liveness detection, video analytics, perimeter control, license plate recognition."
+      },
+      "comfort": {
+        "title": "Comfort",
+        "desc": "Keyless access via BLE, NFC, Apple Wallet. Voice control. Auto-open parking."
+      },
+      "organization": {
+        "title": "Organization",
+        "desc": "QR/PIN invitations, office & coworking booking, OCR registration, smart routing."
+      },
+      "automation": {
+        "title": "Automation",
+        "desc": "KNX / Smart Home: lights, blinds, climate, doors — all by scenarios."
+      },
+      "healthCare": {
+        "title": "Health Care",
+        "desc": "Air quality: CO₂, humidity, ventilation. Auto control. AI concierge."
+      }
+    }
+  },
+  "meetPlatform": {
+    "eyebrow": "Meet the platform",
+    "title": "The all-in-one smart building platform.",
+    "meet": "MEET",
+    "theSmartBuilding": "THE SMART BUILDING",
+    "platformThatUnifies": "PLATFORM THAT UNIFIES EVERYTHING",
+    "the": "THE",
+    "stats": {
+      "platform": "Platform",
+      "interface": "Interface",
+      "control": "Control",
+      "full": "FULL"
+    }
+  },
+  "buildings": {
+    "eyebrow": "Where Talesso lives",
+    "title": "Offices & Residences.",
+    "subtitle": "Tap any feature to see how it works.",
+    "offices": "Offices",
+    "officesSubtitle": "Intelligent spaces for productivity",
+    "residences": "Residences",
+    "residencesSubtitle": "Smart living, connected and secure",
+    "hotspotLabel": "{{name}} hotspot",
+    "featureBadge": "Feature"
+  },
+  "scenes": {
+    "title": "Hotels & Commercial Real Estate.",
+    "subtitle": "Tap any feature to see how it works inside each building.",
+    "hotels": "Hotels",
+    "hotelsSubtitle": "Exceptional stays, intelligently managed",
+    "cre": "Commercial Real Estates",
+    "creSubtitle": "Smarter spaces, better experiences"
+  },
+  "features": {
+    "internet": {
+      "name": "Internet",
+      "short": "A dedicated, secure mesh network connects every device in the building.",
+      "b1": "Whole-building Wi-Fi coverage",
+      "b2": "Isolated IoT VLAN",
+      "b3": "Auto-failover backbone",
+      "example": "Tenants roam from lobby to rooftop without ever dropping a video call."
+    },
+    "lighting": {
+      "name": "Lighting",
+      "short": "Control every light in the building remotely. Create schedules, automate scenes and reduce energy consumption.",
+      "b1": "Per-room scenes",
+      "b2": "Sunrise / sunset automation",
+      "b3": "Up to 40% energy saved",
+      "example": "At 7pm the lobby dims and the workspace lights warm — automatically."
+    },
+    "climate": {
+      "name": "Climate",
+      "short": "Smart HVAC keeps every room at the perfect temperature and air quality.",
+      "b1": "Per-zone thermostats",
+      "b2": "Indoor air-quality sensing",
+      "b3": "Predictive scheduling",
+      "example": "Conference rooms cool down 10 minutes before a meeting begins."
+    },
+    "cameras": {
+      "name": "Security Cameras",
+      "short": "AI-powered cameras watch every entry point and recognise events in real time.",
+      "b1": "Person / vehicle detection",
+      "b2": "License plate recognition",
+      "b3": "Cloud + edge recording",
+      "example": "An unknown person at the side door triggers an instant alert to security."
+    },
+    "access": {
+      "name": "Access Control",
+      "short": "Biometric, mobile and PIN access on every door — fully audited.",
+      "b1": "Face + QR + plate",
+      "b2": "Time-based permissions",
+      "b3": "Full audit trail",
+      "example": "Cleaners get access between 6am–9am only, no keys required."
+    },
+    "leak": {
+      "name": "Leak Detection",
+      "short": "Sensors near plumbing instantly catch leaks before they cause damage.",
+      "b1": "Per-pipe monitoring",
+      "b2": "Auto shut-off valve",
+      "b3": "Push alerts",
+      "example": "A burst pipe under the sink shuts itself off in under 4 seconds."
+    },
+    "integrations": {
+      "name": "Integrations",
+      "short": "Every system speaks the same language — lighting, climate, security and access connect into one platform.",
+      "b1": "Open API",
+      "b2": "1000+ device drivers",
+      "b3": "One mobile app",
+      "example": "Tapping ‘leave home’ arms cameras, locks doors and turns off lights."
+    },
+    "parking": {
+      "name": "Parking Management",
+      "short": "License-plate driven access and live spot availability.",
+      "b1": "Plate-based entry",
+      "b2": "Live occupancy map",
+      "b3": "Reserved-spot routing",
+      "example": "A visitor’s plate is recognised and the gate opens to their reserved spot."
+    },
+    "smartLocks": {
+      "name": "Smart Locks",
+      "short": "Keyless entry on every door — mobile, biometric or temporary codes.",
+      "b1": "Mobile unlock",
+      "b2": "Time-limited guest codes",
+      "b3": "Tamper alerts",
+      "example": "Send a one-time code to a delivery courier that expires in 10 minutes."
+    },
+    "garage": {
+      "name": "Garage Access",
+      "short": "License-plate recognition opens the garage automatically as you approach.",
+      "b1": "Hands-free entry",
+      "b2": "Vehicle whitelist",
+      "b3": "Visitor pre-approval",
+      "example": "The garage opens 5 metres before you reach it — no remote needed."
+    },
+    "aiConcierge": {
+      "name": "AI Concierge",
+      "short": "Multilingual AI assistant that answers guest questions, gives recommendations, and handles requests 24/7.",
+      "b1": "24/7 multilingual chat",
+      "b2": "Personalised recommendations",
+      "b3": "Instant request handling",
+      "example": "A late-arriving guest asks for a nearby restaurant in Japanese — and gets a 90-second answer."
+    },
+    "keylessCheckin": {
+      "name": "Keyless Check-In",
+      "short": "Guests check in using mobile credentials without waiting at reception.",
+      "b1": "Mobile key on arrival",
+      "b2": "Skip the front-desk queue",
+      "b3": "Secure remote check-out",
+      "example": "A guest walks straight from the taxi to their suite — phone in hand, no key card."
+    },
+    "personalizedService": {
+      "name": "Personalized Service",
+      "short": "The platform remembers guest preferences — lighting, temperature, and room settings.",
+      "b1": "Saved guest profiles",
+      "b2": "Auto-applied room scenes",
+      "b3": "Preference-based upgrades",
+      "example": "Returning guests find their preferred temperature, lighting and curtain position already set."
+    },
+    "roomAutomation": {
+      "name": "Room Automation",
+      "short": "Rooms automatically adjust lighting, temperature, and devices based on occupancy or preferences.",
+      "b1": "Occupancy-aware scenes",
+      "b2": "Voice & app control",
+      "b3": "Energy-saving standby",
+      "example": "When a guest leaves the room, lights dim, curtains close, and the AC steps down by 2°C."
+    },
+    "hotelTemperature": {
+      "name": "Temperature Control",
+      "short": "Automatically maintains ideal room temperature while reducing energy consumption.",
+      "b1": "Per-room thermostats",
+      "b2": "Predictive scheduling",
+      "b3": "Up to 30% HVAC savings",
+      "example": "Empty floors quietly drop a few degrees overnight — and warm back up before sunrise."
+    },
+    "hotelLighting": {
+      "name": "Smart Lighting",
+      "short": "Warm, layered lighting across exterior, lobby, rooms and gardens — fully automated.",
+      "b1": "Sunset-based scenes",
+      "b2": "Per-zone control",
+      "b3": "Hospitality-grade dimming",
+      "example": "At dusk the gardens, lobby and façade glow into life — all on one scene."
+    },
+    "energyManagement": {
+      "name": "Energy Management",
+      "short": "Optimise HVAC, lighting and utilities automatically to reduce operating costs.",
+      "b1": "Live consumption dashboard",
+      "b2": "Anomaly alerts",
+      "b3": "Up to 35% lower bills",
+      "example": "A leaking chiller is flagged the moment its energy draw drifts outside normal range."
+    },
+    "housekeeping": {
+      "name": "Housekeeping Notifications",
+      "short": "Automatically notify housekeeping when rooms become available for service.",
+      "b1": "Live room status",
+      "b2": "Optimised cleaning routes",
+      "b3": "Guest-do-not-disturb aware",
+      "example": "The moment a guest checks out, housekeeping gets the room added to their route."
+    },
+    "analytics": {
+      "name": "Analytics & Insights",
+      "short": "Real-time analytics for occupancy, energy, security and building performance.",
+      "b1": "Live KPI dashboards",
+      "b2": "Trend & anomaly detection",
+      "b3": "Exportable reports",
+      "example": "Facility managers see which floors are underused this week — and re-plan in minutes."
+    },
+    "tempAccess": {
+      "name": "Temporary Access Passes",
+      "short": "Issue secure visitor credentials instantly — from a single screen.",
+      "b1": "QR or mobile passes",
+      "b2": "Time-bound permissions",
+      "b3": "Full audit trail",
+      "example": "A contractor receives a 4-hour QR pass that unlocks only the floors they need."
+    },
+    "officeLighting": {
+      "name": "Smart Lighting",
+      "short": "Automated lighting based on occupancy and schedules across the entire workspace.",
+      "b1": "Per-zone scenes",
+      "b2": "Daylight harvesting",
+      "b3": "Up to 45% energy saved",
+      "example": "Empty meeting rooms dim automatically — corridors stay softly lit for walk-throughs."
+    },
+    "accessManagement": {
+      "name": "Access Management",
+      "short": "Control employee and visitor access from one unified platform.",
+      "b1": "Role-based permissions",
+      "b2": "Face + mobile + QR",
+      "b3": "Real-time revocation",
+      "example": "A departing employee's badge stops working on every door the moment HR confirms exit."
+    },
+    "officeTemperature": {
+      "name": "Temperature Control",
+      "short": "Maintain comfortable indoor conditions while minimising energy use.",
+      "b1": "Per-zone HVAC",
+      "b2": "Schedule-aware climate",
+      "b3": "CO₂-based ventilation",
+      "example": "Conference rooms cool down ten minutes before the calendar says a meeting begins."
+    },
+    "occupancy": {
+      "name": "Occupancy Monitoring",
+      "short": "Monitor workspace usage to optimise layouts and improve efficiency.",
+      "b1": "Live desk & room counts",
+      "b2": "Weekly heatmaps",
+      "b3": "Layout suggestions",
+      "example": "Two underused desk pods are merged into a quiet zone — based on a month of data."
+    },
+    "energyOptimization": {
+      "name": "Energy Optimization",
+      "short": "AI automatically optimises energy usage across all building systems.",
+      "b1": "HVAC + lighting sync",
+      "b2": "Off-hours auto-shutdown",
+      "b3": "Carbon-aware scheduling",
+      "example": "On a sunny afternoon, lights dim and the AC tunes back — without anyone lifting a finger."
+    },
+    "meetingRooms": {
+      "name": "Meeting Room Booking",
+      "short": "Employees reserve meeting rooms instantly with automatic scheduling.",
+      "b1": "One-tap booking",
+      "b2": "Calendar sync",
+      "b3": "Auto-release if no-show"
+    }
+  },
+  "connected": {
+    "eyebrow": "Connected Experience",
+    "title": "Instant interaction. Full management.",
+    "subtitle": "Talesso meets your team where they already work — phone, chat, or browser.",
+    "cards": {
+      "mobile": {
+        "title": "Mobile App",
+        "desc": "Full control in your pocket — iOS & Android."
+      },
+      "telegram": {
+        "title": "Telegram Bot",
+        "desc": "Quick commands and alerts in chat."
+      },
+      "dashboard": {
+        "title": "Web Dashboard",
+        "desc": "Manage buildings, users and analytics from any browser."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "desc": "Real humans, anytime — alongside the AI."
+      }
+    }
+  },
+  "partners": {
+    "manufacturers": "Compatible with Leading Manufacturers",
+    "clients": "Trusted by Leading Clients"
+  },
+  "readyCta": {
+    "title1": "Ready to make your",
+    "title2": "building intelligent?",
+    "subtitle1": "Fell free to as questions and reach our Team",
+    "subtitle2": "for discussing all the details of your project",
+    "button": "Get started"
+  },
+  "aboutPage": {
+    "title": "About Us",
+    "p1": "Founded as a small company specializing in biometric access systems, we have grown into a comprehensive technology ecosystem encompassing access control, intelligent management platforms, AI-driven solutions, automation, and smart environments.",
+    "p2": "Based in the heart of the Mediterranean, Cyprus, we design and develop our own products with a clear mission: to create technology that makes everyday life simpler, safer, and more connected.",
+    "p3": "We believe that our environment affects how we feel, what we wish and what we think about. So we decided to design and develop technology that transforms the way people interact with their spaces.",
+    "p4": "By seamlessly integrating technology into homes, workplaces, and commercial environments, we create intelligent spaces that work for people.",
+    "p5": "At the core of everything we build is a commitment to improving the way people experience their environment —",
+    "p6": "one smart solution at a time.",
+    "cards": {
+      "c1": "Proven Smart Home & Biometric Projects",
+      "c2": "Own Software — Full Stack Control",
+      "c3": "Full Cycle: Design to Service",
+      "c4": "AI Differentiation: LLM on Terminals"
+    }
+  },
+  "clientsPage": {
+    "eyebrow": "Clients",
+    "title": "One platform. Two worlds.",
+    "subtitle": "Explore how Talesso powers intelligent offices and connected residences. Click any pin to learn more.",
+    "hoverHint": "Hover or tap any pin to see how each subsystem works.",
+    "unified": "Every integration is unified under the proprietary Talesso AI platform — one dashboard, one mobile app, one source of truth.",
+    "offices": "Offices",
+    "officesSubtitle": "Intelligent spaces for productivity",
+    "residences": "Residences",
+    "residencesSubtitle": "Smart living, connected and secure",
+    "features": {
+      "wifi": "Internet",
+      "lights": "Lighting",
+      "climate": "Climate",
+      "cam": "Cameras",
+      "camHome": "Security Cameras",
+      "access": "Access Control",
+      "leak": "Leak Detection",
+      "lock": "Smart Locks",
+      "garage": "Garage Access"
+    },
+    "details": {
+      "wifiOffice": "Enterprise-grade Wi-Fi 6 mesh with seamless roaming across floors.",
+      "lightsOffice": "DALI/KNX lighting scenes by occupancy and daylight harvesting.",
+      "climateOffice": "Per-zone HVAC with CO₂-driven ventilation and night setback.",
+      "camOffice": "AI video analytics: intrusion, loitering, tailgating, and people counting.",
+      "accessOffice": "Face ID, QR, BLE and PIN — one credential across every door.",
+      "leakOffice": "Wireless sensors auto-close valves on the first drop of water.",
+      "wifiHome": "Whole-home Wi-Fi 6E with guest network and parental controls.",
+      "lightsHome": "Tunable white scenes for morning, work, dinner, and movie modes.",
+      "climateHome": "Room-by-room comfort with AI learning your daily rhythm.",
+      "camHome": "Perimeter + indoor cameras with person/pet/vehicle classification.",
+      "lockHome": "Keyless entry by face, phone, or temporary PIN for guests.",
+      "garageHome": "ALPR auto-opens the garage as your car approaches the driveway.",
+      "leakHome": "Sensors in kitchens and bathrooms close shut-off valves instantly."
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Get in Touch",
+    "title1": "Fill out the form and we'll get",
+    "title2": "back to you within 24 hours.",
+    "subtitle": "We're here to answer your questions and provide the support you need.",
+    "form": {
+      "name": "Your Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send message →",
+      "sent": "✓ Message sent"
+    },
+    "info": {
+      "heading": "Contact Information",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "addressValue": "Limassol, Cyprus",
+      "company": "Company",
+      "companyValue": "TALESSO LTD (HE 407732)"
+    },
+    "location": {
+      "eyebrow": "Our Location",
+      "title": "Come say hello.",
+      "subtitle": "Zephyr Residences — Georgiou A', Germasogeia 4046, Limassol, Cyprus.",
+      "fullscreen": "Fullscreen",
+      "brand": "Talesso ltd",
+      "brandSub": "Zephyr Residences",
+      "addressLine1": "Georgiou A', Germasogeia 4046",
+      "addressLine2": "Limassol, Cyprus",
+      "hours": "Mon – Fri · 9:00 – 18:00"
+    }
+  },
+  "videoPage": {
+    "eyebrow": "Watch",
+    "title": "The Future of Smart Buildings.",
+    "subtitle": "A high-performance biometric system that turns every entrance into an intelligent checkpoint.",
+    "features": {
+      "liveness": {
+        "t": "Liveness detection",
+        "d": "Blocks photo, video and mask spoofing attempts in real time."
+      },
+      "match": {
+        "t": "Sub-second match",
+        "d": "Identifies authorized people in under 300 ms at the door."
+      },
+      "edge": {
+        "t": "Edge + cloud AI",
+        "d": "Privacy-first inference at the edge, dashboards in the cloud."
+      }
+    }
+  }
+}

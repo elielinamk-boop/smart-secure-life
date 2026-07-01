@@ -1,23 +1,22 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Globe, Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Logo } from "./Logo";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const NAV = [
-  { label: "HOME", to: "/" },
-  { label: "SOLUTIONS", to: "/solutions" },
-  { label: "CLIENTS", to: "/clients" },
-  { label: "ABOUT", to: "/about" },
-  { label: "CONTACT", to: "/contact" },
+  { key: "home", to: "/" },
+  { key: "solutions", to: "/solutions" },
+  { key: "clients", to: "/clients" },
+  { key: "about", to: "/about" },
+  { key: "contact", to: "/contact" },
 ] as const;
 
-const LANGS = ["EN", "GR", "RUS", "AR"];
-
 export function SiteNav() {
+  const { t } = useTranslation();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [lang, setLang] = useState("EN");
   const [open, setOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export function SiteNav() {
                 to={item.to}
                 className={`relative inline-flex items-center px-4 py-2.5 min-h-11 rounded-full transition-colors hover:text-foreground hover:bg-white/40 active:bg-white/60 ${active ? "text-foreground bg-white/50" : ""}`}
               >
-                {item.label}
+                {t(`nav.${item.key}`)}
               </Link>
             );
           })}
@@ -58,37 +57,13 @@ export function SiteNav() {
             to="/contact"
             className="hidden md:inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/80 px-5 py-2.5 min-h-11 text-sm font-medium hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
           >
-            Get started <ArrowRight className="h-4 w-4" />
+            {t("common.getStarted")} <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
           </Link>
-          <div className="relative">
-            <button
-              onClick={() => setLangOpen((v) => !v)}
-              className="glass flex items-center gap-1.5 rounded-full px-4 py-2.5 min-h-11 text-xs font-semibold tracking-wider"
-            >
-              <Globe className="h-4 w-4" strokeWidth={1.75} />
-              {lang}
-            </button>
-            {langOpen && (
-              <div className="glass absolute right-0 mt-2 w-28 rounded-xl p-1.5 z-50">
-                {LANGS.map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => {
-                      setLang(l);
-                      setLangOpen(false);
-                    }}
-                    className={`block w-full text-left rounded-lg px-3 py-2.5 min-h-10 text-xs tracking-wider hover:bg-white/40 ${lang === l ? "text-foreground font-semibold" : "text-foreground/70"}`}
-                  >
-                    {l}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          <LanguageSwitcher />
           <button
             className="lg:hidden glass rounded-full p-3 min-h-11 min-w-11 flex items-center justify-center"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={t("nav.menu")}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -104,7 +79,7 @@ export function SiteNav() {
               onClick={() => setOpen(false)}
               className="rounded-xl px-4 py-3 min-h-12 text-sm tracking-[0.18em] font-semibold text-foreground/80 hover:text-foreground hover:bg-white/40 active:bg-white/60"
             >
-              {item.label}
+              {t(`nav.${item.key}`)}
             </Link>
           ))}
           <Link
@@ -112,7 +87,7 @@ export function SiteNav() {
             onClick={() => setOpen(false)}
             className="mt-2 rounded-full border border-accent-blue/70 bg-background/80 px-4 py-3 min-h-12 text-center text-sm font-semibold hover:bg-foreground hover:text-background transition-colors"
           >
-            Get started →
+            {t("common.getStarted")} →
           </Link>
         </div>
       )}

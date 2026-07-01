@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import { ScanFace, MessageSquare, Send, MapPin, Phone, Mail, Clock, Maximize2 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -8,9 +10,9 @@ import logoAsset from "@/assets/talesso-logo.png";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Talesso" },
-      { name: "description", content: "Get in touch with the Talesso team to design the AI stack for your building." },
-      { property: "og:title", content: "Contact — Talesso" },
+      { title: i18n.t("meta.contact.title") },
+      { name: "description", content: i18n.t("meta.contact.description") },
+      { property: "og:title", content: i18n.t("meta.contact.ogTitle") },
       { property: "og:url", content: "/contact" },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
+  const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -26,11 +29,11 @@ function ContactPage() {
       <section id="contact" className="relative py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
-            <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-5">Get in Touch</div>
+            <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-5">{t("contactPage.eyebrow")}</div>
             <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
-              Fill out the form and we'll get<br className="hidden md:block" /> back to you within 24 hours.
+              {t("contactPage.title1")}<br className="hidden md:block" /> {t("contactPage.title2")}
             </h2>
-            <p className="mt-5 text-muted-foreground text-lg">We're here to answer your questions and provide the support you need.</p>
+            <p className="mt-5 text-muted-foreground text-lg">{t("contactPage.subtitle")}</p>
           </div>
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
@@ -40,9 +43,9 @@ function ContactPage() {
               style={{ background: "linear-gradient(135deg, rgba(190,219,238,0.55), rgba(255,225,210,0.45))" }}
             >
               {[
-                { id: "name", placeholder: "Your Name", Icon: ScanFace, type: "text" },
-                { id: "email", placeholder: "Email", Icon: MessageSquare, type: "email" },
-                { id: "phone", placeholder: "Phone", Icon: Send, type: "tel" },
+                { id: "name", placeholder: t("contactPage.form.name"), Icon: ScanFace, type: "text" },
+                { id: "email", placeholder: t("contactPage.form.email"), Icon: MessageSquare, type: "email" },
+                { id: "phone", placeholder: t("contactPage.form.phone"), Icon: Send, type: "tel" },
               ].map(({ id, placeholder, Icon, type }) => (
                 <div key={id} className="flex items-center gap-3 bg-white/80 rounded-2xl px-4 py-3 mb-4 shadow-sm">
                   <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
@@ -55,34 +58,34 @@ function ContactPage() {
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
                   <MessageSquare className="w-5 h-5" />
                 </div>
-                <textarea name="message" placeholder="Message" rows={4} className="bg-transparent outline-none flex-1 resize-none text-slate-700 placeholder:text-slate-400" />
+                <textarea name="message" placeholder={t("contactPage.form.message")} rows={4} className="bg-transparent outline-none flex-1 resize-none text-slate-700 placeholder:text-slate-400" />
               </div>
               <button
                 type="submit"
                 className="w-full rounded-full py-4 font-medium text-slate-900 border border-sky-200 transition hover:shadow-[0_18px_40px_-18px_rgba(119,221,255,0.7)]"
                 style={{ background: "linear-gradient(90deg, rgba(190,219,238,0.7), rgba(255,225,210,0.6))" }}
               >
-                {submitted ? "✓ Message sent" : "Send message →"}
+                {submitted ? t("contactPage.form.sent") : t("contactPage.form.send")}
               </button>
             </form>
 
             <div className="space-y-7 text-slate-700">
-              <h3 className="font-semibold text-slate-900 text-lg">Contact Information</h3>
+              <h3 className="font-semibold text-slate-900 text-lg">{t("contactPage.info.heading")}</h3>
               <div>
-                <div className="font-semibold text-slate-900">Email</div>
+                <div className="font-semibold text-slate-900">{t("contactPage.info.email")}</div>
                 <a href="mailto:Sales@Talesso.tech" className="text-[#3aa9e6] hover:underline">Sales@Talesso.tech</a>
               </div>
               <div>
-                <div className="font-semibold text-slate-900">Phone</div>
+                <div className="font-semibold text-slate-900">{t("contactPage.info.phone")}</div>
                 <div>+357 97 879 940</div>
               </div>
               <div>
-                <div className="font-semibold text-slate-900">Address</div>
-                <div>Limassol, Cyprus</div>
+                <div className="font-semibold text-slate-900">{t("contactPage.info.address")}</div>
+                <div>{t("contactPage.info.addressValue")}</div>
               </div>
               <div>
-                <div className="font-semibold text-slate-900">Company</div>
-                <div>TALESSO LTD (HE 407732)</div>
+                <div className="font-semibold text-slate-900">{t("contactPage.info.company")}</div>
+                <div>{t("contactPage.info.companyValue")}</div>
               </div>
             </div>
           </div>
@@ -99,6 +102,7 @@ const LAT = 34.70005;
 const LNG = 33.10175;
 
 function LocationSection() {
+  const { t } = useTranslation();
   const mapRef = useRef<HTMLDivElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [cardOpen, setCardOpen] = useState(true);
@@ -171,9 +175,9 @@ function LocationSection() {
       `}</style>
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
-          <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-4">Our Location</div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-[-0.03em]">Come say hello.</h2>
-          <p className="mt-3 text-muted-foreground">Zephyr Residences — Georgiou A', Germasogeia 4046, Limassol, Cyprus.</p>
+          <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-4">{t("contactPage.location.eyebrow")}</div>
+          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-[-0.03em]">{t("contactPage.location.title")}</h2>
+          <p className="mt-3 text-muted-foreground">{t("contactPage.location.subtitle")}</p>
         </div>
 
         <div
@@ -188,7 +192,7 @@ function LocationSection() {
               onClick={openFullscreen}
               className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-4 py-2 text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition"
             >
-              <Maximize2 className="w-4 h-4" /> Fullscreen
+              <Maximize2 className="w-4 h-4" /> {t("contactPage.location.fullscreen")}
             </button>
           </div>
 
@@ -200,16 +204,16 @@ function LocationSection() {
               <div className="flex items-center gap-3 mb-4">
                 <img src={logoAsset} alt="Talesso" className="h-8 w-auto" />
                 <button
-                  aria-label="Close"
+                  aria-label={t("common.close")}
                   onClick={() => setCardOpen(false)}
                   className="ml-auto text-slate-400 hover:text-slate-700 transition text-lg leading-none"
                 >×</button>
               </div>
-              <div className="text-lg font-semibold text-slate-900">Talesso ltd</div>
-              <div className="text-sm text-slate-500 mb-4">Zephyr Residences</div>
+              <div className="text-lg font-semibold text-slate-900">{t("contactPage.location.brand")}</div>
+              <div className="text-sm text-slate-500 mb-4">{t("contactPage.location.brandSub")}</div>
               <div className="space-y-3 text-sm text-slate-700">
-                <div className="flex items-start gap-3"><MapPin className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><span>Georgiou A', Germasogeia 4046<br/>Limassol, Cyprus</span></div>
-                <div className="flex items-start gap-3"><Clock className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><span>Mon – Fri · 9:00 – 18:00</span></div>
+                <div className="flex items-start gap-3"><MapPin className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><span>{t("contactPage.location.addressLine1")}<br/>{t("contactPage.location.addressLine2")}</span></div>
+                <div className="flex items-start gap-3"><Clock className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><span>{t("contactPage.location.hours")}</span></div>
                 <div className="flex items-start gap-3"><Phone className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><a href="tel:+35797879940" className="hover:text-slate-900">+357 97 879 940</a></div>
                 <div className="flex items-start gap-3"><Mail className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><a href="mailto:Sales@Talesso.tech" className="hover:text-slate-900">Sales@Talesso.tech</a></div>
               </div>

@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import {
   ShieldCheck,
   Sparkles,
@@ -62,42 +64,22 @@ import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Talesso — AI Solutions for Security, Access and Smart Living" },
-      { name: "description", content: "Intelligent biometric access, smart home, video analytics, and building management — all powered by our proprietary AI platform." },
-      { property: "og:title", content: "Talesso — AI for Security & Smart Living" },
-      { property: "og:description", content: "Biometric access, smart home, video analytics, building management." },
+      { title: i18n.t("meta.home.title") },
+      { name: "description", content: i18n.t("meta.home.description") },
+      { property: "og:title", content: i18n.t("meta.home.ogTitle") },
+      { property: "og:description", content: i18n.t("meta.home.ogDescription") },
     ],
   }),
   component: Landing,
 });
 
 const solutions = [
-  {
-    icon: ShieldCheck,
-    title: "Security",
-    desc: "Face biometrics, liveness detection, video analytics, perimeter control, license plate recognition.",
-  },
-  {
-    icon: Sofa,
-    title: "Comfort",
-    desc: "Keyless access via BLE, NFC, Apple Wallet. Voice control. Auto-open parking.",
-  },
-  {
-    icon: Building2,
-    title: "Organization",
-    desc: "QR/PIN invitations, office & coworking booking, OCR registration, smart routing.",
-  },
-  {
-    icon: Settings,
-    title: "Automation",
-    desc: "KNX / Smart Home: lights, blinds, climate, doors — all by scenarios.",
-  },
-  {
-    icon: Heart,
-    title: "Health Care",
-    desc: "Air quality: CO₂, humidity, ventilation. Auto control. AI concierge.",
-  },
-];
+  { icon: ShieldCheck, key: "security" },
+  { icon: Sofa, key: "comfort" },
+  { icon: Building2, key: "organization" },
+  { icon: Settings, key: "automation" },
+  { icon: Heart, key: "healthCare" },
+] as const;
 
 const aiPillars = [
   {
@@ -117,12 +99,37 @@ const aiPillars = [
   },
 ];
 
-const channels = [
-  { icon: Smartphone, title: "Mobile App", desc: "Full control in your pocket — iOS & Android." },
-  { icon: Send, title: "Telegram Bot", desc: "Quick commands and alerts in chat." },
-  { icon: Monitor, title: "Web Dashboard", desc: "Manage buildings, users and analytics from any browser." },
-  { icon: Headphones, title: "24/7 Support", desc: "Real humans, anytime — alongside the AI." },
-];
+// Channels rendered via CX_FEATURES with i18n keys.
+
+// Maps FeatureKey -> i18n key under `features.*`
+const FEATURE_I18N: Record<FeatureKey, string> = {
+  internet: "internet",
+  lighting: "lighting",
+  climate: "climate",
+  cameras: "cameras",
+  access: "access",
+  leak: "leak",
+  integrations: "integrations",
+  parking: "parking",
+  "smart-locks": "smartLocks",
+  garage: "garage",
+  "ai-concierge": "aiConcierge",
+  "keyless-checkin": "keylessCheckin",
+  "personalized-service": "personalizedService",
+  "room-automation": "roomAutomation",
+  "hotel-temperature": "hotelTemperature",
+  "hotel-lighting": "hotelLighting",
+  "energy-management": "energyManagement",
+  housekeeping: "housekeeping",
+  analytics: "analytics",
+  "temp-access": "tempAccess",
+  "office-lighting": "officeLighting",
+  "access-management": "accessManagement",
+  "office-temperature": "officeTemperature",
+  occupancy: "occupancy",
+  "energy-optimization": "energyOptimization",
+  "meeting-rooms": "meetingRooms",
+};
 
 function Landing() {
   return (
@@ -145,6 +152,7 @@ function Landing() {
 }
 
 function Hero() {
+  const { t } = useTranslation();
   const wrapRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -220,26 +228,22 @@ function Hero() {
         <div className="relative w-full px-6 py-20 md:py-28 text-center mx-auto max-w-5xl">
           <div ref={badgeRef} className="will-change-transform animate-line-in" style={{ animationDelay: "0.05s" }}>
             <span className="group inline-flex items-center rounded-full border border-accent-blue/60 bg-background/80 px-5 py-2 text-[0.72rem] font-medium tracking-[0.15em] text-foreground/70 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-10px_rgba(80,130,255,0.55)]">
-              TALESSO · AI-POWERED TECHNOLOGY
+              {t("hero.badge")}
             </span>
           </div>
           <h1
             ref={headRef}
             className="mt-8 font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.04em] leading-[0.95] will-change-transform"
           >
-            <span className="block animate-line-in" style={{ animationDelay: "0.25s" }}>AI Solutions for</span>
-            <span className="block animate-line-in" style={{ animationDelay: "0.40s" }}>Security, Access</span>
-            <span className="block animate-line-in" style={{ animationDelay: "0.55s" }}>and Smart Living</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.25s" }}>{t("hero.title1")}</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.40s" }}>{t("hero.title2")}</span>
+            <span className="block animate-line-in" style={{ animationDelay: "0.55s" }}>{t("hero.title3")}</span>
           </h1>
           <p
             className="mx-auto mt-8 max-w-2xl text-base md:text-lg text-foreground/60 leading-relaxed animate-line-in"
             style={{ animationDelay: "0.85s" }}
           >
-            We provide intelligent biometric access control, smart home automation,{"\u00A0"}
-            <br />
-            video analytics, and building management —{"\u00A0"}
-            <br />
-            all powered by our proprietary AI platform.
+            {t("hero.subtitle")}
           </p>
           <div
             ref={ctaRef}
@@ -250,18 +254,18 @@ function Hero() {
               to="/contact"
               className="group inline-flex items-center gap-2 rounded-full border border-accent-blue/70 bg-background/85 px-7 py-3.5 min-h-12 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-foreground hover:text-background hover:border-foreground hover:shadow-[0_18px_40px_-18px_rgba(80,130,255,0.7)] active:scale-[0.97]"
             >
-              Get a consultation
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              {t("hero.ctaPrimary")}
+              <ArrowRight className="h-4 w-4 rtl:-scale-x-100 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to="/solutions"
               className="group relative inline-flex items-center px-4 py-3.5 min-h-12 text-sm font-semibold text-foreground/85 hover:text-foreground transition-colors"
             >
               <span className="relative">
-                Our Solutions
+                {t("hero.ctaSecondary")}
                 <span className="absolute left-0 -bottom-0.5 h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-300 group-hover:scale-x-100" />
               </span>
-              <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className="ms-2 transition-transform duration-300 group-hover:translate-x-1 rtl:-scale-x-100">→</span>
             </Link>
           </div>
         </div>
@@ -271,6 +275,7 @@ function Hero() {
 }
 
 function VideoShowcase() {
+  const { t } = useTranslation();
   return (
     <section className="relative pt-24 pb-16">
       <div className="mx-auto max-w-3xl px-6">
@@ -278,13 +283,13 @@ function VideoShowcase() {
           <iframe
             className="absolute inset-0 h-full w-full"
             src="https://www.youtube.com/embed/sBGc4nlGZzY?rel=0&modestbranding=1"
-            title="Talesso — The Future of Smart Buildings"
+            title={t("videoShowcase.iframeTitle")}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
-          Talesso — The Future of Smart Buildings.
+          {t("videoShowcase.caption")}
         </p>
       </div>
     </section>
@@ -626,6 +631,7 @@ const CRE_LABELS: LabelDef[] = [
 ];
 
 function BuildingsShowcase() {
+  const { t } = useTranslation();
   const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [pinned, setPinned] = useState<{ side: "office" | "residence"; key: FeatureKey } | null>(null);
 
@@ -801,12 +807,12 @@ function BuildingsShowcase() {
 
       <div className="px-4 md:px-8">
         <div className="mx-auto mb-10 max-w-7xl">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Where Talesso lives</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{t("buildings.eyebrow")}</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            Offices &amp; Residences.
+            {t("buildings.title")}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            Tap any feature to see how it works.
+            {t("buildings.subtitle")}
           </p>
         </div>
 
@@ -816,8 +822,8 @@ function BuildingsShowcase() {
         >
           <BuildingCard
             side="office"
-            title="Offices"
-            subtitle="Intelligent spaces for productivity"
+            title={t("buildings.offices")}
+            subtitle={t("buildings.officesSubtitle")}
             Icon={Building2}
             labels={OFFICE_LABELS}
             visible={reveal.inView}
@@ -828,8 +834,8 @@ function BuildingsShowcase() {
           />
           <BuildingCard
             side="residence"
-            title="Residences"
-            subtitle="Smart living, connected and secure"
+            title={t("buildings.residences")}
+            subtitle={t("buildings.residencesSubtitle")}
             Icon={HomeIcon}
             labels={RESIDENCE_LABELS}
             visible={reveal.inView}
@@ -845,6 +851,7 @@ function BuildingsShowcase() {
 }
 
 function ScenesShowcase() {
+  const { t } = useTranslation();
   const reveal = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [pinned, setPinned] = useState<{ side: "hotel" | "cre"; key: FeatureKey } | null>(null);
 
@@ -856,10 +863,10 @@ function ScenesShowcase() {
             {"\n"}
           </p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em]">
-            Hotels &amp; Commercial Real Estate.
+            {t("scenes.title")}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm">
-            Tap any feature to see how it works inside each building.
+            {t("scenes.subtitle")}
           </p>
         </div>
 
@@ -869,8 +876,8 @@ function ScenesShowcase() {
         >
           <BuildingCard
             side="office"
-            title="Hotels"
-            subtitle="Exceptional stays, intelligently managed"
+            title={t("scenes.hotels")}
+            subtitle={t("scenes.hotelsSubtitle")}
             Icon={Building2}
             labels={HOTEL_LABELS}
             visible={reveal.inView}
@@ -884,8 +891,8 @@ function ScenesShowcase() {
           />
           <BuildingCard
             side="residence"
-            title="Commercial Real Estates"
-            subtitle="Smarter spaces, better experiences"
+            title={t("scenes.cre")}
+            subtitle={t("scenes.creSubtitle")}
             Icon={Building2}
             labels={CRE_LABELS}
             visible={reveal.inView}
@@ -932,6 +939,7 @@ function BuildingCard({
   bgMode?: "split" | "cover";
   headerLight?: boolean;
 }) {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
@@ -969,6 +977,16 @@ function BuildingCard({
   const bgSize = bgMode === "cover" ? "cover" : "200% auto";
   const bgImg = imageUrl ?? buildingsCleanAsset;
   const activeInfo = active ? FEATURE_INFO[active] : null;
+  const activeName = active ? t(`features.${FEATURE_I18N[active]}.name`) : "";
+  const activeShort = active ? t(`features.${FEATURE_I18N[active]}.short`) : "";
+  const activeExample = active ? t(`features.${FEATURE_I18N[active]}.example`) : "";
+  const activeBenefits = active
+    ? ([
+        t(`features.${FEATURE_I18N[active]}.b1`),
+        t(`features.${FEATURE_I18N[active]}.b2`),
+        t(`features.${FEATURE_I18N[active]}.b3`),
+      ].filter((b) => b && !b.startsWith("features.")) as string[])
+    : [];
 
   // Dynamically place the panel next to the active feature with collision
   // detection against the image bounds, the header title, and other pins.
@@ -1150,7 +1168,7 @@ function BuildingCard({
                 onMouseEnter={() => setHovered(l.key)}
                 onClick={() => onPin(l.key)}
                 role="button"
-                aria-label={`${info.name} hotspot`}
+                aria-label={t("buildings.hotspotLabel", { name: t(`features.${FEATURE_I18N[l.key]}.name`) })}
               />
             );
           })}
@@ -1175,7 +1193,7 @@ function BuildingCard({
               >
                 <span className="ibs-label-inner">
                   <span className="ibs-icon"><I className="h-4 w-4" /></span>
-                  <span>{info.name}</span>
+                  <span>{t(`features.${FEATURE_I18N[l.key]}.name`)}</span>
                 </span>
               </button>
             );
@@ -1230,25 +1248,25 @@ function BuildingCard({
                 <activeInfo.icon className="h-5 w-5 text-[#77DDFF]" />
               </span>
               <div className="flex-1">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Feature</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{t("buildings.featureBadge")}</p>
                 <h4 className="font-display text-lg font-bold tracking-[-0.01em] text-[#0f172a]">
-                  {activeInfo.name}
+                  {activeName}
                 </h4>
               </div>
               {pinned ? (
                 <button
                   type="button"
                   onClick={onClose}
-                  aria-label="Close"
+                  aria-label={t("common.close")}
                   className="rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
                 >
                   <XIcon className="h-4 w-4" />
                 </button>
               ) : null}
             </div>
-            <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{activeInfo.short}</p>
+            <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{activeShort}</p>
             <ul className="mt-3 space-y-1.5">
-              {activeInfo.benefits.map((b) => (
+              {activeBenefits.map((b) => (
                 <li key={b} className="flex items-start gap-2 text-xs text-foreground/70">
                   <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#77DDFF]" />
                   <span>{b}</span>
@@ -1256,7 +1274,7 @@ function BuildingCard({
               ))}
             </ul>
             <div className="mt-3 rounded-lg bg-[#0f172a]/5 px-3 py-2 text-xs text-foreground/70 italic">
-              {activeInfo.example}
+              {activeExample}
             </div>
           </div>
         ) : null}
@@ -1432,6 +1450,7 @@ function FeatureEffect({ feature, focus }: { feature: FeatureKey; focus: { x: nu
 }
 
 function Solutions() {
+  const { t } = useTranslation();
   const intro = useInView<HTMLDivElement>({ threshold: 0.2 });
   const grid = useInView<HTMLDivElement>({ threshold: 0.15 });
   return (
@@ -1446,39 +1465,37 @@ function Solutions() {
         <p
           className={`text-xs uppercase tracking-[0.28em] text-foreground/50 transition-all duration-500 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
-          Solutions
+          {t("solutions.eyebrow")}
         </p>
         <h2 className="mt-4 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] max-w-3xl">
           <span
             className={`block transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-md"}`}
             style={{ transitionDelay: "150ms" }}
           >
-            One platform.
+            {t("solutions.title1")}
           </span>
           <span
             className={`block transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-4 blur-md"}`}
             style={{ transitionDelay: "300ms" }}
           >
-            Every layer of the building.
+            {t("solutions.title2")}
           </span>
         </h2>
         <p
           className={`mt-4 max-w-md text-sm text-foreground/55 leading-relaxed transition-all duration-700 ease-out ${intro.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
           style={{ transitionDelay: "500ms" }}
         >
-          From the front gate to indoor air quality —{"\u00a0"}
-          <br />
-          a unified system that sees, decides, and acts.
+          {t("solutions.subtitle")}
         </p>
 
         <div ref={grid.ref} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
           {solutions.map((s, i) => (
             <SolutionCard
-              key={s.title}
+              key={s.key}
               index={i}
               icon={s.icon}
-              title={s.title}
-              desc={s.desc}
+              title={t(`solutions.items.${s.key}.title`)}
+              desc={t(`solutions.items.${s.key}.desc`)}
               inView={grid.inView}
             />
           ))}
@@ -1590,6 +1607,7 @@ function GlassSphere({ children, index }: { children: ReactNode; index: number }
 }
 
 function MeetEyecid() {
+  const { t } = useTranslation();
   const section = useInView<HTMLElement>({ threshold: 0.18 });
   const deviceWrap = useRef<HTMLDivElement | null>(null);
   const deviceInner = useRef<HTMLDivElement | null>(null);
@@ -1665,16 +1683,16 @@ function MeetEyecid() {
     >
       <div className="mx-auto max-w-[88rem] px-6 md:px-10">
         <div className="mb-12 max-w-none">
-          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Meet the platform</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">{t("meetPlatform.eyebrow")}</p>
           <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-[-0.03em] whitespace-nowrap">
-            The all-in-one smart building platform.
+            {t("meetPlatform.title")}
           </h2>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_0.7fr] gap-10 lg:gap-8 items-center">
           {/* Left: heading */}
           <div>
             <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">
-              <span className={lineCls("")} style={{ animationDelay: "0.05s" }}>MEET</span>{" "}
+              <span className={lineCls("")} style={{ animationDelay: "0.05s" }}>{t("meetPlatform.meet")}</span>{" "}
               <span
                 className={`relative inline-flex items-baseline font-bold overflow-hidden ${lineCls("")}`}
                 style={{ animationDelay: "0.25s" }}
@@ -1694,9 +1712,9 @@ function MeetEyecid() {
               </span>
             </h2>
             <h3 className="mt-6 font-display text-2xl md:text-4xl font-extrabold tracking-tight leading-[1.1]">
-              <span className={lineCls("")} style={{ animationDelay: "0.45s" }}>THE{"\u00A0"}</span>
-              <span className={lineCls("")} style={{ animationDelay: "0.60s" }}>SMART BUILDING</span>{" "}
-              <span className={lineCls("")} style={{ animationDelay: "0.75s" }}>PLATFORM THAT UNIFIES EVERYTHING</span>
+              <span className={lineCls("")} style={{ animationDelay: "0.45s" }}>{t("meetPlatform.the")}{"\u00A0"}</span>
+              <span className={lineCls("")} style={{ animationDelay: "0.60s" }}>{t("meetPlatform.theSmartBuilding")}</span>{" "}
+              <span className={lineCls("")} style={{ animationDelay: "0.75s" }}>{t("meetPlatform.platformThatUnifies")}</span>
             </h3>
           </div>
 
@@ -1761,9 +1779,9 @@ function MeetEyecid() {
 
           {/* Right: stats */}
           <div className="space-y-8">
-            <StatRow accent={1} label="Platform" inView={section.inView} delay={0} />
-            <StatRow accent={1} label="Interface" inView={section.inView} delay={300} />
-            <StatRow accent="FULL" label="Control" inView={section.inView} delay={600} />
+            <StatRow accent={1} label={t("meetPlatform.stats.platform")} inView={section.inView} delay={0} />
+            <StatRow accent={1} label={t("meetPlatform.stats.interface")} inView={section.inView} delay={300} />
+            <StatRow accent={t("meetPlatform.stats.full")} label={t("meetPlatform.stats.control")} inView={section.inView} delay={600} />
           </div>
         </div>
       </div>
@@ -1864,14 +1882,15 @@ function Channels() {
 
 type CxFeatureKey = "mobile" | "telegram" | "dashboard" | "support";
 
-const CX_FEATURES: { id: CxFeatureKey; title: string; desc: string; Icon: LucideIcon; extra: string }[] = [
-  { id: "mobile",    title: "Mobile App",    desc: "Full control in your pocket — iOS & Android.", Icon: Smartphone, extra: "Remote unlock · Push alerts · Live monitoring" },
-  { id: "telegram",  title: "Telegram Bot",  desc: "Quick commands and alerts in chat.",            Icon: Send,       extra: "Unlock door · Camera snapshot · Status" },
-  { id: "dashboard", title: "Web Dashboard", desc: "Manage buildings, users and analytics from any browser.", Icon: Monitor, extra: "Occupancy · Access events · Live charts" },
-  { id: "support",   title: "24/7 Support",  desc: "Real humans, anytime — alongside the AI.",      Icon: Headphones, extra: "AI assistant + on-call humans" },
+const CX_FEATURES: { id: CxFeatureKey; Icon: LucideIcon }[] = [
+  { id: "mobile", Icon: Smartphone },
+  { id: "telegram", Icon: Send },
+  { id: "dashboard", Icon: Monitor },
+  { id: "support", Icon: Headphones },
 ];
 
 function ConnectedExperience() {
+  const { t } = useTranslation();
   return (
     <section id="channels" className="relative py-20 md:py-28 overflow-hidden">
       <style>{`
@@ -1899,12 +1918,12 @@ function ConnectedExperience() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="text-center cx-enter" style={{ animationDelay: "0ms" }}>
-          <div className="text-xs tracking-[0.4em] text-muted-foreground uppercase mb-4">Connected Experience</div>
+          <div className="text-xs tracking-[0.4em] text-muted-foreground uppercase mb-4">{t("connected.eyebrow")}</div>
           <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
-            Instant interaction. Full management.
+            {t("connected.title")}
           </h2>
           <p className="mt-5 text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
-            Talesso meets your team where they already work — phone, chat, or browser.
+            {t("connected.subtitle")}
           </p>
         </div>
 
@@ -1954,8 +1973,8 @@ function ConnectedExperience() {
                       <f.Icon className="w-7 h-7" strokeWidth={1.5} />
                     </div>
                   </div>
-                  <h3 className="mt-16 text-xl font-semibold tracking-tight">{f.title}</h3>
-                  <p className="mt-3 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                  <h3 className="mt-16 text-xl font-semibold tracking-tight">{t(`connected.cards.${f.id}.title`)}</h3>
+                  <p className="mt-3 text-sm text-slate-500 leading-relaxed">{t(`connected.cards.${f.id}.desc`)}</p>
                 </div>
               ))}
             </div>
@@ -2002,6 +2021,7 @@ const PARTNER_CLIENTS: PartnerLogo[] = [
 ];
 
 function Partners() {
+  const { t } = useTranslation();
   return (
     <section id="clients" className="relative pt-0 pb-16 md:pt-0 md:pb-20 -mt-8 md:-mt-12">
       <style>{`
@@ -2013,7 +2033,7 @@ function Partners() {
       <div className="mx-auto max-w-7xl px-6 space-y-20">
         <div>
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
-            Compatible with Leading Manufacturers
+            {t("partners.manufacturers")}
           </div>
           <div className="pt-mask overflow-hidden">
             <div className="pt-track">
@@ -2029,7 +2049,7 @@ function Partners() {
 
         <div>
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
-            Trusted by Leading Clients
+            {t("partners.clients")}
           </div>
           <div className="pt-mask overflow-hidden py-6">
             <div className="pt-track pt-track-slow items-center gap-16">
@@ -2668,6 +2688,7 @@ function ProductGallery2() {
 /* ---------------- Ready CTA ---------------- */
 
 function ReadyCTA() {
+  const { t } = useTranslation();
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
@@ -2809,13 +2830,13 @@ function ReadyCTA() {
             <h2
               className={`rc-reveal rc-reveal-d1 ${visible ? "is-in" : ""} font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05] text-slate-900`}
             >
-              Ready to make your<br />building intelligent?
+              {t("readyCta.title1")}<br />{t("readyCta.title2")}
             </h2>
             <p
               className={`rc-reveal rc-reveal-d2 ${visible ? "is-in" : ""} mt-6 text-slate-700/80 text-base md:text-lg leading-relaxed`}
             >
-              Fell free to as questions and reach our Team<br />
-              for discussing all the details of your project
+              {t("readyCta.subtitle1")}<br />
+              {t("readyCta.subtitle2")}
             </p>
             <div className={`rc-reveal rc-reveal-d3 ${visible ? "is-in" : ""} mt-10 flex justify-center`}>
               <Link
@@ -2824,8 +2845,8 @@ function ReadyCTA() {
                 onClick={onClick}
                 className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-sky-300/70 bg-white/50 backdrop-blur px-8 py-4 text-base font-medium text-slate-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-foreground hover:text-background hover:border-foreground hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.45)] active:scale-[0.97]"
               >
-                <span className="relative z-10">Get started</span>
-                <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                <span className="relative z-10">{t("readyCta.button")}</span>
+                <ArrowRight className="relative z-10 h-4 w-4 rtl:-scale-x-100 transition-transform duration-300 group-hover:translate-x-1.5" />
                 {ripples.map((r) => (
                   <span
                     key={r.id}
