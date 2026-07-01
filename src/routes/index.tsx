@@ -1869,6 +1869,8 @@ const CX_FEATURES: { id: CxFeatureKey; title: string; desc: string; Icon: Lucide
 
 function ConnectedExperience() {
   const [hovered, setHovered] = useState<CxFeatureKey | null>(null);
+  const [activeApp, setActiveApp] = useState<string>("Access Control");
+  const [screenKey, setScreenKey] = useState(0);
 
   return (
     <section id="channels" className="relative py-20 md:py-28 overflow-hidden">
@@ -1883,6 +1885,9 @@ function ConnectedExperience() {
         @keyframes cx-msg { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
         @keyframes cx-typing { 0%,60%,100% { transform: translateY(0); opacity:.35;} 30% { transform: translateY(-3px); opacity:1;} }
         @keyframes cx-ripple { 0% { transform: translate(-50%,-50%) scale(.3); opacity:.7;} 100% { transform: translate(-50%,-50%) scale(2.4); opacity:0;} }
+        @keyframes cx-nfc-glow { 0%,100% { box-shadow: 0 8px 24px -8px rgba(30,90,58,0.5), 0 0 0 0 rgba(119,221,255,0);} 50% { box-shadow: 0 12px 28px -8px rgba(30,90,58,0.6), 0 0 22px 4px rgba(119,221,255,0.35);} }
+        @keyframes cx-slide-in { from { opacity:0; transform: translateX(14px);} to { opacity:1; transform: translateX(0);} }
+        @keyframes cx-icon-pop { 0% { transform: scale(1);} 50% { transform: scale(1.25);} 100% { transform: scale(1);} }
         .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
         .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:22px; padding:28px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; overflow:hidden; }
         .cx-card::before { content:""; position:absolute; inset:0; background: radial-gradient(120% 80% at 50% 0%, rgba(119,221,255,0.28), rgba(119,221,255,0) 60%); opacity:0; transition: opacity .4s ease; pointer-events:none; }
@@ -1890,6 +1895,7 @@ function ConnectedExperience() {
         .cx-card:hover::before { opacity:1; }
         .cx-card:hover .cx-card-icon { color:#0a4a5e; background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(119,221,255,0.85)); border-color: rgba(119,221,255,0.9); box-shadow: 0 10px 30px -10px rgba(119,221,255,0.6), inset 0 1px 0 rgba(255,255,255,0.9); }
         .cx-card-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#475569; transition: background .3s, color .3s, box-shadow .3s, border-color .3s; background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(226,232,240,0.55)); border:1px solid rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px -14px rgba(15,23,42,0.25); }
+        .cx-card:hover .cx-card-icon svg { animation: cx-icon-pop .5s ease-out; }
         .cx-extra { max-height:0; opacity:0; overflow:hidden; transition: max-height .4s ease, opacity .3s ease, margin-top .3s ease; font-size:12.5px; color:#64748b; }
         .cx-card:hover .cx-extra { max-height:60px; opacity:1; margin-top:12px; }
         .cx-typing { display:inline-flex; gap:3px; padding:6px 9px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
@@ -1903,6 +1909,15 @@ function ConnectedExperience() {
         .cx-qr-scan { position:absolute; left:0; right:0; height:18%; background: linear-gradient(180deg, transparent, rgba(119,221,255,.55), transparent); animation: cx-scan 2.6s ease-in-out infinite; }
         .cx-pulse-dot { animation: cx-pulse-dot 1.6s ease-in-out infinite; }
         .cx-ripple { position:absolute; left:50%; top:50%; width:60px; height:60px; border-radius:9999px; border:2px solid #77DDFF; animation: cx-ripple 1.8s ease-out infinite; pointer-events:none; }
+        .cx-qr-card { transition: transform .35s ease, box-shadow .35s ease; }
+        .cx-qr-card:hover { transform: translateY(-4px) rotate(3deg); box-shadow: 0 24px 40px -18px rgba(119,221,255,.55); }
+        .cx-nfc-card { animation: cx-nfc-glow 3.2s ease-in-out infinite, cx-float-a 4.8s ease-in-out infinite; transition: transform .35s ease; }
+        .cx-nfc-card:hover { transform: rotate(-4deg) translateY(-3px); }
+        .cx-app-tile { cursor:pointer; transition: background .25s ease, transform .2s ease; }
+        .cx-app-tile:hover { background:#eaf9ff; }
+        .cx-app-tile.active { background:#eaf9ff; box-shadow: inset 0 0 0 1px #77DDFF; }
+        .cx-app-tile.active svg { color:#77DDFF !important; }
+        .cx-screen { animation: cx-slide-in .35s ease-out; }
       `}</style>
 
       <div className="mx-auto max-w-7xl px-6">
@@ -2008,7 +2023,7 @@ function ConnectedExperience() {
           {/* RIGHT column */}
           <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
             {/* QR card */}
-            <div className="cx-enter relative w-[180px] bg-white rounded-2xl p-3 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "200ms", animation: "cx-float-c 5.5s ease-in-out infinite" }}>
+            <div className="cx-enter cx-qr-card relative w-[180px] bg-white rounded-2xl p-3 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "200ms" }}>
               <div className="text-[10px] text-slate-500 mb-1">Guest Access</div>
               <div className="relative overflow-hidden rounded">
                 <div className="grid grid-cols-8 gap-[2px] bg-white p-1">
@@ -2023,7 +2038,7 @@ function ConnectedExperience() {
             </div>
 
             {/* NFC Smart Home card */}
-            <div className="cx-enter self-end mr-2 w-[120px] rounded-xl p-3 text-white shadow-lg" style={{ animationDelay: "320ms", background: "linear-gradient(135deg,#1f5d3a,#0e3a23)", animation: "cx-float-a 4.8s ease-in-out infinite" }}>
+            <div className="cx-enter cx-nfc-card self-end mr-2 w-[120px] rounded-xl p-3 text-white shadow-lg" style={{ animationDelay: "320ms", background: "linear-gradient(135deg,#1f5d3a,#0e3a23)" }}>
               <ArrowUp className="w-4 h-4" />
               <div className="text-[10px] mt-2 font-semibold">Smart Home</div>
               <div className="text-[8px] opacity-70">KNX Devices</div>
@@ -2066,14 +2081,18 @@ function ConnectedExperience() {
                       { l: "People", I: ScanFace, c: "#0f172a" },
                       { l: "Settings", I: Settings, c: "#0f172a" },
                     ].map((m, i) => (
-                      <div key={i} className="bg-slate-50 rounded-lg py-2 flex flex-col items-center gap-1 relative">
+                      <div
+                        key={i}
+                        onClick={() => { setActiveApp(m.l); setScreenKey(k => k + 1); }}
+                        className={`cx-app-tile bg-slate-50 rounded-lg py-2 flex flex-col items-center gap-1 relative ${activeApp === m.l ? "active" : ""}`}
+                      >
                         <m.I className="w-4 h-4" style={{ color: m.c }} />
                         <div className="text-[8px] text-slate-600">{m.l}</div>
                         {m.n ? <div className="absolute top-1 right-2 bg-red-500 text-white text-[7px] rounded-full w-3 h-3 flex items-center justify-center">{m.n}</div> : null}
                       </div>
                     ))}
                   </div>
-                  <div className="text-center text-[7px] text-slate-400">EYECID · MVPFR © 2026</div>
+                  <div key={screenKey} className="cx-screen text-center text-[7px] text-slate-400">{activeApp} · EYECID © 2026</div>
                 </div>
               </div>
               {/* Touch ripple */}
