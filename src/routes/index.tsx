@@ -2003,6 +2003,7 @@ function Partners() {
 function AboutUs() {
   const cards = [
     { Icon: Sparkles, label: "Proven Smart Home & Biometric Projects" },
+    // marker
     { Icon: Cpu, label: "Own Software — Full Stack Control" },
     { Icon: Settings, label: "Full Cycle: Design to Service" },
     { Icon: MessageSquare, label: "AI Differentiation: LLM on Terminals" },
