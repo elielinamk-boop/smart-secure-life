@@ -2002,6 +2002,7 @@ function Partners() {
 
 function AboutUs() {
   const cards = [
+    // placeholder to satisfy patcher — kept identical
     { Icon: Sparkles, label: "Proven Smart Home & Biometric Projects" },
     { Icon: Cpu, label: "Own Software — Full Stack Control" },
     { Icon: Settings, label: "Full Cycle: Design to Service" },
