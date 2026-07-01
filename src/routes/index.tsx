@@ -1896,8 +1896,8 @@ function ConnectedExperience() {
         {/* Header */}
         <div className="text-center cx-enter" style={{ animationDelay: "0ms" }}>
           <div className="text-xs tracking-[0.4em] text-muted-foreground uppercase mb-4">Connected Experience</div>
-          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
-            Instant interaction. Full management.
+          <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05] whitespace-pre-line">
+            Instant interaction.{"\u00A0"}\nFull management.
           </h2>
           <p className="mt-5 text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
             Talesso meets your team where they already work — phone, chat, or browser.
