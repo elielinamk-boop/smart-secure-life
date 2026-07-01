@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoAsset from "@/assets/talesso-logo.png.asset.json";
+import logoAsset from "@/assets/talesso-logo.png";
 
 export function PageLoader() {
   const [done, setDone] = useState(false);
@@ -21,7 +21,7 @@ export function PageLoader() {
       aria-hidden
     >
       <img
-        src={logoAsset.url}
+        src={logoAsset}
         alt=""
         className="h-14 md:h-16 w-auto animate-fade-in"
         style={{ animationDuration: "600ms" }}
