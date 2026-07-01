@@ -37,22 +37,22 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
-import buildingsCleanAsset from "@/assets/buildings-clean.png.asset.json";
-import hotelSceneAsset from "@/assets/hotel-scene.jpg.asset.json";
-import connectedExperienceAsset from "@/assets/connected-experience.png.asset.json";
-import officeSceneAsset from "@/assets/office-scene.jpg.asset.json";
-import eyecidAsset from "@/assets/eyecid-device.png.asset.json";
-import eyecidLogoAsset from "@/assets/eyecid-logo.png.asset.json";
-import galleryFaceAsset from "@/assets/gallery-face.jpg.asset.json";
-import galleryQrAsset from "@/assets/gallery-qr.jpg.asset.json";
-import galleryPlateAsset from "@/assets/gallery-plate.jpg.asset.json";
-import clientsLogosAsset from "@/assets/clients-logos.png.asset.json";
-import clientsLogosWhiteAsset from "@/assets/clients-logos-transparent.png.asset.json";
-import galleryMonitorAsset from "@/assets/gallery-monitor.jpg.asset.json";
-import gallery2TvAsset from "@/assets/gallery2-tv.jpg.asset.json";
-import gallery2PanelAsset from "@/assets/gallery2-panel.jpg.asset.json";
-import gallery2EntryAsset from "@/assets/gallery2-entry.jpg.asset.json";
-import gallery2ControlAsset from "@/assets/gallery2-control.jpg.asset.json";
+import buildingsCleanAsset from "@/assets/buildings-clean.png";
+import hotelSceneAsset from "@/assets/hotel-scene.jpg";
+import connectedExperienceAsset from "@/assets/connected-experience.png";
+import officeSceneAsset from "@/assets/office-scene.jpg";
+import eyecidAsset from "@/assets/eyecid-device.png";
+import eyecidLogoAsset from "@/assets/eyecid-logo.png";
+import galleryFaceAsset from "@/assets/gallery-face.jpg";
+import galleryQrAsset from "@/assets/gallery-qr.jpg";
+import galleryPlateAsset from "@/assets/gallery-plate.jpg";
+import clientsLogosAsset from "@/assets/clients-logos.png";
+import clientsLogosWhiteAsset from "@/assets/clients-logos-transparent.png";
+import galleryMonitorAsset from "@/assets/gallery-monitor.jpg";
+import gallery2TvAsset from "@/assets/gallery2-tv.jpg";
+import gallery2PanelAsset from "@/assets/gallery2-panel.jpg";
+import gallery2EntryAsset from "@/assets/gallery2-entry.jpg";
+import gallery2ControlAsset from "@/assets/gallery2-control.jpg";
 import { useInView, AnimatedNumber } from "@/hooks/use-in-view";
 
 export const Route = createFileRoute("/")({
@@ -873,7 +873,7 @@ function ScenesShowcase() {
             pinned={pinned && pinned.side === "hotel" ? pinned.key : null}
             onPin={(key) => setPinned((p) => (p && p.side === "hotel" && p.key === key ? null : { side: "hotel", key }))}
             onClose={() => setPinned(null)}
-            imageUrl={hotelSceneAsset.url}
+            imageUrl={hotelSceneAsset}
             bgMode="cover"
             headerLight
           />
@@ -888,7 +888,7 @@ function ScenesShowcase() {
             pinned={pinned && pinned.side === "cre" ? pinned.key : null}
             onPin={(key) => setPinned((p) => (p && p.side === "cre" && p.key === key ? null : { side: "cre", key }))}
             onClose={() => setPinned(null)}
-            imageUrl={officeSceneAsset.url}
+            imageUrl={officeSceneAsset}
             bgMode="cover"
             headerLight
           />
@@ -953,7 +953,7 @@ function BuildingCard({
   // Half of the composite image to show
   const bgPos = bgMode === "cover" ? "center" : side === "office" ? "0% center" : "100% center";
   const bgSize = bgMode === "cover" ? "cover" : "200% auto";
-  const bgImg = imageUrl ?? buildingsCleanAsset.url;
+  const bgImg = imageUrl ?? buildingsCleanAsset;
   const activeInfo = active ? FEATURE_INFO[active] : null;
 
   // Place the panel near the active feature, but always fully inside the card
@@ -1520,7 +1520,7 @@ function MeetEyecid() {
                 style={{ animationDelay: "0.25s" }}
               >
                 <img
-                  src={eyecidLogoAsset.url}
+                  src={eyecidLogoAsset}
                   alt="EYECID"
                   className="inline-block h-[1.05em] w-auto align-baseline translate-y-[0.12em] select-none"
                   draggable={false}
@@ -1556,7 +1556,7 @@ function MeetEyecid() {
             >
               <div ref={deviceInner} className="relative animate-eyecid-float will-change-transform" style={{ transformStyle: "preserve-3d" }}>
                 <img
-                  src={eyecidAsset.url}
+                  src={eyecidAsset}
                   alt="EYECID — face recognition access terminal"
                   width={1024}
                   height={1536}
@@ -1983,7 +1983,7 @@ function Partners() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <img
                   key={i}
-                  src={clientsLogosWhiteAsset.url}
+                  src={clientsLogosWhiteAsset}
                   alt="Trusted by Fun Corp, SVG, Depcon Construction, JBG, Mena Aerospace, Evest, and Saint Nicholas Cathedral"
                   className="h-24 md:h-28 w-auto max-w-none shrink-0 object-contain"
                   loading="lazy"
@@ -2182,10 +2182,10 @@ function CTA() {
 type TileKind = "face" | "qr" | "plate" | "platepop" | "terminal" | "tv" | "lights" | "motion" | "alert";
 
 const galleryTiles: { src: string; alt: string; kind: TileKind }[] = [
-  { src: galleryFaceAsset.url,    alt: "Face recognition biometric access",       kind: "face" },
-  { src: galleryQrAsset.url,      alt: "Mobile QR access on EYECID terminal",     kind: "qr" },
-  { src: galleryPlateAsset.url,   alt: "License plate recognition at the gate",   kind: "platepop" },
-  { src: galleryMonitorAsset.url, alt: "EYECID indoor monitor with video call",   kind: "terminal" },
+  { src: galleryFaceAsset,    alt: "Face recognition biometric access",       kind: "face" },
+  { src: galleryQrAsset,      alt: "Mobile QR access on EYECID terminal",     kind: "qr" },
+  { src: galleryPlateAsset,   alt: "License plate recognition at the gate",   kind: "platepop" },
+  { src: galleryMonitorAsset, alt: "EYECID indoor monitor with video call",   kind: "terminal" },
 ];
 
 function ProductGallery() {
@@ -2582,10 +2582,10 @@ function TileOverlay({ kind }: { kind: TileKind }) {
    ============================================================ */
 
 const gallery2Tiles: { src: string; alt: string; kind: TileKind }[] = [
-  { src: gallery2TvAsset.url,      alt: "Smart living room with EYECID hub",                              kind: "tv" },
-  { src: gallery2PanelAsset.url,   alt: "EYECID smart home control panel and thermostat",                 kind: "lights" },
-  { src: gallery2EntryAsset.url,   alt: "Outdoor security camera, keypad and modern home entrance",       kind: "motion" },
-  { src: gallery2ControlAsset.url, alt: "Security operator monitoring multi-screen video wall",           kind: "alert" },
+  { src: gallery2TvAsset,      alt: "Smart living room with EYECID hub",                              kind: "tv" },
+  { src: gallery2PanelAsset,   alt: "EYECID smart home control panel and thermostat",                 kind: "lights" },
+  { src: gallery2EntryAsset,   alt: "Outdoor security camera, keypad and modern home entrance",       kind: "motion" },
+  { src: gallery2ControlAsset, alt: "Security operator monitoring multi-screen video wall",           kind: "alert" },
 ];
 
 function ProductGallery2() {
