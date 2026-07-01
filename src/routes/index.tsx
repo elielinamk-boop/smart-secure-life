@@ -2023,7 +2023,7 @@ function ConnectedExperience() {
           {/* RIGHT column */}
           <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
             {/* QR card */}
-            <div className="cx-enter relative w-[180px] bg-white rounded-2xl p-3 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "200ms", animation: "cx-float-c 5.5s ease-in-out infinite" }}>
+            <div className="cx-enter cx-qr-card relative w-[180px] bg-white rounded-2xl p-3 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "200ms" }}>
               <div className="text-[10px] text-slate-500 mb-1">Guest Access</div>
               <div className="relative overflow-hidden rounded">
                 <div className="grid grid-cols-8 gap-[2px] bg-white p-1">
@@ -2038,7 +2038,7 @@ function ConnectedExperience() {
             </div>
 
             {/* NFC Smart Home card */}
-            <div className="cx-enter self-end mr-2 w-[120px] rounded-xl p-3 text-white shadow-lg" style={{ animationDelay: "320ms", background: "linear-gradient(135deg,#1f5d3a,#0e3a23)", animation: "cx-float-a 4.8s ease-in-out infinite" }}>
+            <div className="cx-enter cx-nfc-card self-end mr-2 w-[120px] rounded-xl p-3 text-white shadow-lg" style={{ animationDelay: "320ms", background: "linear-gradient(135deg,#1f5d3a,#0e3a23)" }}>
               <ArrowUp className="w-4 h-4" />
               <div className="text-[10px] mt-2 font-semibold">Smart Home</div>
               <div className="text-[8px] opacity-70">KNX Devices</div>
@@ -2081,14 +2081,18 @@ function ConnectedExperience() {
                       { l: "People", I: ScanFace, c: "#0f172a" },
                       { l: "Settings", I: Settings, c: "#0f172a" },
                     ].map((m, i) => (
-                      <div key={i} className="bg-slate-50 rounded-lg py-2 flex flex-col items-center gap-1 relative">
+                      <div
+                        key={i}
+                        onClick={() => { setActiveApp(m.l); setScreenKey(k => k + 1); }}
+                        className={`cx-app-tile bg-slate-50 rounded-lg py-2 flex flex-col items-center gap-1 relative ${activeApp === m.l ? "active" : ""}`}
+                      >
                         <m.I className="w-4 h-4" style={{ color: m.c }} />
                         <div className="text-[8px] text-slate-600">{m.l}</div>
                         {m.n ? <div className="absolute top-1 right-2 bg-red-500 text-white text-[7px] rounded-full w-3 h-3 flex items-center justify-center">{m.n}</div> : null}
                       </div>
                     ))}
                   </div>
-                  <div className="text-center text-[7px] text-slate-400">EYECID · MVPFR © 2026</div>
+                  <div key={screenKey} className="cx-screen text-center text-[7px] text-slate-400">{activeApp} · EYECID © 2026</div>
                 </div>
               </div>
               {/* Touch ripple */}
