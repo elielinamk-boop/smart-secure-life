@@ -134,6 +134,7 @@ function Landing() {
       <ScenesShowcase />
       <Channels />
       <Partners />
+      <ReadyCTA />
       <SiteFooter />
     </div>
   );
@@ -2002,6 +2003,7 @@ function Partners() {
 function AboutUs() {
   const cards = [
     { Icon: Sparkles, label: "Proven Smart Home & Biometric Projects" },
+    // marker
     { Icon: Cpu, label: "Own Software — Full Stack Control" },
     { Icon: Settings, label: "Full Cycle: Design to Service" },
     { Icon: MessageSquare, label: "AI Differentiation: LLM on Terminals" },
@@ -2606,6 +2608,189 @@ function ProductGallery2() {
             kind={t.kind}
           />
         ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Ready CTA ---------------- */
+
+function ReadyCTA() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLAnchorElement>(null);
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [visible, setVisible] = useState(false);
+
+  // reveal on scroll
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // parallax + glow follow
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const card = cardRef.current;
+    if (!wrap || !card) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    let raf = 0;
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    let gx = 50, gy = 50, gcx = 50, gcy = 50;
+    const onMove = (e: MouseEvent) => {
+      const r = card.getBoundingClientRect();
+      const nx = (e.clientX - r.left) / r.width;
+      const ny = (e.clientY - r.top) / r.height;
+      tx = (nx - 0.5) * 2;
+      ty = (ny - 0.5) * 2;
+      gx = Math.max(0, Math.min(100, nx * 100));
+      gy = Math.max(0, Math.min(100, ny * 100));
+    };
+    const tick = () => {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      gcx += (gx - gcx) * 0.08;
+      gcy += (gy - gcy) * 0.08;
+      card.style.transform = `translate3d(${cx * 6}px, ${cy * 6}px, 0)`;
+      if (glowRef.current) {
+        glowRef.current.style.background = `radial-gradient(240px circle at ${gcx}% ${gcy}%, rgba(255,255,255,0.35), transparent 70%)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    raf = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const el = btnRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const id = Date.now();
+    setRipples((p) => [...p, { id, x: e.clientX - r.left, y: e.clientY - r.top }]);
+    setTimeout(() => setRipples((p) => p.filter((r) => r.id !== id)), 650);
+  };
+
+  return (
+    <section ref={wrapRef} className="relative py-24 md:py-32">
+      <style>{`
+        @keyframes rc-gradient { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        @keyframes rc-light { 0% { transform: translate(-30%, -20%); } 50% { transform: translate(30%, 20%); } 100% { transform: translate(-30%, -20%); } }
+        @keyframes rc-breath { 0%,100% { opacity: 0.05; } 50% { opacity: 0.10; } }
+        @keyframes rc-float { 0% { transform: translate3d(0,0,0); } 50% { transform: translate3d(20px,-30px,0); } 100% { transform: translate3d(0,0,0); } }
+        @keyframes rc-ripple { from { transform: translate(-50%,-50%) scale(0); opacity: 0.45; } to { transform: translate(-50%,-50%) scale(4); opacity: 0; } }
+        .rc-reveal { opacity: 0; transform: translateY(30px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); }
+        .rc-reveal.is-in { opacity: 1; transform: translateY(0); }
+        .rc-reveal-d1 { transition-delay: 0ms; }
+        .rc-reveal-d2 { transition-delay: 120ms; }
+        .rc-reveal-d3 { transition-delay: 260ms; }
+      `}</style>
+      <div className="mx-auto max-w-6xl px-6">
+        <div
+          ref={cardRef}
+          className="relative overflow-hidden rounded-[2rem] p-12 md:p-20 will-change-transform shadow-[0_30px_80px_-40px_rgba(15,23,42,0.18)]"
+          style={{
+            background: "linear-gradient(120deg, #dbe7f2 0%, #eef1f5 45%, #fbeadf 100%)",
+            backgroundSize: "200% 200%",
+            animation: "rc-gradient 26s ease-in-out infinite",
+          }}
+        >
+          {/* ambient radial breathing glow */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: "radial-gradient(closest-side, rgba(255,255,255,0.9), transparent 70%)",
+              animation: "rc-breath 8s ease-in-out infinite",
+            }}
+            aria-hidden
+          />
+          {/* slow floating light */}
+          <div
+            className="pointer-events-none absolute -top-1/3 -left-1/4 h-[60%] w-[60%] rounded-full blur-3xl"
+            style={{
+              background: "radial-gradient(closest-side, rgba(255,255,255,0.55), transparent 70%)",
+              animation: "rc-light 24s ease-in-out infinite",
+            }}
+            aria-hidden
+          />
+          {/* cursor-tracking glass highlight */}
+          <div ref={glowRef} className="pointer-events-none absolute inset-0" aria-hidden />
+          {/* floating particles */}
+          {[
+            { top: "18%", left: "12%", size: 8, delay: "0s", dur: "18s" },
+            { top: "70%", left: "22%", size: 6, delay: "-4s", dur: "22s" },
+            { top: "30%", left: "78%", size: 10, delay: "-8s", dur: "26s" },
+            { top: "80%", left: "70%", size: 5, delay: "-2s", dur: "20s" },
+          ].map((p, i) => (
+            <span
+              key={i}
+              className="pointer-events-none absolute rounded-full bg-white/60 blur-md"
+              style={{
+                top: p.top,
+                left: p.left,
+                width: p.size,
+                height: p.size,
+                opacity: 0.35,
+                animation: `rc-float ${p.dur} ease-in-out ${p.delay} infinite`,
+              }}
+              aria-hidden
+            />
+          ))}
+
+          <div className="relative text-center">
+            <h2
+              className={`rc-reveal rc-reveal-d1 ${visible ? "is-in" : ""} font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05] text-slate-900`}
+            >
+              Ready to make your<br />building intelligent?
+            </h2>
+            <p
+              className={`rc-reveal rc-reveal-d2 ${visible ? "is-in" : ""} mt-6 text-slate-700/80 text-base md:text-lg leading-relaxed`}
+            >
+              Fell free to as questions and reach our Team<br />
+              for discussing all the details of your project
+            </p>
+            <div className={`rc-reveal rc-reveal-d3 ${visible ? "is-in" : ""} mt-10 flex justify-center`}>
+              <Link
+                ref={btnRef}
+                to="/contact"
+                onClick={onClick}
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-sky-300/70 bg-white/50 backdrop-blur px-8 py-4 text-base font-medium text-slate-900 transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-400 hover:bg-white/70 hover:shadow-[0_18px_40px_-12px_rgba(119,221,255,0.7)] active:scale-[0.97]"
+              >
+                <span className="relative z-10">Get started</span>
+                <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                {ripples.map((r) => (
+                  <span
+                    key={r.id}
+                    className="pointer-events-none absolute rounded-full bg-sky-300/40"
+                    style={{
+                      left: r.x,
+                      top: r.y,
+                      width: 20,
+                      height: 20,
+                      animation: "rc-ripple 600ms ease-out forwards",
+                    }}
+                  />
+                ))}
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
