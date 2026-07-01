@@ -2021,6 +2021,7 @@ const PARTNER_CLIENTS: PartnerLogo[] = [
 ];
 
 function Partners() {
+  const { t } = useTranslation();
   return (
     <section id="clients" className="relative pt-0 pb-16 md:pt-0 md:pb-20 -mt-8 md:-mt-12">
       <style>{`
@@ -2032,7 +2033,7 @@ function Partners() {
       <div className="mx-auto max-w-7xl px-6 space-y-20">
         <div>
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
-            Compatible with Leading Manufacturers
+            {t("partners.manufacturers")}
           </div>
           <div className="pt-mask overflow-hidden">
             <div className="pt-track">
@@ -2048,7 +2049,7 @@ function Partners() {
 
         <div>
           <div className="text-center text-xs tracking-[0.4em] uppercase text-muted-foreground mb-10">
-            Trusted by Leading Clients
+            {t("partners.clients")}
           </div>
           <div className="pt-mask overflow-hidden py-6">
             <div className="pt-track pt-track-slow items-center gap-16">
