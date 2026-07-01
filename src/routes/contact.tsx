@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
-import { ScanFace, MessageSquare, Send, MapPin, Phone, Mail, Clock, Navigation, Maximize2 } from "lucide-react";
+import { ScanFace, MessageSquare, Send, MapPin, Phone, Mail, Clock, Maximize2 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import logoAsset from "@/assets/talesso-logo.png";
@@ -94,10 +94,9 @@ function ContactPage() {
   );
 }
 
-const ADDRESS = "Georgiou A', Germasogeia 4046, Limassol, Cyprus";
-const LAT = 34.6987595;
-const LNG = 33.0951665;
-const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADDRESS)}`;
+const ADDRESS = "Georgiou A', Germasogeia 4046, Γεωρ. Α', Γερμασόγεια 4046, Limassol, Cyprus";
+const LAT = 34.7021809;
+const LNG = 33.0956891;
 
 function LocationSection() {
   const mapRef = useRef<HTMLDivElement | null>(null);
