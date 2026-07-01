@@ -28,27 +28,27 @@ function AboutPage() {
       <SiteNav />
       <section id="about" className="relative py-24 md:py-32 overflow-hidden">
         <style>{`
-          @keyframes au-wave-a { 0% { transform: translateX(0) translateY(0); } 50% { transform: translateX(-25%) translateY(-6px);} 100% { transform: translateX(-50%) translateY(0); } }
-          @keyframes au-wave-b { 0% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-25%) translateY(5px);} 100% { transform: translateX(0) translateY(0); } }
-          @keyframes au-shimmer { 0%,100% { opacity:.65; } 50% { opacity:.95; } }
+          @keyframes au-wave-a { 0% { transform: translateX(0) translateY(0); } 25% { transform: translateX(-15%) translateY(-14px);} 50% { transform: translateX(-25%) translateY(-22px);} 75% { transform: translateX(-38%) translateY(-10px);} 100% { transform: translateX(-50%) translateY(0); } }
+          @keyframes au-wave-b { 0% { transform: translateX(-50%) translateY(0); } 25% { transform: translateX(-38%) translateY(18px);} 50% { transform: translateX(-25%) translateY(24px);} 75% { transform: translateX(-12%) translateY(12px);} 100% { transform: translateX(0) translateY(0); } }
+          @keyframes au-shimmer { 0%,100% { opacity:.7; } 50% { opacity:1; } }
           .au-bg { background: linear-gradient(180deg, #fafbfc 0%, #f0f4f7 40%, #e3ecf1 70%, #d3dfe6 100%); }
-          .au-wave { position:absolute; left:0; width:200%; height:140px; will-change: transform; }
-          .au-wave-a { animation: au-wave-a 8s ease-in-out infinite; }
-          .au-wave-b { animation: au-wave-b 11s ease-in-out infinite; opacity:.7; }
-          .au-wave-c { animation: au-wave-a 16s ease-in-out infinite; opacity:.5; }
-          .au-shimmer { animation: au-shimmer 4s ease-in-out infinite; }
+          .au-wave { position:absolute; left:0; width:200%; height:260px; will-change: transform; }
+          .au-wave-a { animation: au-wave-a 5s ease-in-out infinite; }
+          .au-wave-b { animation: au-wave-b 7s ease-in-out infinite; opacity:.75; }
+          .au-wave-c { animation: au-wave-a 9s ease-in-out infinite; opacity:.55; }
+          .au-shimmer { animation: au-shimmer 3s ease-in-out infinite; }
         `}</style>
 
         <div className="absolute inset-0 au-bg" aria-hidden />
-        <div className="absolute inset-x-0 bottom-0 h-[70%] overflow-hidden" aria-hidden>
-          <svg className="au-wave au-wave-c" style={{ bottom: 90 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
-            <path d="M0,70 C360,20 720,120 1440,70 C2160,20 2520,120 2880,70 L2880,140 L0,140 Z" fill="#7aa9c4" />
+        <div className="absolute inset-x-0 bottom-0 h-[85%] overflow-hidden" aria-hidden>
+          <svg className="au-wave au-wave-c" style={{ bottom: 160 }} viewBox="0 0 2880 260" preserveAspectRatio="none">
+            <path d="M0,130 C360,20 720,240 1440,130 C2160,20 2520,240 2880,130 L2880,260 L0,260 Z" fill="#7aa9c4" />
           </svg>
-          <svg className="au-wave au-wave-b" style={{ bottom: 40 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
-            <path d="M0,60 C360,100 720,10 1440,60 C2160,110 2520,20 2880,60 L2880,140 L0,140 Z" fill="#5d92ae" />
+          <svg className="au-wave au-wave-b" style={{ bottom: 70 }} viewBox="0 0 2880 260" preserveAspectRatio="none">
+            <path d="M0,120 C360,200 720,10 1440,120 C2160,230 2520,20 2880,120 L2880,260 L0,260 Z" fill="#5d92ae" />
           </svg>
-          <svg className="au-wave au-wave-a au-shimmer" style={{ bottom: 0 }} viewBox="0 0 2880 140" preserveAspectRatio="none">
-            <path d="M0,80 C360,30 720,130 1440,80 C2160,30 2520,130 2880,80 L2880,140 L0,140 Z" fill="#3f7997" />
+          <svg className="au-wave au-wave-a au-shimmer" style={{ bottom: 0 }} viewBox="0 0 2880 260" preserveAspectRatio="none">
+            <path d="M0,150 C360,40 720,250 1440,150 C2160,40 2520,250 2880,150 L2880,260 L0,260 Z" fill="#3f7997" />
           </svg>
         </div>
 

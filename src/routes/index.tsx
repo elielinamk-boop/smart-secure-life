@@ -1951,7 +1951,7 @@ const PARTNER_CLIENTS: PartnerLogo[] = [
 
 function Partners() {
   return (
-    <section id="clients" className="relative py-24 md:py-32">
+    <section id="clients" className="relative pt-8 pb-16 md:pt-10 md:pb-20">
       <style>{`
         @keyframes pt-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .pt-track { display:flex; gap:4rem; width:max-content; animation: pt-marquee 38s linear infinite; }
@@ -2660,11 +2660,11 @@ function ReadyCTA() {
       gy = Math.max(0, Math.min(100, ny * 100));
     };
     const tick = () => {
-      cx += (tx - cx) * 0.08;
-      cy += (ty - cy) * 0.08;
+      cx += (tx - cx) * 0.05;
+      cy += (ty - cy) * 0.05;
       gcx += (gx - gcx) * 0.08;
       gcy += (gy - gcy) * 0.08;
-      card.style.transform = `translate3d(${cx * 6}px, ${cy * 6}px, 0)`;
+      card.style.transform = `translate3d(${cx * 1.5}px, ${cy * 1.5}px, 0)`;
       if (glowRef.current) {
         glowRef.current.style.background = `radial-gradient(240px circle at ${gcx}% ${gcy}%, rgba(255,255,255,0.35), transparent 70%)`;
       }
@@ -2770,7 +2770,7 @@ function ReadyCTA() {
                 ref={btnRef}
                 to="/contact"
                 onClick={onClick}
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-sky-300/70 bg-white/50 backdrop-blur px-8 py-4 text-base font-medium text-slate-900 transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-400 hover:bg-white/70 hover:shadow-[0_18px_40px_-12px_rgba(119,221,255,0.7)] active:scale-[0.97]"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-sky-300/70 bg-white/50 backdrop-blur px-8 py-4 text-base font-medium text-slate-900 transition-all duration-300 hover:-translate-y-0.5 hover:bg-foreground hover:text-background hover:border-foreground hover:shadow-[0_18px_40px_-12px_rgba(15,23,42,0.45)] active:scale-[0.97]"
               >
                 <span className="relative z-10">Get started</span>
                 <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
