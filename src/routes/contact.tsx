@@ -215,8 +215,8 @@ function LocationSection() {
                   className="ml-auto text-slate-400 hover:text-slate-700 transition text-lg leading-none"
                 >×</button>
               </div>
-              <div className="text-lg font-semibold text-slate-900">Zephyr Residences</div>
-              <div className="text-sm text-slate-500 mb-4">Talesso HQ</div>
+              <div className="text-lg font-semibold text-slate-900">Talesso ltd</div>
+              <div className="text-sm text-slate-500 mb-4">Zephyr Residences</div>
               <div className="space-y-3 text-sm text-slate-700">
                 <div className="flex items-start gap-3"><MapPin className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><span>Georgiou A', Germasogeia 4046<br/>Limassol, Cyprus</span></div>
                 <div className="flex items-start gap-3"><Clock className="w-4 h-4 mt-0.5 text-[#3aa9e6]" /><span>Mon – Fri · 9:00 – 18:00</span></div>
