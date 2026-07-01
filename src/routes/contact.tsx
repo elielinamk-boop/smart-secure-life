@@ -95,8 +95,8 @@ function ContactPage() {
 }
 
 const ADDRESS = "Georgiou A', Germasogeia 4046, Γεωρ. Α', Γερμασόγεια 4046, Limassol, Cyprus";
-const LAT = 34.7021809;
-const LNG = 33.0956891;
+const LAT = 34.6987;
+const LNG = 33.1012;
 
 function LocationSection() {
   const mapRef = useRef<HTMLDivElement | null>(null);
