@@ -1868,53 +1868,27 @@ const CX_FEATURES: { id: CxFeatureKey; title: string; desc: string; Icon: Lucide
 ];
 
 function ConnectedExperience() {
-  const [activeApp, setActiveApp] = useState<string>("Access Control");
-  const [screenKey, setScreenKey] = useState(0);
-
   return (
     <section id="channels" className="relative py-20 md:py-28 overflow-hidden">
       <style>{`
         @keyframes cx-fadeup { from { opacity:0; transform: translateY(18px);} to { opacity:1; transform: translateY(0);} }
-        @keyframes cx-float-a { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }
-        @keyframes cx-float-b { 0%,100% { transform: translateY(0) rotate(-2deg);} 50% { transform: translateY(-5px) rotate(-2deg);} }
-        @keyframes cx-float-c { 0%,100% { transform: translateY(0) rotate(3deg);} 50% { transform: translateY(-4px) rotate(3deg);} }
-        @keyframes cx-spin-slow { from { transform: rotate(0);} to { transform: rotate(360deg);} }
-        @keyframes cx-pulse-dot { 0%,100% { opacity:.4; transform: scale(1);} 50% { opacity:1; transform: scale(1.25);} }
-        @keyframes cx-scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(220%); } }
-        @keyframes cx-msg { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform: translateY(0);} }
-        @keyframes cx-typing { 0%,60%,100% { transform: translateY(0); opacity:.35;} 30% { transform: translateY(-3px); opacity:1;} }
-        @keyframes cx-ripple { 0% { transform: translate(-50%,-50%) scale(.3); opacity:.7;} 100% { transform: translate(-50%,-50%) scale(2.4); opacity:0;} }
-        @keyframes cx-nfc-glow { 0%,100% { box-shadow: 0 8px 24px -8px rgba(30,90,58,0.5), 0 0 0 0 rgba(119,221,255,0);} 50% { box-shadow: 0 12px 28px -8px rgba(30,90,58,0.6), 0 0 22px 4px rgba(119,221,255,0.35);} }
-        @keyframes cx-slide-in { from { opacity:0; transform: translateX(14px);} to { opacity:1; transform: translateX(0);} }
-        @keyframes cx-icon-pop { 0% { transform: scale(1);} 50% { transform: scale(1.25);} 100% { transform: scale(1);} }
+        @keyframes cx-float-a { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-8px);} }
+        @keyframes cx-float-b { 0%,100% { transform: translateY(0) rotate(-1deg);} 50% { transform: translateY(-6px) rotate(-1deg);} }
+        @keyframes cx-float-c { 0%,100% { transform: translateY(0) rotate(2deg);} 50% { transform: translateY(-5px) rotate(2deg);} }
+        @keyframes cx-icon-pop { 0% { transform: scale(1);} 50% { transform: scale(1.2);} 100% { transform: scale(1);} }
         .cx-enter { opacity:0; animation: cx-fadeup .8s ease-out forwards; }
         .cx-card { position:relative; background:#fff; border:1px solid rgba(15,23,42,0.08); border-radius:20px; padding:32px; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease; overflow:hidden; min-height:260px; display:flex; flex-direction:column; }
         .cx-card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,0.14); box-shadow: 0 24px 60px -30px rgba(15,23,42,0.25); }
         .cx-card:hover .cx-card-icon svg { animation: cx-icon-pop .5s ease-out; }
         .cx-card-icon { color:#0f172a; }
-        .cx-typing { display:inline-flex; gap:3px; padding:6px 9px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
-        .cx-typing span { width:5px; height:5px; border-radius:9999px; background:#0f172a; opacity:.4; animation: cx-typing 1.2s infinite ease-in-out; }
-        .cx-typing span:nth-child(2){ animation-delay:.15s; }
-        .cx-typing span:nth-child(3){ animation-delay:.3s; }
-        .cx-phone { background:#0b0b0b; border-radius:38px; padding:7px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.35); }
-        .cx-phone-inner { background:#eaf3ea; border-radius:32px; overflow:hidden; position:relative; }
-        .cx-notch { position:absolute; top:8px; left:50%; transform:translateX(-50%); width:80px; height:18px; background:#0b0b0b; border-radius:9999px; z-index:2; }
-        .cx-msg-in { animation: cx-msg .6s ease-out both; }
-        .cx-qr-scan { position:absolute; left:0; right:0; height:18%; background: linear-gradient(180deg, transparent, rgba(119,221,255,.55), transparent); animation: cx-scan 2.6s ease-in-out infinite; }
-        .cx-pulse-dot { animation: cx-pulse-dot 1.6s ease-in-out infinite; }
-        .cx-ripple { position:absolute; left:50%; top:50%; width:60px; height:60px; border-radius:9999px; border:2px solid #77DDFF; animation: cx-ripple 1.8s ease-out infinite; pointer-events:none; }
-        .cx-qr-card { transition: transform .35s ease, box-shadow .35s ease; }
-        .cx-qr-card:hover { transform: translateY(-4px) rotate(3deg); box-shadow: 0 24px 40px -18px rgba(119,221,255,.55); }
-        .cx-nfc-card { animation: cx-nfc-glow 3.2s ease-in-out infinite, cx-float-a 4.8s ease-in-out infinite; transition: transform .35s ease; }
-        .cx-nfc-card:hover { transform: rotate(-4deg) translateY(-3px); }
-        .cx-app-tile { cursor:pointer; transition: background .25s ease, transform .2s ease; }
-        .cx-app-tile:hover { background:#eaf9ff; }
-        .cx-app-tile.active { background:#eaf9ff; box-shadow: inset 0 0 0 1px #77DDFF; }
-        .cx-app-tile.active svg { color:#77DDFF !important; }
-        .cx-screen { animation: cx-slide-in .35s ease-out; }
-        .cx-store-badge { display:inline-flex; align-items:center; gap:6px; background:#0b0b0b; color:#fff; border-radius:8px; padding:6px 10px; font-size:9px; line-height:1.1; }
-        .cx-store-badge .cx-store-sub { font-size:7px; opacity:.75; letter-spacing:.05em; text-transform:uppercase; }
-        .cx-store-badge .cx-store-main { font-size:11px; font-weight:600; letter-spacing:.01em; }
+        .cx-ph { position:relative; border-radius:22px; background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(226,240,255,0.35)); border:1.5px dashed rgba(15,23,42,0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 12px 30px -18px rgba(15,23,42,0.18); transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease; overflow:hidden; }
+        .cx-ph::after { content: attr(data-label); position:absolute; inset:auto 0 12px 0; text-align:center; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color: rgba(15,23,42,0.35); }
+        .cx-ph:hover { transform: translateY(-4px); border-color: rgba(58,169,230,0.55); box-shadow: 0 24px 50px -22px rgba(58,169,230,0.35); }
+        .cx-ph-round { border-radius:9999px; }
+        .cx-ph-round::after { display:none; }
+        .cx-float-a { animation: cx-float-a 6s ease-in-out infinite; }
+        .cx-float-b { animation: cx-float-b 7s ease-in-out infinite; }
+        .cx-float-c { animation: cx-float-c 5.5s ease-in-out infinite; }
       `}</style>
 
       <div className="mx-auto max-w-7xl px-6">
@@ -1933,61 +1907,30 @@ function ConnectedExperience() {
         <div className="relative mt-16 grid grid-cols-12 gap-6 items-start">
           {/* LEFT column */}
           <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
-            {/* Welcome message card */}
-            <div className="cx-enter w-full bg-white rounded-2xl p-4 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "120ms" }}>
-              <div className="text-sm font-semibold">👋 Welcome to Eyecid</div>
-              <div className="text-xs mt-2 text-slate-700">🔒 Access Control System<br />Your role: Administrator</div>
-              <div className="text-xs mt-2 text-slate-600">Use the buttons below or <span className="text-sky-600">/help</span> for a list of commands.</div>
-              <div className="text-[10px] text-right text-slate-400 mt-1">12:30</div>
-            </div>
-
-            {/* Telegram logo */}
-            <div className="cx-enter self-start ml-2" style={{ animationDelay: "260ms", animation: "cx-float-a 5s ease-in-out infinite" }}>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{ background: "linear-gradient(135deg,#3aa9e6,#1f8fd1)" }}>
-                <Send className="w-5 h-5 text-white -translate-x-[1px]" />
-              </div>
-            </div>
-
-            {/* Telegram phone */}
-            <div className="cx-enter w-[210px]" style={{ animationDelay: "320ms", animation: "cx-float-b 6s ease-in-out infinite" }}>
-              <div className="cx-phone">
-                <div className="cx-phone-inner" style={{ height: 340 }}>
-                  <div className="cx-notch" />
-                  <div className="px-3 pt-7 pb-2 bg-white flex items-center gap-2 border-b border-black/5">
-                    <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center text-[9px] font-bold text-sky-700">E</div>
-                    <div className="text-[11px] font-semibold">EYECID <span className="text-slate-400 font-normal">bot</span></div>
-                  </div>
-                  <div className="p-3 space-y-2">
-                    <div className="cx-msg-in bg-white rounded-lg p-2 text-[10px] shadow-sm" style={{ animationDelay: "500ms" }}>
-                      <div className="font-semibold">👋 Welcome to Eyecid</div>
-                      <div className="text-slate-600 mt-1">Smart Building Access Control</div>
-                    </div>
-                    <div className="cx-msg-in flex justify-end" style={{ animationDelay: "900ms" }}>
-                      <div className="bg-emerald-100 rounded-lg px-2 py-1 text-[10px]">/start</div>
-                    </div>
-                    <div className="cx-msg-in" style={{ animationDelay: "1300ms" }}>
-                      <div className="cx-typing"><span/><span/><span/></div>
-                    </div>
-                    <div className="cx-msg-in grid grid-cols-2 gap-1 pt-1" style={{ animationDelay: "1700ms" }}>
-                      {["Alerts","Tickets","Events","Access","Parking","Smart Home"].map(l => (
-                        <div key={l} className="bg-white rounded px-2 py-1 text-[9px] text-slate-700 shadow-sm text-center">{l}</div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mini dashboard chip card */}
-            <div className="cx-enter w-[210px] bg-white rounded-xl p-2.5 border border-black/5 shadow-sm" style={{ animationDelay: "420ms" }}>
-              <div className="grid grid-cols-2 gap-1.5">
-                {["Open Eyecid","Alerts","Tickets","Events","Access","Parking","Smart Home","Settings"].map(l => (
-                  <div key={l} className="flex items-center gap-1.5 bg-slate-50 rounded px-2 py-1 text-[9px] text-slate-700">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#77DDFF] cx-pulse-dot" />{l}
-                  </div>
-                ))}
-              </div>
-            </div>
+            <div
+              id="ph-welcome-card"
+              data-label="Welcome card"
+              className="cx-ph cx-enter cx-float-a w-full h-[140px]"
+              style={{ animationDelay: "120ms" }}
+            />
+            <div
+              id="ph-telegram-badge"
+              data-label=""
+              className="cx-ph cx-ph-round cx-enter cx-float-b self-start ml-2 w-12 h-12"
+              style={{ animationDelay: "260ms" }}
+            />
+            <div
+              id="ph-telegram-phone"
+              data-label="Telegram phone"
+              className="cx-ph cx-enter cx-float-c w-[210px] h-[360px]"
+              style={{ animationDelay: "320ms" }}
+            />
+            <div
+              id="ph-command-panel"
+              data-label="Command panel"
+              className="cx-ph cx-enter cx-float-a w-[210px] h-[110px]"
+              style={{ animationDelay: "420ms" }}
+            />
           </div>
 
           {/* CENTER - feature cards */}
@@ -2003,29 +1946,6 @@ function ConnectedExperience() {
                     <div className="cx-card-icon">
                       <f.Icon className="w-7 h-7" strokeWidth={1.5} />
                     </div>
-                    {f.id === "mobile" && (
-                      <div className="flex flex-col gap-1.5 items-end">
-                        <div className="cx-store-badge">
-                          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none"><path d="M3 3.5v17l9-8.5-9-8.5z" fill="#4ade80"/><path d="M3 3.5l9 8.5 3.2-3L3 3.5z" fill="#f87171"/><path d="M3 20.5l12.2-5.5-3.2-3L3 20.5z" fill="#60a5fa"/><path d="M15.2 8l3 1.7c1.1.7 1.1 1.9 0 2.6l-3 1.7-3.2-3 3.2-3z" fill="#facc15"/></svg>
-                          <div className="flex flex-col leading-tight">
-                            <span className="cx-store-sub">Get it on</span>
-                            <span className="cx-store-main">Google Play</span>
-                          </div>
-                        </div>
-                        <div className="cx-store-badge">
-                          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#fff"><path d="M16.5 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.8-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.7 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.4 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.7-1-2.7-4zM14.3 5.5c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2-.5 2.7-1.3z"/></svg>
-                          <div className="flex flex-col leading-tight">
-                            <span className="cx-store-sub">Download on the</span>
-                            <span className="cx-store-main">App Store</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {f.id === "telegram" && (
-                      <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "linear-gradient(135deg,#3aa9e6,#1f8fd1)" }}>
-                        <Send className="w-4 h-4 text-white -translate-x-[1px]" />
-                      </div>
-                    )}
                   </div>
                   <h3 className="mt-16 text-xl font-semibold tracking-tight">{f.title}</h3>
                   <p className="mt-3 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
@@ -2036,79 +1956,30 @@ function ConnectedExperience() {
 
           {/* RIGHT column */}
           <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
-            {/* QR card */}
-            <div className="cx-enter cx-qr-card relative w-[180px] bg-white rounded-2xl p-3 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.25)] border border-black/5" style={{ animationDelay: "200ms" }}>
-              <div className="text-[10px] text-slate-500 mb-1">Guest Access</div>
-              <div className="relative overflow-hidden rounded">
-                <div className="grid grid-cols-8 gap-[2px] bg-white p-1">
-                  {Array.from({ length: 64 }).map((_, i) => (
-                    <div key={i} className="aspect-square" style={{ background: (i * 37) % 5 < 2 ? "#0b0b0b" : "transparent" }} />
-                  ))}
-                </div>
-                <div className="cx-qr-scan" />
-              </div>
-              <div className="mt-2 text-[10px] text-slate-500">PIN Code</div>
-              <div className="text-lg font-bold tracking-wider">1234</div>
-            </div>
-
-            {/* NFC Smart Home card */}
-            <div className="cx-enter cx-nfc-card self-end mr-2 w-[120px] rounded-xl p-3 text-white shadow-lg" style={{ animationDelay: "320ms", background: "linear-gradient(135deg,#1f5d3a,#0e3a23)" }}>
-              <ArrowUp className="w-4 h-4" />
-              <div className="text-[10px] mt-2 font-semibold">Smart Home</div>
-              <div className="text-[8px] opacity-70">KNX Devices</div>
-            </div>
-
-            {/* Right phone with hand */}
-            <div className="cx-enter relative" style={{ animationDelay: "260ms", animation: "cx-float-a 6s ease-in-out infinite" }}>
-              <div className="cx-phone w-[200px]">
-                <div className="cx-phone-inner bg-white" style={{ height: 360 }}>
-                  <div className="cx-notch" />
-                  <div className="pt-8 px-3 pb-2 flex items-center justify-between text-[10px] text-slate-500">
-                    <span>12:36</span>
-                    <div className="flex gap-1"><Wifi className="w-3 h-3" /></div>
-                  </div>
-                  <div className="px-3 flex items-center justify-between border-b border-slate-100 pb-2">
-                    <XIcon className="w-3.5 h-3.5 text-slate-500" />
-                    <div className="text-[10px] font-semibold tracking-wider">EYECID</div>
-                    <div className="text-slate-400 text-[10px]">⋮</div>
-                  </div>
-                  <div className="text-center pt-3">
-                    <div className="font-display text-lg font-bold tracking-tight">EYE<span style={{ color: "#77DDFF" }}>C</span>ID</div>
-                    <div className="text-[8px] text-slate-500">Smart Building Access Control</div>
-                    <div className="text-[8px] text-slate-400">Dev mode</div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 p-3">
-                    {[
-                      { l: "Alerts", I: Lightbulb, c: "#ef4444", n: 2 },
-                      { l: "Tickets", I: Settings, c: "#0f172a", n: 5 },
-                      { l: "Access Events", I: DoorOpen, c: "#0f172a" },
-                      { l: "Access Control", I: Lock, c: "#0f172a" },
-                      { l: "Parking", I: ParkingSquare, c: "#2563eb" },
-                      { l: "Smart Home", I: HomeIcon, c: "#ef4444" },
-                      { l: "People", I: ScanFace, c: "#0f172a" },
-                      { l: "Settings", I: Settings, c: "#0f172a" },
-                    ].map((m, i) => (
-                      <div
-                        key={i}
-                        onClick={() => { setActiveApp(m.l); setScreenKey(k => k + 1); }}
-                        className={`cx-app-tile bg-slate-50 rounded-lg py-2 flex flex-col items-center gap-1 relative ${activeApp === m.l ? "active" : ""}`}
-                      >
-                        <m.I className="w-4 h-4" style={{ color: m.c }} />
-                        <div className="text-[8px] text-slate-600">{m.l}</div>
-                        {m.n ? <div className="absolute top-1 right-2 bg-red-500 text-white text-[7px] rounded-full w-3 h-3 flex items-center justify-center">{m.n}</div> : null}
-                      </div>
-                    ))}
-                  </div>
-                  <div key={screenKey} className="cx-screen text-center text-[7px] text-slate-400">{activeApp} · EYECID © 2026</div>
-                </div>
-              </div>
-              {/* Touch ripple */}
-              <div className="absolute" style={{ right: 30, bottom: 80 }}>
-                <div className="cx-ripple" />
-              </div>
-              {/* Hand silhouette */}
-              <div className="absolute -bottom-6 -right-8 w-28 h-40 rounded-t-[60%] bg-gradient-to-b from-amber-100 to-amber-200/70 opacity-60 blur-[2px] -z-10" />
-            </div>
+            <div
+              id="ph-qr-card"
+              data-label="QR card"
+              className="cx-ph cx-enter cx-float-b w-[180px] h-[200px]"
+              style={{ animationDelay: "200ms" }}
+            />
+            <div
+              id="ph-nfc-card"
+              data-label="NFC card"
+              className="cx-ph cx-enter cx-float-c self-end mr-2 w-[120px] h-[80px]"
+              style={{ animationDelay: "320ms" }}
+            />
+            <div
+              id="ph-support-badge"
+              data-label=""
+              className="cx-ph cx-ph-round cx-enter cx-float-a self-start ml-4 w-14 h-14"
+              style={{ animationDelay: "380ms" }}
+            />
+            <div
+              id="ph-mobile-phone"
+              data-label="Mobile phone"
+              className="cx-ph cx-enter cx-float-a w-[200px] h-[380px]"
+              style={{ animationDelay: "260ms" }}
+            />
           </div>
         </div>
       </div>
