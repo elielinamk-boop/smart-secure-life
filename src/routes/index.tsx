@@ -939,6 +939,7 @@ function BuildingCard({
   bgMode?: "split" | "cover";
   headerLight?: boolean;
 }) {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const labelsRef = useRef<HTMLDivElement>(null);
@@ -976,6 +977,16 @@ function BuildingCard({
   const bgSize = bgMode === "cover" ? "cover" : "200% auto";
   const bgImg = imageUrl ?? buildingsCleanAsset;
   const activeInfo = active ? FEATURE_INFO[active] : null;
+  const activeName = active ? t(`features.${FEATURE_I18N[active]}.name`) : "";
+  const activeShort = active ? t(`features.${FEATURE_I18N[active]}.short`) : "";
+  const activeExample = active ? t(`features.${FEATURE_I18N[active]}.example`) : "";
+  const activeBenefits = active
+    ? ([
+        t(`features.${FEATURE_I18N[active]}.b1`),
+        t(`features.${FEATURE_I18N[active]}.b2`),
+        t(`features.${FEATURE_I18N[active]}.b3`),
+      ].filter((b) => b && !b.startsWith("features.")) as string[])
+    : [];
 
   // Dynamically place the panel next to the active feature with collision
   // detection against the image bounds, the header title, and other pins.
@@ -1157,7 +1168,7 @@ function BuildingCard({
                 onMouseEnter={() => setHovered(l.key)}
                 onClick={() => onPin(l.key)}
                 role="button"
-                aria-label={`${info.name} hotspot`}
+                aria-label={t("buildings.hotspotLabel", { name: t(`features.${FEATURE_I18N[l.key]}.name`) })}
               />
             );
           })}
@@ -1182,7 +1193,7 @@ function BuildingCard({
               >
                 <span className="ibs-label-inner">
                   <span className="ibs-icon"><I className="h-4 w-4" /></span>
-                  <span>{info.name}</span>
+                  <span>{t(`features.${FEATURE_I18N[l.key]}.name`)}</span>
                 </span>
               </button>
             );
@@ -1237,25 +1248,25 @@ function BuildingCard({
                 <activeInfo.icon className="h-5 w-5 text-[#77DDFF]" />
               </span>
               <div className="flex-1">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Feature</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{t("buildings.featureBadge")}</p>
                 <h4 className="font-display text-lg font-bold tracking-[-0.01em] text-[#0f172a]">
-                  {activeInfo.name}
+                  {activeName}
                 </h4>
               </div>
               {pinned ? (
                 <button
                   type="button"
                   onClick={onClose}
-                  aria-label="Close"
+                  aria-label={t("common.close")}
                   className="rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground"
                 >
                   <XIcon className="h-4 w-4" />
                 </button>
               ) : null}
             </div>
-            <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{activeInfo.short}</p>
+            <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{activeShort}</p>
             <ul className="mt-3 space-y-1.5">
-              {activeInfo.benefits.map((b) => (
+              {activeBenefits.map((b) => (
                 <li key={b} className="flex items-start gap-2 text-xs text-foreground/70">
                   <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#77DDFF]" />
                   <span>{b}</span>
@@ -1263,7 +1274,7 @@ function BuildingCard({
               ))}
             </ul>
             <div className="mt-3 rounded-lg bg-[#0f172a]/5 px-3 py-2 text-xs text-foreground/70 italic">
-              {activeInfo.example}
+              {activeExample}
             </div>
           </div>
         ) : null}
