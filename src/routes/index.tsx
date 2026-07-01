@@ -134,6 +134,7 @@ function Landing() {
       <ScenesShowcase />
       <Channels />
       <Partners />
+      <ReadyCTA />
       <SiteFooter />
     </div>
   );
