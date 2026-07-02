@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
-import { ScanFace, MessageSquare, Send, MapPin, Phone, Mail, Clock, Maximize2 } from "lucide-react";
+import { ScanFace, MessageSquare, Send, MapPin, Phone, Mail, Clock, Maximize2, Navigation } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import logoAsset from "@/assets/talesso-logo.png";
+import { getMapboxToken } from "@/lib/mapbox.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -97,7 +98,9 @@ function ContactPage() {
   );
 }
 
-const ADDRESS = "Georgiou A', Germasogeia 4046, Γεωρ. Α', Γερμασόγεια 4046, Limassol, Cyprus";
+const ADDRESS =
+  "Georgiou A', Germasogeia 4046, Γεωρ. Α', Γερμασόγεια 4046, Limassol, Cyprus";
+const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADDRESS)}`;
 const LAT = 34.70005;
 const LNG = 33.10175;
 
@@ -111,23 +114,29 @@ function LocationSection() {
     let map: any;
     let cancelled = false;
     (async () => {
-      const L = (await import("leaflet")).default;
-      await import("leaflet/dist/leaflet.css");
-      if (cancelled || !mapRef.current) return;
+      const [{ default: mapboxgl }, { token }] = await Promise.all([
+        import("mapbox-gl"),
+        getMapboxToken(),
+      ]);
+      await import("mapbox-gl/dist/mapbox-gl.css");
+      if (cancelled || !mapRef.current || !token) return;
 
-      map = L.map(mapRef.current, {
-        center: [LAT, LNG],
+      mapboxgl.accessToken = token;
+
+      map = new mapboxgl.Map({
+        container: mapRef.current,
+        style: "mapbox://styles/mapbox/light-v11",
+        center: [LNG, LAT],
         zoom: 16,
-        zoomControl: true,
-        scrollWheelZoom: false,
+        attributionControl: true,
+        scrollZoom: false,
       });
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
-        maxZoom: 20,
-      }).addTo(map);
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
 
-      const pinHTML = `
+      const el = document.createElement("div");
+      el.className = "talesso-pin-wrap";
+      el.innerHTML = `
         <div class="talesso-pin">
           <div class="talesso-pin-ring"></div>
           <div class="talesso-pin-body">
@@ -135,14 +144,10 @@ function LocationSection() {
           </div>
           <div class="talesso-pin-stem"></div>
         </div>`;
-      const icon = L.divIcon({
-        className: "talesso-pin-wrap",
-        html: pinHTML,
-        iconSize: [44, 56],
-        iconAnchor: [22, 54],
-      });
-      const marker = L.marker([LAT, LNG], { icon }).addTo(map);
-      marker.on("click", () => setCardOpen((v) => !v));
+      el.addEventListener("click", () => setCardOpen((v) => !v));
+      new mapboxgl.Marker({ element: el, anchor: "bottom" })
+        .setLngLat([LNG, LAT])
+        .addTo(map);
     })();
     return () => {
       cancelled = true;
@@ -168,10 +173,11 @@ function LocationSection() {
         .talesso-pin-ring { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; border-radius: 50%; background: rgba(58,169,230,.35); animation: talesso-pulse 2.2s ease-out infinite; }
         @keyframes talesso-pulse { 0% { transform: translateX(-50%) scale(.6); opacity: .8; } 100% { transform: translateX(-50%) scale(2.4); opacity: 0; } }
         @keyframes talesso-bounce { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }
-        .leaflet-container { font-family: inherit; background: #eef2f7; }
-        .leaflet-control-zoom a { border-radius: 10px !important; color: #0f172a !important; border: 1px solid rgba(15,23,42,.08) !important; box-shadow: 0 4px 12px -6px rgba(15,23,42,.2); }
-        .leaflet-control-zoom { border: none !important; margin: 14px !important; }
-        .leaflet-control-attribution { font-size: 10px; background: rgba(255,255,255,.7) !important; border-radius: 6px; }
+        .mapboxgl-canvas { outline: none; }
+        .mapboxgl-ctrl-group { border-radius: 12px !important; overflow: hidden; box-shadow: 0 4px 12px -6px rgba(15,23,42,.25) !important; border: 1px solid rgba(15,23,42,.06) !important; }
+        .mapboxgl-ctrl-group button { width: 34px !important; height: 34px !important; }
+        .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-bottom-left { font-size: 10px; }
+        .mapboxgl-ctrl-attrib { background: rgba(255,255,255,.7) !important; border-radius: 6px; }
       `}</style>
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
@@ -188,6 +194,14 @@ function LocationSection() {
 
           {/* Top-right controls */}
           <div className="absolute top-4 right-4 z-[500] flex gap-2">
+            <a
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-4 py-2 text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition"
+            >
+              <Navigation className="w-4 h-4" /> {t("contactPage.location.directions")}
+            </a>
             <button
               onClick={openFullscreen}
               className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-4 py-2 text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition"
