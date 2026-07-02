@@ -1712,7 +1712,6 @@ function MeetEyecid() {
               </span>
             </h2>
             <h3 className="mt-6 font-display text-2xl md:text-4xl font-extrabold tracking-tight leading-[1.1]">
-              <span className={lineCls("")} style={{ animationDelay: "0.45s" }}>{t("meetPlatform.the")}{"\u00A0"}</span>
               <span className={lineCls("")} style={{ animationDelay: "0.60s" }}>{t("meetPlatform.theSmartBuilding")}</span>{" "}
               <span className={lineCls("")} style={{ animationDelay: "0.75s" }}>{t("meetPlatform.platformThatUnifies")}</span>
             </h3>
