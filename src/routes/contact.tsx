@@ -6,7 +6,6 @@ import { ScanFace, MessageSquare, Send, MapPin, Phone, Mail, Clock, Maximize2, N
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import logoAsset from "@/assets/talesso-logo.png";
-import { getMapboxToken } from "@/lib/mapbox.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -114,25 +113,48 @@ function LocationSection() {
     let map: any;
     let cancelled = false;
     (async () => {
-      const [{ default: mapboxgl }, { token }] = await Promise.all([
-        import("mapbox-gl"),
-        getMapboxToken(),
+      const [
+        { Map: OLMap, View, Overlay },
+        { default: TileLayer },
+        { default: OSM },
+        { fromLonLat },
+        { defaults: defaultControls, Zoom },
+      ] = await Promise.all([
+        import("ol"),
+        import("ol/layer/Tile"),
+        import("ol/source/OSM"),
+        import("ol/proj"),
+        import("ol/control"),
       ]);
-      await import("mapbox-gl/dist/mapbox-gl.css");
-      if (cancelled || !mapRef.current || !token) return;
+      await import("ol/ol.css");
+      if (cancelled || !mapRef.current) return;
 
-      mapboxgl.accessToken = token;
+      const center = fromLonLat([LNG, LAT]);
 
-      map = new mapboxgl.Map({
-        container: mapRef.current,
-        style: "mapbox://styles/mapbox/light-v11",
-        center: [LNG, LAT],
-        zoom: 16,
-        attributionControl: true,
-        scrollZoom: false,
+      map = new OLMap({
+        target: mapRef.current,
+        layers: [
+          new TileLayer({
+            source: new OSM({
+              url: "https://{a-c}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+              attributions:
+                '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors, © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+              crossOrigin: "anonymous",
+            }),
+          }),
+        ],
+        view: new View({
+          center,
+          zoom: 17,
+          minZoom: 3,
+          maxZoom: 19,
+          constrainResolution: true,
+          smoothResolutionConstraint: true,
+        }),
+        controls: defaultControls({ zoom: false, rotate: false }).extend([
+          new Zoom({ className: "talesso-ol-zoom" }),
+        ]),
       });
-
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-right");
 
       const el = document.createElement("div");
       el.className = "talesso-pin-wrap";
@@ -145,13 +167,17 @@ function LocationSection() {
           <div class="talesso-pin-stem"></div>
         </div>`;
       el.addEventListener("click", () => setCardOpen((v) => !v));
-      new mapboxgl.Marker({ element: el, anchor: "bottom" })
-        .setLngLat([LNG, LAT])
-        .addTo(map);
+      const overlay = new Overlay({
+        element: el,
+        position: center,
+        positioning: "bottom-center",
+        stopEvent: false,
+      });
+      map.addOverlay(overlay);
     })();
     return () => {
       cancelled = true;
-      if (map) map.remove();
+      if (map) map.setTarget(undefined);
     };
   }, []);
 
@@ -173,11 +199,13 @@ function LocationSection() {
         .talesso-pin-ring { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; border-radius: 50%; background: rgba(58,169,230,.35); animation: talesso-pulse 2.2s ease-out infinite; }
         @keyframes talesso-pulse { 0% { transform: translateX(-50%) scale(.6); opacity: .8; } 100% { transform: translateX(-50%) scale(2.4); opacity: 0; } }
         @keyframes talesso-bounce { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }
-        .mapboxgl-canvas { outline: none; }
-        .mapboxgl-ctrl-group { border-radius: 12px !important; overflow: hidden; box-shadow: 0 4px 12px -6px rgba(15,23,42,.25) !important; border: 1px solid rgba(15,23,42,.06) !important; }
-        .mapboxgl-ctrl-group button { width: 34px !important; height: 34px !important; }
-        .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-bottom-left { font-size: 10px; }
-        .mapboxgl-ctrl-attrib { background: rgba(255,255,255,.7) !important; border-radius: 6px; }
+        .ol-viewport canvas { outline: none; }
+        .talesso-ol-zoom { top: auto !important; bottom: 16px; left: 16px; display: flex; flex-direction: column; gap: 4px; background: transparent !important; }
+        .talesso-ol-zoom button { display: block; width: 34px; height: 34px; margin: 0; border: 1px solid rgba(15,23,42,.08); background: #fff; color: #0f172a; font-size: 18px; line-height: 32px; border-radius: 10px; box-shadow: 0 4px 12px -6px rgba(15,23,42,.25); cursor: pointer; transition: background .2s; }
+        .talesso-ol-zoom button:hover { background: #f1f5f9; }
+        .ol-attribution { background: rgba(255,255,255,.75) !important; border-radius: 6px !important; font-size: 10px !important; padding: 2px 6px !important; bottom: 4px !important; right: 4px !important; }
+        .ol-attribution ul { color: #475569; }
+        .ol-attribution a { color: #0f172a; }
       `}</style>
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-10">
