@@ -292,7 +292,7 @@ function ClientsPage() {
                 heroIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
               }`}
             >
-              {t("clientsPage.eyebrow")}
+              {"\n"}
             </p>
             <h1
               className={`mt-4 font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.03em] transition-all duration-[900ms] ease-out ${
