@@ -3,10 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import {
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
-  ShieldCheck,
   Users,
   Activity,
   Building2,
@@ -18,6 +16,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import door1 from "@/assets/clients-door-1.png.asset.json";
 import jbg2 from "@/assets/clients-jbg-2.png.asset.json";
 import gate3 from "@/assets/clients-gate-3.png.asset.json";
+import gdprEu from "@/assets/gdpr-eu.webp.asset.json";
 
 export const Route = createFileRoute("/clients")({
   head: () => ({
@@ -156,12 +155,14 @@ function Gallery() {
         style={{ transitionDelay: "700ms" }}
       >
         <div
-          className="flex items-center gap-2 rounded-full border border-white/70 bg-white/70 pl-2 pr-3.5 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
+          className="flex items-center gap-2 rounded-full border border-white/70 bg-white/70 pl-1.5 pr-3.5 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
           aria-label={t("clientsPage.gdpr")}
         >
-          <div className="grid h-[26px] w-[26px] place-items-center rounded-full bg-gradient-to-br from-white to-white/60 border border-white/70 shadow-inner">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#1e6bff]" strokeWidth={2} />
-          </div>
+          <img
+            src={gdprEu.url}
+            alt="GDPR"
+            className="h-7 w-7 rounded-full object-cover"
+          />
           <span className="text-[11px] font-semibold tracking-wide text-foreground/80">
             {t("clientsPage.gdpr")}
           </span>
@@ -250,8 +251,8 @@ function StatsRow() {
         >
           <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 [background:radial-gradient(circle_at_50%_0%,rgba(119,221,255,0.25),transparent_60%)]" />
           <div className="relative flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/70 bg-white/70">
-              <s.icon className="h-4 w-4 text-[#1e6bff]" strokeWidth={1.75} />
+            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/40 bg-foreground/5 backdrop-blur-md transition-all duration-500 group-hover:border-[#77DDFF]/60 group-hover:bg-[#77DDFF]/15 group-hover:shadow-[0_0_20px_-4px_rgba(119,221,255,0.7)]">
+              <s.icon className="h-4 w-4 text-foreground/50 transition-colors duration-500 group-hover:text-[#77DDFF]" strokeWidth={1.75} />
             </div>
           </div>
           <div className="relative mt-5 font-display text-3xl md:text-4xl font-bold tracking-[-0.02em]">
@@ -309,20 +310,6 @@ function ClientsPage() {
             >
               {t("clientsPage.description")}
             </p>
-            <div
-              className={`mt-9 transition-all duration-[900ms] ease-out ${
-                heroIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: "320ms" }}
-            >
-              <a
-                href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_50px_-20px_rgba(0,0,0,0.55)]"
-              >
-                {t("clientsPage.cta")}
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={2} />
-              </a>
-            </div>
           </div>
 
           {/* RIGHT */}
