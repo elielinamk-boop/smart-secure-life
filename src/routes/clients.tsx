@@ -155,15 +155,15 @@ function Gallery() {
         style={{ transitionDelay: "700ms" }}
       >
         <div
-          className="flex items-center gap-2.5 rounded-full border border-white/70 bg-white/70 pl-1.5 pr-4 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
+            className="flex items-center gap-3 rounded-full border border-white/70 bg-white/70 pl-1.5 pr-5 py-2 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
           aria-label={t("clientsPage.gdpr")}
         >
           <img
             src={gdprEu.url}
             alt="GDPR"
-            className="h-11 w-11 rounded-full object-cover"
+            className="h-14 w-14 rounded-full object-cover"
           />
-          <span className="text-[12px] font-semibold tracking-wide text-foreground/80">
+          <span className="text-[13px] font-semibold tracking-wide text-foreground/80">
             {t("clientsPage.gdpr")}
           </span>
         </div>
@@ -295,7 +295,7 @@ function ClientsPage() {
               {"\n"}
             </p>
             <h1
-              className={`mt-4 font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.03em] transition-all duration-[900ms] ease-out ${
+              className={`mt-4 whitespace-pre-line font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.03em] transition-all duration-[900ms] ease-out ${
                 heroIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{ transitionDelay: "80ms" }}
