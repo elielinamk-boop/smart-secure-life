@@ -37,7 +37,9 @@ export function SiteNav() {
   useEffect(() => { setOpen(false); }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 animate-nav-in">
+    <>
+      <div aria-hidden className="h-[76px]" />
+      <header className="fixed top-0 left-0 right-0 z-50 animate-nav-in">
       <div
         className={`mx-auto mt-3 max-w-7xl rounded-2xl px-4 md:px-6 h-16 flex items-center justify-between gap-3 transition-all duration-500 ${
           scrolled
@@ -117,6 +119,7 @@ export function SiteNav() {
           </div>
         </>
       )}
-    </header>
+      </header>
+    </>
   );
 }
