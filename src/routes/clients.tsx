@@ -13,10 +13,10 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
-import door1 from "@/assets/clients-door-1.png.asset.json";
-import jbg2 from "@/assets/clients-jbg-2.png.asset.json";
-import gate3 from "@/assets/clients-gate-3.png.asset.json";
-import gdprEu from "@/assets/gdpr-eu.webp.asset.json";
+import door1 from "@/assets/clients-door-1.png";
+import jbg2 from "@/assets/clients-jbg-2.png";
+import gate3 from "@/assets/clients-gate-3.png";
+import gdprEu from "@/assets/gdpr-eu.webp";
 
 export const Route = createFileRoute("/clients")({
   head: () => ({
@@ -32,9 +32,9 @@ export const Route = createFileRoute("/clients")({
 });
 
 const PHOTOS: { src: string; alt: string }[] = [
-  { src: door1.url, alt: "Talesso face-recognition terminal at a seaside office entrance" },
-  { src: jbg2.url, alt: "Talesso access terminal at JBG commercial building entrance" },
-  { src: gate3.url, alt: "Talesso terminal integrated on a residential gate" },
+  { src: door1, alt: "Talesso face-recognition terminal at a seaside office entrance" },
+  { src: jbg2, alt: "Talesso access terminal at JBG commercial building entrance" },
+  { src: gate3, alt: "Talesso terminal integrated on a residential gate" },
 ];
 
 function useInView<T extends Element>(threshold = 0.2) {
@@ -159,7 +159,7 @@ function Gallery() {
           aria-label={t("clientsPage.gdpr")}
         >
           <img
-            src={gdprEu.url}
+            src={gdprEu}
             alt="GDPR"
             className="h-14 w-14 rounded-full object-cover"
           />
