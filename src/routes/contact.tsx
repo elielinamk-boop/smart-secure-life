@@ -26,20 +26,20 @@ function ContactPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
-      <section id="contact" className="relative py-24 md:py-32">
-        <div className="mx-auto max-w-7xl px-6">
+      <section id="contact" className="relative py-16 sm:py-20 md:py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="text-center">
             <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-5">{t("contactPage.eyebrow")}</div>
-            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05]">
               {t("contactPage.title1")}<br className="hidden md:block" /> {t("contactPage.title2")}
             </h2>
             <p className="mt-5 text-muted-foreground text-lg">{t("contactPage.subtitle")}</p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+          <div className="mt-10 sm:mt-14 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 items-start">
             <form
               onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
-              className="lg:col-span-2 relative rounded-3xl p-8 border border-white/60 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)]"
+              className="lg:col-span-2 relative rounded-3xl p-5 sm:p-6 lg:p-8 border border-white/60 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)]"
               style={{ background: "linear-gradient(135deg, rgba(190,219,238,0.55), rgba(255,225,210,0.45))" }}
             >
               {[
@@ -47,18 +47,18 @@ function ContactPage() {
                 { id: "email", placeholder: t("contactPage.form.email"), Icon: MessageSquare, type: "email" },
                 { id: "phone", placeholder: t("contactPage.form.phone"), Icon: Send, type: "tel" },
               ].map(({ id, placeholder, Icon, type }) => (
-                <div key={id} className="flex items-center gap-3 bg-white/80 rounded-2xl px-4 py-3 mb-4 shadow-sm">
-                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
+                <div key={id} className="flex items-center gap-3 bg-white/80 rounded-2xl px-3 sm:px-4 py-3 mb-4 shadow-sm min-w-0">
+                  <div className="w-10 h-10 shrink-0 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <input id={id} name={id} type={type} placeholder={placeholder} className="bg-transparent outline-none flex-1 text-slate-700 placeholder:text-slate-400" />
+                  <input id={id} name={id} type={type} placeholder={placeholder} className="bg-transparent outline-none flex-1 min-w-0 w-full text-slate-700 placeholder:text-slate-400" />
                 </div>
               ))}
-              <div className="flex items-start gap-3 bg-white/80 rounded-2xl px-4 py-3 mb-6 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
+              <div className="flex items-start gap-3 bg-white/80 rounded-2xl px-3 sm:px-4 py-3 mb-6 shadow-sm min-w-0">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-white flex items-center justify-center text-slate-500 shadow-inner border border-slate-100">
                   <MessageSquare className="w-5 h-5" />
                 </div>
-                <textarea name="message" placeholder={t("contactPage.form.message")} rows={4} className="bg-transparent outline-none flex-1 resize-none text-slate-700 placeholder:text-slate-400" />
+                <textarea name="message" placeholder={t("contactPage.form.message")} rows={4} className="bg-transparent outline-none flex-1 min-w-0 w-full resize-none text-slate-700 placeholder:text-slate-400" />
               </div>
               <button
                 type="submit"
@@ -192,7 +192,7 @@ function LocationSection() {
   };
 
   return (
-    <section className="relative pb-24 md:pb-32">
+    <section className="relative pb-16 sm:pb-20 md:pb-24 lg:pb-32">
       <style>{`
         .talesso-pin-wrap { background: transparent !important; border: none !important; }
         .talesso-pin { position: relative; width: 44px; height: 56px; cursor: pointer; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
@@ -210,10 +210,10 @@ function LocationSection() {
         .ol-attribution ul { color: #475569; }
         .ol-attribution a { color: #0f172a; }
       `}</style>
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center mb-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="text-center mb-8 md:mb-10">
           <div className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-4">{t("contactPage.location.eyebrow")}</div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-[-0.03em]">{t("contactPage.location.title")}</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-[-0.03em]">{t("contactPage.location.title")}</h2>
           <p className="mt-3 text-muted-foreground">{t("contactPage.location.subtitle")}</p>
         </div>
 
@@ -221,21 +221,21 @@ function LocationSection() {
           ref={wrapRef}
           className="group relative rounded-[32px] overflow-hidden border border-white/60 bg-white/60 backdrop-blur-xl shadow-[0_30px_80px_-40px_rgba(15,23,42,0.35)] transition-shadow duration-500 hover:shadow-[0_50px_120px_-40px_rgba(15,23,42,0.5)]"
         >
-          <div ref={mapRef} className="w-full h-[520px] md:h-[600px]" />
+          <div ref={mapRef} className="w-full h-[380px] sm:h-[460px] md:h-[600px]" />
 
           {/* Top-right controls */}
-          <div className="absolute top-4 right-4 z-[500] flex gap-2">
+          <div className="absolute top-3 right-3 md:top-4 md:right-4 z-[500] flex gap-2 flex-wrap justify-end max-w-[calc(100%-1.5rem)]">
             <a
               href={DIRECTIONS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-4 py-2 text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition"
+              className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-3 md:px-4 py-2 text-xs md:text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition min-h-10"
             >
               <Navigation className="w-4 h-4" /> {t("contactPage.location.directions")}
             </a>
             <button
               onClick={openFullscreen}
-              className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-4 py-2 text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition"
+              className="inline-flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-3 md:px-4 py-2 text-xs md:text-sm text-slate-800 shadow-lg border border-white/70 hover:bg-white transition min-h-10"
             >
               <Maximize2 className="w-4 h-4" /> {t("contactPage.location.fullscreen")}
             </button>
@@ -243,9 +243,9 @@ function LocationSection() {
 
           {/* Info card */}
           <div
-            className={`absolute z-[500] left-4 right-4 md:left-6 md:right-auto md:top-6 md:w-[360px] bottom-4 md:bottom-auto transition-all duration-500 ${cardOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2 pointer-events-none"}`}
+            className={`absolute z-[500] left-3 right-3 md:left-6 md:right-auto md:top-6 md:w-[360px] bottom-3 md:bottom-auto transition-all duration-500 ${cardOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2 pointer-events-none"}`}
           >
-            <div className="rounded-2xl bg-white/95 backdrop-blur-xl border border-white/70 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.35)] p-6 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(15,23,42,0.45)]">
+            <div className="rounded-2xl bg-white/95 backdrop-blur-xl border border-white/70 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.35)] p-4 md:p-6 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_30px_80px_-20px_rgba(15,23,42,0.45)]">
               <div className="flex items-center gap-3 mb-4">
                 <img src={logoAsset} alt="Talesso" className="h-8 w-auto" />
                 <button

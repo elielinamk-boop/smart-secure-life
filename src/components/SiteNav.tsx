@@ -26,6 +26,16 @@ export function SiteNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [open]);
+
+  useEffect(() => { setOpen(false); }, [pathname]);
+
   return (
     <header className="sticky top-0 z-50 animate-nav-in">
       <div
@@ -71,25 +81,41 @@ export function SiteNav() {
       </div>
 
       {open && (
-        <div className="lg:hidden glass mx-auto mt-2 max-w-7xl rounded-2xl px-4 py-3 flex flex-col gap-1">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setOpen(false)}
-              className="rounded-xl px-4 py-3 min-h-12 text-sm tracking-[0.18em] font-semibold text-foreground/80 hover:text-foreground hover:bg-white/40 active:bg-white/60"
-            >
-              {t(`nav.${item.key}`)}
-            </Link>
-          ))}
-          <Link
-            to="/contact"
+        <>
+          <div
+            className="lg:hidden fixed inset-0 z-40 bg-background/70 backdrop-blur-xl animate-mobile-nav-fade"
             onClick={() => setOpen(false)}
-            className="mt-2 rounded-full border border-accent-blue/70 bg-background/80 px-4 py-3 min-h-12 text-center text-sm font-semibold hover:bg-foreground hover:text-background transition-colors"
+            aria-hidden
+          />
+          <div
+            className="lg:hidden fixed left-0 right-0 top-[calc(3.75rem+0.75rem)] z-50 mx-3 rounded-3xl border border-white/60 bg-white/85 backdrop-blur-2xl shadow-[0_30px_80px_-30px_rgba(15,23,42,0.35)] p-3 flex flex-col gap-1 animate-mobile-nav-slide"
+            role="dialog"
+            aria-modal="true"
           >
-            {t("common.getStarted")} →
-          </Link>
-        </div>
+            {NAV.map((item, i) => {
+              const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setOpen(false)}
+                  style={{ animationDelay: `${60 + i * 55}ms` }}
+                  className={`animate-mobile-link-in rounded-2xl px-5 py-4 min-h-12 text-[13px] tracking-[0.22em] font-semibold transition-colors ${active ? "text-foreground bg-white shadow-[0_6px_20px_-10px_rgba(30,60,120,0.35)]" : "text-foreground/70 hover:text-foreground hover:bg-white/70 active:bg-white/80"}`}
+                >
+                  {t(`nav.${item.key}`)}
+                </Link>
+              );
+            })}
+            <Link
+              to="/contact"
+              onClick={() => setOpen(false)}
+              style={{ animationDelay: `${60 + NAV.length * 55}ms` }}
+              className="animate-mobile-link-in mt-2 inline-flex items-center justify-center gap-2 rounded-full border border-accent-blue/70 bg-foreground text-background px-5 py-4 min-h-12 text-sm font-semibold hover:opacity-90 transition-opacity"
+            >
+              {t("common.getStarted")} <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
+            </Link>
+          </div>
+        </>
       )}
     </header>
   );

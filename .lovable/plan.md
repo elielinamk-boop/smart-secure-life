@@ -1,92 +1,52 @@
-# Multilingual system (EN / RU / AR / EL) with RTL for Arabic
+## Goal
 
-## Scope
+Make every page and section render cleanly from 320px → 1920px without touching the approved desktop design (≥1280px stays pixel-identical).
 
-Add a full i18n system that translates every visible string on every page (home, about, solutions, clients, contact, video, nav, footer, forms, buttons, meta), with instant language switching (no reload) and full RTL layout for Arabic. Design, spacing, typography, colors and animations stay exactly as they are.
+## Approach
 
-## Stack
+Work section-by-section, page-by-page. For each, audit at 320 / 375 / 414 / 768 / 1024 with Playwright screenshots, then patch Tailwind classes to add mobile-first scaling that only takes effect below `lg:`/`xl:`. Desktop classes stay untouched — new rules are additive at `sm:`/`md:` breakpoints and reset at `lg:` back to current values.
 
-- `i18next` + `react-i18next` (industry standard, works cleanly with TanStack Start, no reload needed).
-- `i18next-browser-languagedetector` to persist choice in `localStorage`.
-- Translations as static JSON, imported at bundle time (SSR-safe, no async loader complications on Cloudflare Workers).
+## Scope (pages/components)
 
-## File additions
+Homepage (`src/routes/index.tsx`) — hero, video showcase, solutions, roadmap, meet-platform, buildings, scenes, connected, partners, ready CTA
+About (`src/routes/about.tsx`) — waves scene + card grid
+Clients (`src/routes/clients.tsx`) — swipeable gallery, GDPR badge, stats
+Solutions (`src/routes/solutions.tsx`)
+Contact (`src/routes/contact.tsx`) — form + map
+Video (`src/routes/video.tsx`)
+Shared: `SiteNav`, `SiteFooter`, `FeatureRoadmap`, `MeetPlatform`, buildings/scenes hotspot maps
 
-```
-src/i18n/
-  index.ts            # i18next init, resources, language list
-  useDir.ts           # hook: sets <html lang> + dir, toggles body class
-  locales/
-    en.json
-    ru.json
-    ar.json
-    el.json
-src/components/
-  LanguageSwitcher.tsx  # globe icon + dropdown (EN / RU / AR / EL)
-```
+## Key changes
 
-## File edits
+1. **Nav** — replace inline mobile fallback with a premium animated slide-in drawer (`SiteNav`): full-height overlay, staggered link reveal, backdrop blur, language switcher inside. Desktop nav unchanged at `lg:`.
+2. **Typography** — clamp large display headings (`text-4xl sm:text-5xl md:text-6xl lg:*existing*`) so nothing clips at 320px. Line-heights tightened on mobile only.
+3. **Grids** — collapse multi-column grids to 1 col (or 2 for icon cards) below `md:`; keep desktop `lg:grid-cols-N` intact.
+4. **Gallery (clients)** — turn the current row into a horizontal snap-scroll carousel below `md:` with dots + swipe; desktop grid unchanged.
+5. **Roadmap** — under `md:` render as a vertical timeline (single column, connecting line on the left, same animations, same icons). Desktop SVG roadmap unchanged at `md:`.
+6. **Buildings / Scenes hotspot maps** — clamp map image to `max-w-full`, scale hotspot coordinates proportionally, enlarge tap targets to ≥44px on touch.
+7. **Contact map** — ensure `w-full` and `min-h-[320px]` on mobile, controls repositioned for thumb reach.
+8. **Stats / animated numbers** — 2-col grid on mobile instead of 4, spacing tightened, counters keep animating.
+9. **Cards** — reduce padding (`p-5 md:p-6 lg:p-8` where desktop is `p-8`), rounded radii kept, hover states preserved.
+10. **Images** — add `loading="lazy"` and `decoding="async"` to non-LCP `<img>`; add `w-full h-auto object-cover` guards to prevent overflow.
+11. **Overflow guards** — add `overflow-x-hidden` to `<body>`/root layout wrappers to eliminate any accidental horizontal scroll.
+12. **Spacing** — section paddings scale: `py-16 sm:py-20 md:py-24 lg:py-32` (desktop `lg:` untouched where already 32).
+13. **Footer** — stack columns on mobile, keep 4-col at `md:`.
 
-- `src/routes/__root.tsx` — import `@/i18n`, mount `useDir()` in `RootComponent`, dynamic `<html lang dir>` via head, keep existing structure.
-- `src/components/SiteNav.tsx` — replace hardcoded nav labels with `t(...)`, add `<LanguageSwitcher />` at the end of the nav.
-- `src/components/SiteFooter.tsx` — replace text with `t(...)`.
-- `src/routes/index.tsx` (large) — replace every hardcoded string (hero, features, connected experience cards, partners, about, testimonials, CTA, etc.) with `t(...)`. Data arrays like `CX_FEATURES`, testimonials, stats become key references (`{ id, titleKey, descKey }`) resolved inside components.
-- `src/routes/about.tsx`, `solutions.tsx`, `clients.tsx`, `contact.tsx`, `video.tsx` — same treatment: extract copy, form labels, placeholders, validation messages, buttons, page `head()` title/description/OG.
-- Each route's `head()` reads `i18n.t('meta.<page>.title'|'.description')` so titles/OG update per language.
+## Verification
 
-## Translation JSON shape
+For each page, drive Playwright at 320, 375, 414, 768, 1024, 1440 viewports; screenshot; inspect for:
+- horizontal scroll (document width > viewport)
+- clipped text (element scrollWidth > offsetWidth on headings)
+- overflowing images
+- tap target size on nav / buttons
+- LCP image renders
 
-Namespaced by page/section for maintainability:
+Fix issues in the same pass before moving to the next page.
 
-```json
-{
-  "nav": { "home": "...", "solutions": "...", "about": "...", "clients": "...", "contact": "..." },
-  "footer": { "rights": "...", "tagline": "..." },
-  "meta": { "home": { "title": "...", "description": "..." }, "about": {...}, ... },
-  "home": {
-    "hero": { "eyebrow": "...", "title": "...", "subtitle": "...", "ctaPrimary": "...", "ctaSecondary": "..." },
-    "features": [...],
-    "connected": { "eyebrow": "...", "title": "...", "cards": { "mobile": {...}, "telegram": {...}, "dashboard": {...}, "support": {...} } },
-    "partners": {...}, "testimonials": [...], "cta": {...}
-  },
-  "about": {...}, "solutions": {...}, "clients": {...}, "contact": { "form": { "name": "...", "namePlaceholder": "...", "email": "...", "message": "...", "submit": "...", "success": "...", "error": "..." } }, "video": {...}
-}
-```
+## What stays exactly the same
 
-`en.json` is written first from the current copy on each page. `ru.json`, `ar.json`, `el.json` are produced by translating every leaf string of `en.json` (professional-tone translation, preserving punctuation, product names like "Talesso" untranslated, and interpolation placeholders `{{name}}` intact).
-
-## RTL for Arabic
-
-- `useDir()` sets `document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr')` and `lang` attribute on language change.
-- Rely on Tailwind's built-in logical properties already in use where possible; convert directional utilities in nav/footer/cards to logical variants:
-  - `ml-*` -> `ms-*`, `mr-*` -> `me-*`
-  - `pl-*` -> `ps-*`, `pr-*` -> `pe-*`
-  - `left-*` -> `start-*`, `right-*` -> `end-*`
-  - `text-left` -> `text-start`, `text-right` -> `text-end`
-  - `space-x-*` kept (works with `dir`), `flex-row` mirrors naturally under `dir="rtl"`.
-- Icons that imply direction (arrows in CTAs, chevrons) get `rtl:-scale-x-100` so they flip.
-- Marquee/keyframe animations that translate on X get an `rtl:` variant reversing direction, so they still move "forward" visually in RTL.
-- Wave/floating/scale animations are direction-agnostic and remain unchanged.
-
-## Language switcher UX
-
-- Globe icon in nav, opens a small dropdown listing: English, Русский, العربية, Ελληνικά.
-- Click -> `i18n.changeLanguage(code)` -> React re-renders instantly, `useDir()` flips `dir`/`lang`, choice saved in `localStorage` under `talesso.lang`.
-- Detector order on first visit: `localStorage` -> `navigator.language` -> fallback `en`.
-
-## SSR / build safety
-
-- i18n resources imported statically -> available during SSR prerender, no hydration mismatch.
-- Detector runs client-only; SSR always renders `en`, then client rehydrates to persisted language on mount (standard i18next pattern, prevents flicker via a one-frame `useLayoutEffect` swap in `useDir`).
-
-## Verification checklist (run after implementation)
-
-1. Grep the codebase for stray English literals in JSX/`head()` outside `src/i18n/locales/en.json` — should return only brand names, dev-only strings, and code.
-2. Manually walk each route in all four languages: nav, hero, section headings, cards, buttons, form placeholders, validation messages, toast text, footer, page `<title>` in the tab.
-3. In Arabic: confirm `<html dir="rtl">`, nav mirrors, cards mirror, marquee moves the intended direction, hover-lift/float animations still play.
+Any class at `lg:` and `xl:` breakpoints, all color tokens, all fonts, all animations/keyframes, all interaction handlers, route structure, i18n keys, roadmap SVG on desktop, hotspot positions on desktop, hero video, and all copy.
 
 ## Out of scope
 
-- No copy rewrites in English (only extraction).
-- No new pages, no design changes, no route changes.
-- No translation management service — flat JSON only. Future translators can edit the four files directly.
+No new content, no new sections, no design-token changes, no font swaps, no route additions.
