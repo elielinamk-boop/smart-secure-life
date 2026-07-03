@@ -119,12 +119,14 @@ function LocationSection() {
         { default: OSM },
         { fromLonLat },
         { defaults: defaultControls, Zoom },
+        { defaults: defaultInteractions, MouseWheelZoom, DragPan },
       ] = await Promise.all([
         import("ol"),
         import("ol/layer/Tile"),
         import("ol/source/OSM"),
         import("ol/proj"),
         import("ol/control"),
+        import("ol/interaction"),
       ]);
       await import("ol/ol.css");
       if (cancelled || !mapRef.current) return;
@@ -154,6 +156,7 @@ function LocationSection() {
         controls: defaultControls({ zoom: false, rotate: false }).extend([
           new Zoom({ className: "talesso-ol-zoom" }),
         ]),
+        interactions: defaultInteractions({ mouseWheelZoom: false }),
       });
 
       const el = document.createElement("div");
