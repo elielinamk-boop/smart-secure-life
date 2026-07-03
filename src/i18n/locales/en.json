@@ -100,6 +100,33 @@
       }
     }
   },
+  "roadmap": {
+    "eyebrow": "Talesso platform",
+    "title1": "One Platform.",
+    "title2": "Complete Control.",
+    "subtitle": "Powerful features. Seamlessly connected. Built for the future.",
+    "summary": {
+      "title": "Secure. Connected. Intelligent.",
+      "desc": "All features work together seamlessly to create a smarter, safer and more efficient experience."
+    },
+    "items": {
+      "ble": { "title": "BLE Access", "desc": "Unlock doors using Bluetooth Low Energy from your smartphone." },
+      "nfc": { "title": "NFC Access", "desc": "Tap and go with secure NFC technology for fast and reliable entry." },
+      "wallet": { "title": "Apple Wallet", "desc": "Store your keys in Apple Wallet and access with a single tap." },
+      "voice": { "title": "Voice Control", "desc": "Hands-free access and building control with voice commands." },
+      "parking": { "title": "Auto-open Parking", "desc": "Seamless entry to parking areas with automatic license plate recognition." },
+      "video": { "title": "Video Analytics", "desc": "Real-time video analytics for enhanced monitoring and threat detection." },
+      "qr": { "title": "QR / PIN Invitations", "desc": "Invite visitors securely with QR codes or unique PINs." },
+      "ocr": { "title": "OCR Registration", "desc": "Automated ID and document recognition for fast and accurate onboarding." },
+      "office": { "title": "Office & Coworking", "desc": "Manage spaces, desks and bookings in one intelligent system." },
+      "routing": { "title": "Smart Routing", "desc": "Intelligent routing for people, visitors and access flow." },
+      "knx": { "title": "KNX / Smart Home", "desc": "Integrate with KNX systems to control lights, blinds, climate and more." },
+      "lighting": { "title": "Lighting Control", "desc": "Automate and adjust lighting based on scenarios and presence." },
+      "blinds": { "title": "Blinds Control", "desc": "Smart automation for blinds to improve comfort and efficiency." },
+      "climate": { "title": "Climate Control", "desc": "Optimize temperature and ventilation for a smarter environment." },
+      "door": { "title": "Door Control", "desc": "Control doors remotely and automate access rules and schedules." }
+    }
+  },
   "meetPlatform": {
     "eyebrow": "Meet the platform",
     "title": "The all-in-one smart building platform.",
