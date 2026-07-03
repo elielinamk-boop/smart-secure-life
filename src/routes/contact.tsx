@@ -119,7 +119,7 @@ function LocationSection() {
         { default: OSM },
         { fromLonLat },
         { defaults: defaultControls, Zoom },
-        { defaults: defaultInteractions, MouseWheelZoom, DragPan },
+        { defaults: defaultInteractions },
       ] = await Promise.all([
         import("ol"),
         import("ol/layer/Tile"),
