@@ -4,6 +4,7 @@ import { ShieldCheck, Sofa, Building2, Settings, Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { FeatureRoadmap } from "@/components/FeatureRoadmap";
 import i18n from "@/i18n";
 
 export const Route = createFileRoute("/solutions")({
@@ -74,6 +75,7 @@ function SolutionsPage() {
           ))}
         </div>
       </section>
+      <FeatureRoadmap />
       <SiteFooter />
     </div>
   );
