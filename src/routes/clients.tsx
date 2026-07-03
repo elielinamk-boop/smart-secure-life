@@ -159,7 +159,7 @@ function Gallery() {
           aria-label={t("clientsPage.gdpr")}
         >
           <img
-            src={gdprEu.url}
+            src={gdprEu}
             alt="GDPR"
             className="h-14 w-14 rounded-full object-cover"
           />
