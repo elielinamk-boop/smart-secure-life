@@ -47,7 +47,7 @@ const ALL: Item[] = [...ROW1, ...ROW2, ...ROW3];
 
 // column x centers (in %) and row y centers (in %) inside SVG viewBox 100x100
 const COLS = [10, 30, 50, 70, 90];
-const ROWS = [15, 50, 96];
+const ROWS = [15, 55, 96];
 
 function IconBubble({
   Icon,
@@ -286,7 +286,7 @@ export function FeatureRoadmap() {
         </div>
 
         {/* Summary card */}
-        <div className="mx-auto mt-32 md:mt-40 max-w-2xl">
+        <div className="mx-auto mt-48 md:mt-56 max-w-2xl">
           <div className="relative flex items-center gap-5 rounded-3xl border border-white/70 bg-gradient-to-b from-white/80 to-white/40 p-6 md:p-7 backdrop-blur-md shadow-[0_20px_60px_-30px_rgba(0,40,120,0.2)]">
             <div className="relative h-14 w-14 shrink-0">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-white/70 to-white/30 border border-white/70 shadow-[inset_0_2px_6px_rgba(255,255,255,0.9),inset_0_-4px_10px_rgba(120,140,170,0.18)]" />
