@@ -251,8 +251,8 @@ function StatsRow() {
         >
           <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 [background:radial-gradient(circle_at_50%_0%,rgba(119,221,255,0.25),transparent_60%)]" />
           <div className="relative flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/70 bg-white/70">
-              <s.icon className="h-4 w-4 text-[#1e6bff]" strokeWidth={1.75} />
+            <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/40 bg-foreground/5 backdrop-blur-md transition-all duration-500 group-hover:border-[#77DDFF]/60 group-hover:bg-[#77DDFF]/15 group-hover:shadow-[0_0_20px_-4px_rgba(119,221,255,0.7)]">
+              <s.icon className="h-4 w-4 text-foreground/50 transition-colors duration-500 group-hover:text-[#77DDFF]" strokeWidth={1.75} />
             </div>
           </div>
           <div className="relative mt-5 font-display text-3xl md:text-4xl font-bold tracking-[-0.02em]">
