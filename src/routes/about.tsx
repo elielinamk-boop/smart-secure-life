@@ -33,16 +33,16 @@ function AboutPage() {
         <style>{`
           @keyframes au-bob {
             0%,100% { transform: translateY(0); }
-            50%     { transform: translateY(-6px); }
+            50%     { transform: translateY(-14px); }
           }
           @keyframes au-shimmer { 0%,100% { opacity:.7; } 50% { opacity:1; } }
           .au-bg { background: linear-gradient(180deg, #fafbfc 0%, #f0f4f7 40%, #e3ecf1 70%, #d3dfe6 100%); }
           .au-sea-fill { position:absolute; left:0; right:0; bottom:0; background:#3f7997; }
           .au-wave { position:absolute; left:0; width:100%; height:260px; display:block; }
           .au-wave-outer { position:absolute; left:0; right:0; width:100%; will-change: transform; transform: translateZ(0); }
-          .au-bob-a { animation: au-bob 6s ease-in-out infinite; }
-          .au-bob-b { animation: au-bob 8s ease-in-out infinite; animation-delay: -2s; }
-          .au-bob-c { animation: au-bob 10s ease-in-out infinite; animation-delay: -4s; }
+          .au-bob-a { animation: au-bob 4s ease-in-out infinite; }
+          .au-bob-b { animation: au-bob 5.5s ease-in-out infinite; animation-delay: -1.5s; }
+          .au-bob-c { animation: au-bob 7s ease-in-out infinite; animation-delay: -3s; }
           .au-shimmer { animation: au-shimmer 3s ease-in-out infinite; }
           .au-icon-wrap { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(226,232,240,0.7)); transition: background .35s ease, box-shadow .35s ease; }
           .au-icon-wrap svg { color: #94a3b8; transition: color .35s ease, transform .35s ease; }
@@ -56,36 +56,36 @@ function AboutPage() {
           <div className="au-wave-outer au-bob-c" style={{ bottom: 160, height: 260 }}>
             <svg className="au-wave" viewBox="0 0 1440 260" preserveAspectRatio="none">
               <path fill="#7aa9c4" opacity="0.6">
-                <animate attributeName="d" dur="14s" repeatCount="indefinite"
+                <animate attributeName="d" dur="8s" repeatCount="indefinite"
                   values="
-                    M0,130 C180,90 360,170 540,130 C720,90 900,170 1080,130 C1260,90 1440,170 1440,130 L1440,260 L0,260 Z;
-                    M0,130 C180,150 360,80 540,130 C720,180 900,90 1080,140 C1260,180 1440,90 1440,130 L1440,260 L0,260 Z;
-                    M0,130 C180,110 360,150 540,120 C720,90 900,160 1080,125 C1260,100 1440,150 1440,130 L1440,260 L0,260 Z;
-                    M0,130 C180,90 360,170 540,130 C720,90 900,170 1080,130 C1260,90 1440,170 1440,130 L1440,260 L0,260 Z" />
+                    M0,130 C180,50 360,210 540,130 C720,50 900,210 1080,130 C1260,50 1440,210 1440,130 L1440,260 L0,260 Z;
+                    M0,130 C180,200 360,40 540,135 C720,220 900,50 1080,145 C1260,220 1440,50 1440,130 L1440,260 L0,260 Z;
+                    M0,130 C180,80 360,190 540,110 C720,50 900,200 1080,120 C1260,70 1440,200 1440,130 L1440,260 L0,260 Z;
+                    M0,130 C180,50 360,210 540,130 C720,50 900,210 1080,130 C1260,50 1440,210 1440,130 L1440,260 L0,260 Z" />
               </path>
             </svg>
           </div>
           <div className="au-wave-outer au-bob-b" style={{ bottom: 70, height: 260 }}>
             <svg className="au-wave" viewBox="0 0 1440 260" preserveAspectRatio="none">
               <path fill="#5d92ae" opacity="0.8">
-                <animate attributeName="d" dur="11s" repeatCount="indefinite"
+                <animate attributeName="d" dur="6.5s" repeatCount="indefinite"
                   values="
-                    M0,120 C180,170 360,70 540,120 C720,170 900,70 1080,120 C1260,170 1440,70 1440,120 L1440,260 L0,260 Z;
-                    M0,120 C180,80 360,180 540,125 C720,70 900,175 1080,115 C1260,80 1440,180 1440,120 L1440,260 L0,260 Z;
-                    M0,120 C180,140 360,90 540,130 C720,160 900,80 1080,125 C1260,150 1440,90 1440,120 L1440,260 L0,260 Z;
-                    M0,120 C180,170 360,70 540,120 C720,170 900,70 1080,120 C1260,170 1440,70 1440,120 L1440,260 L0,260 Z" />
+                    M0,120 C180,210 360,30 540,120 C720,210 900,30 1080,120 C1260,210 1440,30 1440,120 L1440,260 L0,260 Z;
+                    M0,120 C180,40 360,220 540,130 C720,30 900,220 1080,110 C1260,40 1440,220 1440,120 L1440,260 L0,260 Z;
+                    M0,120 C180,170 360,60 540,140 C720,190 900,50 1080,130 C1260,180 1440,60 1440,120 L1440,260 L0,260 Z;
+                    M0,120 C180,210 360,30 540,120 C720,210 900,30 1080,120 C1260,210 1440,30 1440,120 L1440,260 L0,260 Z" />
               </path>
             </svg>
           </div>
           <div className="au-wave-outer au-bob-a" style={{ bottom: 0, height: 260 }}>
             <svg className="au-wave au-shimmer" viewBox="0 0 1440 260" preserveAspectRatio="none">
               <path fill="#3f7997">
-                <animate attributeName="d" dur="9s" repeatCount="indefinite"
+                <animate attributeName="d" dur="5.5s" repeatCount="indefinite"
                   values="
-                    M0,150 C180,100 360,200 540,150 C720,100 900,200 1080,150 C1260,100 1440,200 1440,150 L1440,260 L0,260 Z;
-                    M0,150 C180,190 360,110 540,155 C720,200 900,110 1080,145 C1260,190 1440,110 1440,150 L1440,260 L0,260 Z;
-                    M0,150 C180,130 360,170 540,140 C720,110 900,190 1080,155 C1260,130 1440,180 1440,150 L1440,260 L0,260 Z;
-                    M0,150 C180,100 360,200 540,150 C720,100 900,200 1080,150 C1260,100 1440,200 1440,150 L1440,260 L0,260 Z" />
+                    M0,150 C180,60 360,240 540,150 C720,60 900,240 1080,150 C1260,60 1440,240 1440,150 L1440,260 L0,260 Z;
+                    M0,150 C180,230 360,70 540,160 C720,240 900,60 1080,140 C1260,230 1440,70 1440,150 L1440,260 L0,260 Z;
+                    M0,150 C180,90 360,220 540,130 C720,60 900,230 1080,160 C1260,90 1440,220 1440,150 L1440,260 L0,260 Z;
+                    M0,150 C180,60 360,240 540,150 C720,60 900,240 1080,150 C1260,60 1440,240 1440,150 L1440,260 L0,260 Z" />
               </path>
             </svg>
           </div>
