@@ -52,20 +52,17 @@ const ROWS = [15, 55, 96];
 function IconBubble({
   Icon,
   active,
-  delay,
-  playing,
+  revealed,
 }: {
   Icon: LucideIcon;
   active: boolean;
-  delay: number;
-  playing: boolean;
+  revealed: boolean;
 }) {
   return (
     <div
       className={`roadmap-bubble relative mx-auto h-16 w-16 md:h-[72px] md:w-[72px] transition-transform duration-[250ms] ease-out ${
-        playing ? "roadmap-bubble--in" : ""
+        revealed ? "roadmap-bubble--in" : ""
       } ${active ? "scale-[1.08]" : "group-hover:scale-[1.08]"}`}
-      style={{ animationDelay: `${delay}ms` }}
     >
       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/90 via-white/60 to-white/30 shadow-[inset_0_2px_6px_rgba(255,255,255,0.9),inset_0_-6px_12px_rgba(120,140,170,0.18),0_10px_30px_-14px_rgba(40,60,100,0.28)] backdrop-blur-md border border-white/70" />
       <div className="absolute left-2 top-1.5 h-3 w-5 rounded-full bg-white/70 blur-[2px]" />
@@ -89,42 +86,38 @@ function IconBubble({
 function Cell({
   item,
   index,
-  playing,
+  revealed,
   hovered,
   onHover,
 }: {
   item: Item;
   index: number;
-  playing: boolean;
+  revealed: boolean;
   hovered: number | null;
   onHover: (i: number | null) => void;
 }) {
   const { t } = useTranslation();
   const isActive = hovered === index;
-  // stagger: line reveal takes ~2400ms; icons follow along
-  const iconDelay = 400 + index * 160;
-  const titleDelay = iconDelay + 160;
-  const descDelay = iconDelay + 280;
   return (
     <div
       className="group relative flex flex-col items-center text-center px-2 transition-transform duration-300 hover:-translate-y-1"
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
     >
-      <IconBubble Icon={item.icon} active={isActive} delay={iconDelay} playing={playing} />
+      <IconBubble Icon={item.icon} active={isActive} revealed={revealed} />
       <h3
         className={`roadmap-text mt-5 font-display text-[15px] md:text-base font-bold tracking-tight transition-colors duration-300 ${
-          playing ? "roadmap-text--in" : ""
+          revealed ? "roadmap-text--in" : ""
         } ${isActive ? "text-[#77DDFF]" : ""}`}
-        style={{ animationDelay: `${titleDelay}ms` }}
+        style={{ animationDelay: "160ms" }}
       >
         {t(`roadmap.items.${item.key}.title`)}
       </h3>
       <p
         className={`roadmap-text mt-2 max-w-[16ch] text-[12.5px] leading-relaxed text-foreground/55 transition-opacity duration-300 ${
-          playing ? "roadmap-text--in" : ""
+          revealed ? "roadmap-text--in" : ""
         } ${isActive ? "opacity-100 text-foreground/75" : ""}`}
-        style={{ animationDelay: `${descDelay}ms` }}
+        style={{ animationDelay: "280ms" }}
       >
         {t(`roadmap.items.${item.key}.desc`)}
       </p>
@@ -137,6 +130,12 @@ export function FeatureRoadmap() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [thresholds, setThresholds] = useState<number[]>(() => {
+    // fallback equal-spaced thresholds until we measure the SVG path
+    return Array.from({ length: 15 }, (_, i) => (i + 1) / 16);
+  });
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -157,6 +156,54 @@ export function FeatureRoadmap() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
+
+  // Compute per-icon progress thresholds by walking the SVG path once mounted.
+  useEffect(() => {
+    const path = pathRef.current;
+    if (!path) return;
+    const total = path.getTotalLength();
+    if (!total) return;
+    const iconPts: { x: number; y: number }[] = [];
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 5; c++) {
+        iconPts.push({ x: COLS[c], y: ROWS[r] });
+      }
+    }
+    const steps = 600;
+    const ths = iconPts.map((pt) => {
+      let bestL = 0;
+      let bestD = Infinity;
+      for (let i = 0; i <= steps; i++) {
+        const l = (i / steps) * total;
+        const p = path.getPointAtLength(l);
+        const d = (p.x - pt.x) ** 2 + (p.y - pt.y) ** 2;
+        if (d < bestD) {
+          bestD = d;
+          bestL = l;
+        }
+      }
+      return bestL / total;
+    });
+    setThresholds(ths);
+  }, []);
+
+  // Drive the drawing animation with a single RAF loop for 60fps smoothness.
+  useEffect(() => {
+    if (!playing) return;
+    const DURATION = 3800;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / DURATION);
+      // easeInOutCubic for an elegant, Apple-like curve
+      const eased =
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      setProgress(eased);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing]);
 
   // Build serpentine path across the three rows
   const [c0, c1, c2, c3, c4] = COLS;
@@ -229,9 +276,14 @@ export function FeatureRoadmap() {
                 vectorEffect="non-scaling-stroke"
                 filter="url(#roadmap-soft)"
                 opacity={0.55}
+                pathLength={1}
+                strokeDasharray="1"
+                strokeDashoffset={1 - progress}
+                style={{ willChange: "stroke-dashoffset" }}
               />
               {/* crisp line */}
               <path
+                ref={pathRef}
                 d={pathD}
                 fill="none"
                 stroke="url(#roadmap-gradient)"
@@ -239,6 +291,10 @@ export function FeatureRoadmap() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
+                pathLength={1}
+                strokeDasharray="1"
+                strokeDashoffset={1 - progress}
+                style={{ willChange: "stroke-dashoffset" }}
               />
             </svg>
 
@@ -246,6 +302,8 @@ export function FeatureRoadmap() {
             {[ROW1, ROW2, ROW3].map((row, rIdx) =>
               row.map((item, cIdx) => {
                 const index = rIdx * 5 + cIdx;
+                const threshold = thresholds[index] ?? 1;
+                const revealed = playing && progress >= threshold;
                 return (
                   <div
                     key={item.key}
@@ -260,7 +318,7 @@ export function FeatureRoadmap() {
                     <Cell
                       item={item}
                       index={index}
-                      playing={playing}
+                      revealed={revealed}
                       hovered={hovered}
                       onHover={setHovered}
                     />
@@ -278,7 +336,7 @@ export function FeatureRoadmap() {
               key={item.key}
               item={item}
               index={i}
-              playing={playing}
+              revealed={playing}
               hovered={hovered}
               onHover={setHovered}
             />
