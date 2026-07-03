@@ -203,15 +203,10 @@ export function FeatureRoadmap() {
             <svg
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
-              className="pointer-events-none absolute inset-0 z-20 h-full w-full"
+              className="pointer-events-none absolute inset-0 h-full w-full"
               aria-hidden
             >
               <defs>
-                <linearGradient id="roadmap-gradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FFD3CE" />
-                  <stop offset="50%" stopColor="#E2E8F1" />
-                  <stop offset="100%" stopColor="#FBE8E9" />
-                </linearGradient>
                 <filter id="roadmap-soft" x="-10%" y="-10%" width="120%" height="120%">
                   <feGaussianBlur stdDeviation="0.4" />
                 </filter>
@@ -220,27 +215,23 @@ export function FeatureRoadmap() {
               <path
                 d={pathD}
                 fill="none"
-                stroke="url(#roadmap-gradient)"
+                stroke="#FFC9B8"
                 strokeWidth={4}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
                 filter="url(#roadmap-soft)"
-                opacity={0.55}
-                pathLength={1}
-                className={`roadmap-path ${playing ? "roadmap-path--in" : ""}`}
+                opacity={0.5}
               />
               {/* crisp line */}
               <path
                 d={pathD}
                 fill="none"
-                stroke="url(#roadmap-gradient)"
+                stroke="#FFB49E"
                 strokeWidth={1.6}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
-                pathLength={1}
-                className={`roadmap-path ${playing ? "roadmap-path--in" : ""}`}
               />
             </svg>
 
