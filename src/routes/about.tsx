@@ -29,7 +29,7 @@ function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
-      <section id="about" className="relative py-24 md:py-32 overflow-hidden">
+      <section id="about" className="relative py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
         <style>{`
           @keyframes au-wave-a {
             0%   { transform: translate3d(0, 0, 0) scaleY(1); }
@@ -87,8 +87,8 @@ function AboutPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-5 bg-white/55 backdrop-blur-md border border-white/60 rounded-3xl p-8 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)] text-[15px] leading-relaxed text-slate-700 space-y-4">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 items-start">
+          <div className="order-2 lg:order-1 lg:col-span-5 bg-white/55 backdrop-blur-md border border-white/60 rounded-3xl p-6 sm:p-8 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.25)] text-[15px] leading-relaxed text-slate-700 space-y-4">
             <p>{t("aboutPage.p1")}</p>
             <p>{t("aboutPage.p2")}</p>
             <p>{t("aboutPage.p3")}</p>
@@ -97,9 +97,9 @@ function AboutPage() {
             <p className="font-semibold text-slate-900">{t("aboutPage.p6")}</p>
           </div>
 
-          <div className="lg:col-span-7">
-            <h1 className="font-display text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-start text-slate-900">{t("aboutPage.title")}</h1>
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="order-1 lg:order-2 lg:col-span-7">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-[-0.03em] text-center lg:text-start text-slate-900">{t("aboutPage.title")}</h1>
+            <div className="mt-8 md:mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               {cards.map(({ Icon, label }, i) => (
                 <div key={i} className="au-card group relative bg-white/70 backdrop-blur-md rounded-2xl border border-white/70 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.25)] p-5 flex flex-col items-center text-center min-h-[180px] transition-transform hover:-translate-y-1">
                   <div
