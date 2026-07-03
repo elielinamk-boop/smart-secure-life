@@ -183,7 +183,7 @@ export function FeatureRoadmap() {
         <div className="absolute -bottom-40 left-1/3 h-[520px] w-[520px] rounded-full bg-[#FBE8E9] opacity-40 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-[92rem] px-6 md:px-10">
+      <div className="relative mx-auto max-w-[92rem] px-6 md:px-10 lg:px-24 xl:px-32">
         <div className="text-center">
           <p className="text-xs uppercase tracking-[0.32em] text-accent-blue/90 font-semibold">
             {t("roadmap.eyebrow")}
@@ -223,7 +223,7 @@ export function FeatureRoadmap() {
                 d={pathD}
                 fill="none"
                 stroke="url(#roadmap-gradient)"
-                strokeWidth={9}
+                strokeWidth={7}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
@@ -235,7 +235,7 @@ export function FeatureRoadmap() {
                 d={pathD}
                 fill="none"
                 stroke="url(#roadmap-gradient)"
-                strokeWidth={3.8}
+                strokeWidth={3}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
