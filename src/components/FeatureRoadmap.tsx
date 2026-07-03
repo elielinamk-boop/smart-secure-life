@@ -208,11 +208,11 @@ export function FeatureRoadmap() {
             >
               <defs>
                 <linearGradient id="roadmap-gradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#FFE1D6" />
-                  <stop offset="25%" stopColor="#FFC9B8" />
-                  <stop offset="50%" stopColor="#FFB49E" />
-                  <stop offset="75%" stopColor="#FFC9B8" />
-                  <stop offset="100%" stopColor="#FFE1D6" />
+                  <stop offset="0%" stopColor="#FFD3CE" />
+                  <stop offset="25%" stopColor="#FBE8E9" />
+                  <stop offset="50%" stopColor="#DDE7F5" />
+                  <stop offset="75%" stopColor="#FBE8E9" />
+                  <stop offset="100%" stopColor="#FFD3CE" />
                 </linearGradient>
                 <filter id="roadmap-soft" x="-10%" y="-10%" width="120%" height="120%">
                   <feGaussianBlur stdDeviation="0.4" />
@@ -253,7 +253,7 @@ export function FeatureRoadmap() {
                     style={{
                       left: `${COLS[cIdx]}%`,
                       top: `${ROWS[rIdx]}%`,
-                      transform: "translate(-50%, -36px)",
+                      transform: "translate(-50%, -8px)",
                       width: "18%",
                     }}
                   >
