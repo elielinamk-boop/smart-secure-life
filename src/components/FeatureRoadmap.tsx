@@ -47,7 +47,7 @@ const ALL: Item[] = [...ROW1, ...ROW2, ...ROW3];
 
 // column x centers (in %) and row y centers (in %) inside SVG viewBox 100x100
 const COLS = [10, 30, 50, 70, 90];
-const ROWS = [15, 55, 96];
+const ROWS = [15, 55, 104];
 
 function IconBubble({
   Icon,
