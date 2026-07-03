@@ -310,20 +310,6 @@ function ClientsPage() {
             >
               {t("clientsPage.description")}
             </p>
-            <div
-              className={`mt-9 transition-all duration-[900ms] ease-out ${
-                heroIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: "320ms" }}
-            >
-              <a
-                href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_50px_-20px_rgba(0,0,0,0.55)]"
-              >
-                {t("clientsPage.cta")}
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" strokeWidth={2} />
-              </a>
-            </div>
           </div>
 
           {/* RIGHT */}
