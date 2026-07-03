@@ -203,7 +203,7 @@ export function FeatureRoadmap() {
             <svg
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
-              className="absolute inset-0 h-full w-full"
+              className="pointer-events-none absolute inset-0 z-20 h-full w-full"
               aria-hidden
             >
               <defs>
