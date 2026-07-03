@@ -1980,7 +1980,7 @@ function ConnectedExperience() {
             <div className="mt-8 flex items-center justify-center cx-enter" style={{ animationDelay: "700ms" }}>
               <img
                 id="ph-app-store-badges"
-                src={appStoreBadges.url}
+                src={appStoreBadges}
                 alt="Download on the App Store and Get it on Google Play"
                 className="w-full max-w-[200px] h-auto object-contain select-none"
                 draggable={false}
@@ -1992,7 +1992,7 @@ function ConnectedExperience() {
           <div className="col-span-12 lg:col-span-3 relative flex flex-col items-center gap-6">
             <img
               id="ph-mobile-phone"
-              src={talessoMiniappPhone.url}
+              src={talessoMiniappPhone}
               alt="Talesso mini app on iPhone held in hand"
               className="cx-enter cx-float-a w-full max-w-[320px] h-auto object-contain select-none pointer-events-none"
               style={{ animationDelay: "260ms" }}
