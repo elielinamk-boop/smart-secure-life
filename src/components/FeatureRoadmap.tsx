@@ -286,7 +286,7 @@ export function FeatureRoadmap() {
         </div>
 
         {/* Summary card */}
-        <div className="mx-auto mt-64 md:mt-72 max-w-2xl">
+        <div className="mx-auto mt-16 lg:mt-64 xl:mt-72 max-w-2xl">
           <div className="relative flex items-center gap-5 rounded-3xl border border-white/70 bg-gradient-to-b from-white/80 to-white/40 p-6 md:p-7 backdrop-blur-md shadow-[0_20px_60px_-30px_rgba(0,40,120,0.2)]">
             <div className="relative h-14 w-14 shrink-0">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white via-white/70 to-white/30 border border-white/70 shadow-[inset_0_2px_6px_rgba(255,255,255,0.9),inset_0_-4px_10px_rgba(120,140,170,0.18)]" />
