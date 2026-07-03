@@ -155,15 +155,15 @@ function Gallery() {
         style={{ transitionDelay: "700ms" }}
       >
         <div
-          className="flex items-center gap-2 rounded-full border border-white/70 bg-white/70 pl-1.5 pr-3.5 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
+          className="flex items-center gap-2.5 rounded-full border border-white/70 bg-white/70 pl-1.5 pr-4 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
           aria-label={t("clientsPage.gdpr")}
         >
           <img
             src={gdprEu.url}
             alt="GDPR"
-            className="h-7 w-7 rounded-full object-cover"
+            className="h-11 w-11 rounded-full object-cover"
           />
-          <span className="text-[11px] font-semibold tracking-wide text-foreground/80">
+          <span className="text-[12px] font-semibold tracking-wide text-foreground/80">
             {t("clientsPage.gdpr")}
           </span>
         </div>
