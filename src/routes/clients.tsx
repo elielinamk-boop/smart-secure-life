@@ -3,10 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import {
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
-  ShieldCheck,
   Users,
   Activity,
   Building2,
@@ -18,6 +16,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import door1 from "@/assets/clients-door-1.png.asset.json";
 import jbg2 from "@/assets/clients-jbg-2.png.asset.json";
 import gate3 from "@/assets/clients-gate-3.png.asset.json";
+import gdprEu from "@/assets/gdpr-eu.webp.asset.json";
 
 export const Route = createFileRoute("/clients")({
   head: () => ({
@@ -156,12 +155,14 @@ function Gallery() {
         style={{ transitionDelay: "700ms" }}
       >
         <div
-          className="flex items-center gap-2 rounded-full border border-white/70 bg-white/70 pl-2 pr-3.5 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
+          className="flex items-center gap-2 rounded-full border border-white/70 bg-white/70 pl-1.5 pr-3.5 py-1.5 backdrop-blur-md shadow-[0_10px_30px_-15px_rgba(30,60,120,0.25)]"
           aria-label={t("clientsPage.gdpr")}
         >
-          <div className="grid h-[26px] w-[26px] place-items-center rounded-full bg-gradient-to-br from-white to-white/60 border border-white/70 shadow-inner">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#1e6bff]" strokeWidth={2} />
-          </div>
+          <img
+            src={gdprEu.url}
+            alt="GDPR"
+            className="h-7 w-7 rounded-full object-cover"
+          />
           <span className="text-[11px] font-semibold tracking-wide text-foreground/80">
             {t("clientsPage.gdpr")}
           </span>
