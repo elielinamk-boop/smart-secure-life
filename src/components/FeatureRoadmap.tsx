@@ -223,7 +223,7 @@ export function FeatureRoadmap() {
                 d={pathD}
                 fill="none"
                 stroke="url(#roadmap-gradient)"
-                strokeWidth={6}
+                strokeWidth={9}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
@@ -235,7 +235,7 @@ export function FeatureRoadmap() {
                 d={pathD}
                 fill="none"
                 stroke="url(#roadmap-gradient)"
-                strokeWidth={2.6}
+                strokeWidth={3.8}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
