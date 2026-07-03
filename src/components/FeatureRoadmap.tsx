@@ -207,6 +207,13 @@ export function FeatureRoadmap() {
               aria-hidden
             >
               <defs>
+                <linearGradient id="roadmap-gradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#FFE1D6" />
+                  <stop offset="25%" stopColor="#FFC9B8" />
+                  <stop offset="50%" stopColor="#FFB49E" />
+                  <stop offset="75%" stopColor="#FFC9B8" />
+                  <stop offset="100%" stopColor="#FFE1D6" />
+                </linearGradient>
                 <filter id="roadmap-soft" x="-10%" y="-10%" width="120%" height="120%">
                   <feGaussianBlur stdDeviation="0.4" />
                 </filter>
@@ -215,19 +222,19 @@ export function FeatureRoadmap() {
               <path
                 d={pathD}
                 fill="none"
-                stroke="#FFC9B8"
+                stroke="url(#roadmap-gradient)"
                 strokeWidth={4}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
                 filter="url(#roadmap-soft)"
-                opacity={0.5}
+                opacity={0.55}
               />
               {/* crisp line */}
               <path
                 d={pathD}
                 fill="none"
-                stroke="#FFB49E"
+                stroke="url(#roadmap-gradient)"
                 strokeWidth={1.6}
                 strokeLinecap="round"
                 strokeLinejoin="round"
