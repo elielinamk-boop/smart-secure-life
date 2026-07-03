@@ -253,7 +253,7 @@ export function FeatureRoadmap() {
                     style={{
                       left: `${COLS[cIdx]}%`,
                       top: `${ROWS[rIdx]}%`,
-                      transform: "translate(-50%, -36px)",
+                      transform: "translate(-50%, -8px)",
                       width: "18%",
                     }}
                   >
